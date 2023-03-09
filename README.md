@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href=""><img src="public/img/icons/fanflix-git.png" alt="FanFlix" width="400"></a>
+  <a href="#" onclick="return false;"><img src="public/img/icons/fanflix-git.png" alt="FanFlix" width="400"></a>
   <br>
 </h1>
 
