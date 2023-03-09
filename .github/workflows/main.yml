@@ -1,0 +1,20 @@
+name: Actions 😎
+
+on: 
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build_vue:
+    name: Build Vue project
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout repository, build and deploy to Pages
+          uses: actions/checkout@v2
+        - id: Build-Vue
+          uses: xRealNeon/VuePagesAction@1.0.1
+          with:
+            username: 'OlexTix'
+            reponame: 'FanFlix'
+            token: ${{ secrets.GITHUB_TOKEN }}
