@@ -41,6 +41,19 @@
 
 ## How To Use
 
+1. Clone this repository into your folder
+2. Use this command to install all required dependencies:
+```
+npm i
+```
+3. Launch the project using this command:
+```
+npm run serve
+```
+4. Open your browser and type:
+```
+http://localhost:8080/
+```
 ## Credits
 
 This software uses the following open source packages:
