@@ -12,6 +12,30 @@ jobs:
     steps:
         - name: Checkout repository, build and deploy to Pages
           uses: actions/checkout@v2
+
+        - name: Setup node
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+            cache: npm
+
+        - name: Install packages
+          run: npm install
+
+        - name: Build vue project
+          run: npm run build
+
+        - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./dist
+            destination_dir: ./
+            keep_files: true
+            user_name: OleCheck[bot]
+            user_email: 41898282+github-actions[bot]@users.noreply.github.com
+            commit_message: ${{ github.event.head_commit.message }}
+
         - id: Build-Vue
           uses: xRealNeon/VuePagesAction@1.0.1
           with:
