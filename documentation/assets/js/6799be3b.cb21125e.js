@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfanflix=self.webpackChunkfanflix||[]).push([[3814],{3892:e=>{e.exports=JSON.parse('{"permalink":"/FanFlix/documentation/blog/tags/hello","page":1,"postsPerPage":10,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

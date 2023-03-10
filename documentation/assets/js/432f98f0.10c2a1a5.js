@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfanflix=self.webpackChunkfanflix||[]).push([[2555],{1051:a=>{a.exports=JSON.parse('{"label":"facebook","permalink":"/FanFlix/documentation/blog/tags/facebook","allTagsPath":"/FanFlix/documentation/blog/tags","count":1}')}}]);

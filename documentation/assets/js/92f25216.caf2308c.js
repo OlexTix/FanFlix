@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfanflix=self.webpackChunkfanflix||[]).push([[9990],{4719:a=>{a.exports=JSON.parse('{"label":"docusaurus","permalink":"/FanFlix/documentation/blog/tags/docusaurus","allTagsPath":"/FanFlix/documentation/blog/tags","count":4}')}}]);
