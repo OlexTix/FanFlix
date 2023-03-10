@@ -6,16 +6,27 @@ on:
       - "docs"
 
 jobs:
-  build_docusaurus:
-    name: Build Docusaurus documentation
+  build_and_deploy:
+    name: Build and deploy docusaurus to GitHub Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           ref: docs
-      - uses: redkubes/docusaurus-deploy-action@v1
+      - uses: actions/setup-node@v3
         with:
-          source-folder: docs
-          git-user: "OlexTix"
-          git-password: ${{ secrets.GITHUB_TOKEN }}
-          deployment-branch: gh-pages
+          node-version: 18
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build website
+        run: yarn build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./documentation
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
