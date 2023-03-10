@@ -1,7 +1,10 @@
-<template>
-  <div class="text-3xl font-bold underline bg-red-200">Fanflix bar example</div>
-</template>
-
-<script setup lang="ts">
-
+<script setup>
+import TheWelcome from '../components/TheWelcome.vue'
+import Button from 'primevue/button';
 </script>
+
+<template>
+  <main>
+    <TheWelcome />
+  </main>
+</template>

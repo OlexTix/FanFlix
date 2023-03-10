@@ -62,6 +62,7 @@ http://localhost:8080/
 This software uses the following packages:
 
 - [Node.js](https://nodejs.org/)
-- [Vue CLI](https://cli.vuejs.org/)
+- [PrimeVue](https://primevue.org/)
+- [VueJS 3](https://vuejs.org/)
 
 > GitHub [@OlexTix](https://github.com/OlexTix), [@adrianbeys](https://github.com/adrianbeys), [@piekny27](https://github.com/piekny27), [@DiFortis](https://github.com/DiFortis)
