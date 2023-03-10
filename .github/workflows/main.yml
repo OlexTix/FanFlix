@@ -35,10 +35,3 @@ jobs:
             user_name: OleCheck[bot]
             user_email: 41898282+github-actions[bot]@users.noreply.github.com
             commit_message: ${{ github.event.head_commit.message }}
-
-        - id: Build-Vue
-          uses: xRealNeon/VuePagesAction@1.0.1
-          with:
-            username: 'OlexTix'
-            reponame: 'FanFlix'
-            token: ${{ secrets.GITHUB_TOKEN }}
