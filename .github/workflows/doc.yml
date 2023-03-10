@@ -1,0 +1,21 @@
+name: Actions docs 😎
+
+on: 
+  push:
+    branches:
+      - "docs"
+
+jobs:
+  build_docusaurus:
+    name: Build Docusaurus documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: docs
+      - uses: redkubes/docusaurus-deploy-action@v1
+        with:
+          source-folder: docs
+          git-user: "OlexTix"
+          git-password: ${{ secrets.GITHUB_TOKEN }}
+          deployment-branch: gh-pages
