@@ -5,7 +5,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="../public/images/fanflix-git.png"  height="177" />
+    <img alt="Vue logo" class="logo" src="../images/fanflix-git.png"  height="177" />
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
