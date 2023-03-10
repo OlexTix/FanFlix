@@ -1,12 +1,10 @@
 <h1 align="center">
   <br>
-  <a href=""><img src="public/img/icons/fanflix.png" alt="FanFlix" width="200"></a>
-  <br>
-  FanFlix
+  <a href="#" onclick="return false;"><img src="public/img/icons/fanflix-git.png" alt="FanFlix" width="400"></a>
   <br>
 </h1>
 
-<h4 align="center">FanFlix is an application that allows easy management of tickets purchased by customers.</h4>
+<h3 align="center">FanFlix is an application that allows easy management of tickets purchased by customers.</h3>
 
 <p align="center">
   <a href="https://vuejs.org/">
@@ -31,31 +29,39 @@
 <p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <a href="#credits">Credits</a>
 </p>
 
 ## Key Features
 
+<br>
+<h3> :mag: Thread in progress ... </h3>
+<br>
+
 ## How To Use
 
 1. Clone this repository into your folder
-2. Use this command to install all required dependencies:
+2. Go into the repository
 ```
-npm i
+cd FanFlix
 ```
-3. Launch the project using this command:
+3. Use this command to install all required dependencies:
+```
+npm install
+```
+4. Launch the project using this command:
 ```
 npm run serve
 ```
-4. Open your browser and type:
+5. Open your browser and type:
 ```
 http://localhost:8080/
 ```
 ## Credits
 
-This software uses the following open source packages:
+This software uses the following packages:
 
 - [Node.js](https://nodejs.org/)
+- [Vue CLI](https://cli.vuejs.org/)
+
+> GitHub [@OlexTix](https://github.com/OlexTix), [@adrianbeys](https://github.com/adrianbeys), [@piekny27](https://github.com/piekny27), [@DiFortis](https://github.com/DiFortis)
