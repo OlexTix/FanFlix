@@ -8,22 +8,25 @@
 
 <p align="center">
   <a href="https://vuejs.org/">
-    <img src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D"
-         alt="Vue.js">
+    <img src="https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D">
   </a>
-   <a href="https://vuetifyjs.com/en/"><img src="https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=AEDDFF"></a>
+  <a href="https://primevue.org/">
+    <img src="https://img.shields.io/badge/PrimeVue-1867C0?style=for-the-badge&logo=netlify&logoColor=AEDDFF">
+  </a>
+  <a href="https://vitejs.dev/">
+    <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white">
+  </a>
   <a href="https://nodejs.org/en/">
-      <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white">
+      <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
   </a>
-  <a href="https://babeljs.io/">
+  <!-- <a href="https://babeljs.io/">
     <img src="https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black">
-  </a>
+  </a> -->
 </p>
 
 <p align="center">
-	<a href="#"><img alt="GitHub" src="https://img.shields.io/github/license/OlexTix/FanFlix"></a>
-	<img src="https://img.shields.io/website-up-down-green-red/https/pulsebook.herokuapp.com.svg?style=flat-square"></a><br><br>
-
+  <a href="#"><img alt="GitHub" src="https://img.shields.io/github/license/OlexTix/FanFlix"></a>
+  <img src="https://img.shields.io/website-up-down-green-red/https/pulsebook.herokuapp.com.svg?style=flat-square"></a><br><br>
 </p>
 
 <p align="center">
@@ -51,18 +54,18 @@ npm install
 ```
 4. Launch the project using this command:
 ```
-npm run serve
+npm run dev
 ```
-5. Open your browser and type:
-```
-http://localhost:8080/
-```
+
 ## Credits
 
 This software uses the following packages:
 
 - [Node.js](https://nodejs.org/)
+- [VueJS 3](https://www.npmjs.com/package/vue/v/3.2.47)
+- [Vite](https://vitejs.dev/)
 - [PrimeVue](https://primevue.org/)
-- [VueJS 3](https://vuejs.org/)
+
+<br>
 
 > GitHub [@OlexTix](https://github.com/OlexTix), [@adrianbeys](https://github.com/adrianbeys), [@piekny27](https://github.com/piekny27), [@DiFortis](https://github.com/DiFortis)
