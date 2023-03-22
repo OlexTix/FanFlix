@@ -1,0 +1,10 @@
+@startuml usecase-employee
+left to right direction
+actor Pracownik
+rectangle "System transakcji elektronicznych dla branży kinowej" as system {
+  Pracownik -> (Zarządzanie repertuarem)
+  Pracownik -> (Zarządzanie salami kinowymi)
+  Pracownik -> (Zarządzanie zamówieniami)
+  Pracownik -> (Zarządzanie kontami użytkowników)
+}
+@enduml

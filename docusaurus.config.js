@@ -6,8 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'FanFlix',
+  tagline: 'W pełni zautomatyzowany system zakupu biletów kinowych!',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -64,21 +64,20 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
+        title: '',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          src: 'https://cdn.discordapp.com/attachments/987381013929938954/1088161262141190144/Zrzut_ekranu_2023-03-22_185908.png',
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/OlexTix/FanFlix',
             label: 'GitHub',
             position: 'right',
           },
@@ -91,9 +90,13 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'PlantUML',
+                to: 'https://www.plantuml.com/',
               },
+              {
+                label: 'Markdown Emoji',
+                to: 'https://gist.github.com/rxaviers/7360908',
+              }
             ],
           },
           {
@@ -117,8 +120,8 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'FantasticStudio',
+                to: 'https://fantasticstudio.online/',
               },
               {
                 label: 'GitHub',

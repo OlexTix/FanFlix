@@ -1,0 +1,16 @@
+@startuml usecase-user
+left to right direction
+actor Klient
+rectangle "System transakcji elektronicznych dla branży kinowej" as system {
+  Klient -> (Rejestracja)
+  Klient -> (Logowanie)
+  Klient -> (Wyświetlenie repertuaru)
+  Klient -> (Wybór filmu)
+  Klient -> (Wybór seansu)
+  Klient -> (Wybór miejsca)
+  Klient -> (Zakup biletu)
+  Klient -> (Wyświetlenie historii zamówień)
+  Klient -> (Modyfikacja danych osobowych)
+  Klient -> (Wylogowanie)
+}
+@enduml

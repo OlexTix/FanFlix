@@ -8,11 +8,13 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffree-backgrounds-photos%2Fpopcorn&psig=AOvVaw0XAYg1Lgl9Je5-JbC2EfIr&ust=1679599120756000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKiHz7Cg8P0CFQAAAAAdAAAAABAE");
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
+    background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffree-backgrounds-photos%2Fpopcorn&psig=AOvVaw0XAYg1Lgl9Je5-JbC2EfIr&ust=1679599120756000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKiHz7Cg8P0CFQAAAAAdAAAAABAE");
   }
 }
 

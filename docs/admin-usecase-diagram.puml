@@ -1,0 +1,9 @@
+@startuml usecase-admin
+left to right direction
+actor Administrator
+rectangle "System transakcji elektronicznych dla branży kinowej" as system {
+  Administrator -> (Zarządzanie ustawieniami systemu)
+  Administrator -> (Zarządzanie kontami pracowników)
+  Administrator -> (Zarządzanie uprawnieniami użytkowników)
+}
+@enduml

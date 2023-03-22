@@ -1,0 +1,46 @@
+@startuml useCase
+left to right direction
+actor Klient
+actor Pracownik
+actor Administrator
+
+rectangle System {
+  usecase "Rejestracja" as UC1
+  usecase "Logowanie" as UC2
+  usecase "Wyświetlanie repertuaru" as UC3
+  usecase "Wybór filmu" as UC4
+  usecase "Wybór seansu" as UC5
+  usecase "Wybór miejsca" as UC6
+  usecase "Zakup biletu" as UC7
+  usecase "Wyświetlenie historii zamówień" as UC8
+  usecase "Modyfikacja danych osobowych" as UC9
+  usecase "Wylogowanie" as UC10
+  usecase "Zarządzanie repertuarem" as UC11
+  usecase "Zarządzanie salami kinowymi" as UC12
+  usecase "Zarządzanie zamówieniami" as UC13
+  usecase "Zarządzanie kontami użytkowników" as UC14
+  usecase "Zarządzanie ustawieniami systemu" as UC15
+  usecase "Zarządzanie kontami pracowników" as UC16
+  usecase "Zarządzanie uprawnieniami użytkowników" as UC17
+
+  Klient --> (UC1)
+  Klient --> (UC2)
+  Klient --> (UC3)
+  Klient --> (UC4)
+  Klient --> (UC5)
+  Klient --> (UC6)
+  Klient --> (UC7)
+  Klient --> (UC8)
+  Klient --> (UC9)
+  Klient --> (UC10)
+
+  Pracownik --> (UC11)
+  Pracownik --> (UC12)
+  Pracownik --> (UC13)
+  Pracownik --> (UC14)
+
+  Administrator --> (UC15)
+  Administrator --> (UC16)
+  Administrator --> (UC17)
+}
+@enduml
