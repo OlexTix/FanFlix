@@ -4,32 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Bogata oferta filmowa',
+    Svg: require('@site/static/img/clapboard-svgrepo-com.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Fanflix oferuje szeroką gamę filmów, w tym najnowsze hity kinowe, klasyki i filmy z całego świata.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Wygodna rezerwacja biletów',
+    Svg: require('@site/static/img/cinema-svgrepo-com.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Użytkownicy mogą łatwo wybierać filmy, kina i godziny seansów, a także dokonywać płatności online.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Personalizacja',
+    Svg: require('@site/static/img/3d-glasses-svgrepo-com.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        System Fanflix oferuje możliwość personalizacji rekomendacji filmowych, co pozwala użytkownikom na łatwe znalezienie filmów dopasowanych do ich gustu.
       </>
     ),
   },

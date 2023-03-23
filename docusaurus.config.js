@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'FanFlix',
-  tagline: 'W pełni zautomatyzowany system zakupu biletów kinowych!',
+  tagline: 'W pełni zautomatyzowany system kinowy!',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
