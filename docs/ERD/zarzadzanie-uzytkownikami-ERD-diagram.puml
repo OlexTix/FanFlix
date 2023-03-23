@@ -1,0 +1,37 @@
+@startuml
+
+entity "Users" {
+
+id : int <<generated>>
+--
+email : varchar(255)
+password : varchar(255)
+first_name : varchar(255)
+last_name : varchar(255)
+}
+entity "Roles" {
+
+id : int <<generated>>
+--
+name : varchar(255)
+description : varchar(255)
+}
+entity "Permissions" {
+
+id : int <<generated>>
+--
+name : varchar(255)
+description : varchar(255)
+}
+entity "Role_Permissions" {
+
+role_id : int <<FK>>
+permission_id : int <<FK>>
+--
+PK(role_id, permission_id)
+}
+Users ||--{ Role_Permissions
+Roles ||--{ Role_Permissions
+Permissions ||--{ Role_Permissions
+
+@enduml

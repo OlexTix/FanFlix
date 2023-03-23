@@ -1,0 +1,35 @@
+package "Moduł rezerwacji biletów" as tickets {
+    package "Wybór filmu i kina" as movie_selection {
+        [Przeglądanie dostępnych filmów]
+        [Wyszukiwanie filmów]
+        [Wybór kina]
+    }
+
+    package "Wybór sali kinowej i seansu" as showtime_selection {
+        [Wybór daty seansu]
+        [Wybór godziny seansu]
+        [Wybór sali kinowej]
+        [Wybór miejsca na sali kinowej]
+    }
+
+    package "Rezerwacja biletu" as ticket_reservation {
+        [Wyświetlenie podsumowania rezerwacji]
+        [Potwierdzenie rezerwacji]
+        [Płatność za bilety]
+    }
+
+    package "Anulowanie rezerwacji" as cancellation {
+        [Wyszukiwanie rezerwacji]
+        [Anulowanie rezerwacji]
+    }
+
+    package "Przeglądanie historii rezerwacji" as reservation_history {
+        [Przeglądanie historii rezerwacji]
+        [Wyświetlanie szczegółów rezerwacji]
+    }
+
+    movie_selection --> showtime_selection
+    showtime_selection --> ticket_reservation
+    ticket_reservation --> cancellation
+    cancellation --> reservation_history
+}

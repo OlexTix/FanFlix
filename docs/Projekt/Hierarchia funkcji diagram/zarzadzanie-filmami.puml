@@ -1,0 +1,21 @@
+left to right direction
+skinparam packageStyle rect
+package "Moduł zarządzania filmami" as movies {
+    package "Funkcjonalności filmów" as movie_features {
+        [Przeglądaj filmy]
+        [Dodaj film]
+        [Usuń film]
+        [Edytuj film]
+        [Dodaj plakat]
+        [Usuń plakat]
+        [Przeglądaj informacje o filmach]
+        [Przeglądaj oceny i recenzje filmów]
+    }
+    package "Funkcjonalności gatunków" as genre_features {
+        [Przeglądaj gatunki]
+        [Dodaj gatunek]
+        [Usuń gatunek]
+        [Edytuj gatunek]
+        [Przeglądaj filmy w danym gatunku]
+    }
+}

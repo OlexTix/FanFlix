@@ -1,0 +1,59 @@
+@startuml
+entity "Movies" {
+
+id : int <<generated>>
+--
+title : varchar(255)
+description : text
+duration : int
+release_date : date
+}
+entity "Genres" {
+
+id : int <<generated>>
+--
+name : varchar(255)
+description : varchar(255)
+}
+entity "Directors" {
+
+id : int <<generated>>
+--
+first_name : varchar(255)
+last_name : varchar(255)
+}
+entity "Actors" {
+
+id : int <<generated>>
+--
+first_name : varchar(255)
+last_name : varchar(255)
+}
+entity "Movie_Genres" {
+
+id : int <<generated>>
+--
+movie_id : int <<FK>>
+genre_id : int <<FK>>
+}
+entity "Movie_Directors" {
+
+id : int <<generated>>
+--
+movie_id : int <<FK>>
+director_id : int <<FK>>
+}
+entity "Movie_Actors" {
+
+id : int <<generated>>
+--
+movie_id : int <<FK>>
+actor_id : int <<FK>>
+}
+Movies ||--{ Movie_Genres
+Genres ||--{ Movie_Genres
+Movies ||--{ Movie_Directors
+Directors ||--{ Movie_Directors
+Movies ||--{ Movie_Actors
+Actors ||--{ Movie_Actors
+@enduml

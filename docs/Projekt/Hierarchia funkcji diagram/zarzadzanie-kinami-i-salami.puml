@@ -1,0 +1,20 @@
+left to right direction
+skinparam packageStyle rect
+package "Moduł zarządzania kinami i salami kinowymi" as cinemas {
+    package "Funkcjonalności kin" as cinema_features {
+        [Przeglądaj kina]
+        [Dodaj kino]
+        [Usuń kino]
+        [Edytuj kino]
+        [Przeglądaj filmy w kinie]
+        [Przeglądaj sale w kinie]
+    }
+    package "Funkcjonalności sal kinowych" as room_features {
+        [Przeglądaj sale kinowe]
+        [Dodaj salę kinową]
+        [Usuń salę kinową]
+        [Edytuj salę kinową]
+        [Przeglądaj filmy w danej sali kinowej]
+        [Przeglądaj dostępność miejsc w danej sali kinowej]
+    }
+}

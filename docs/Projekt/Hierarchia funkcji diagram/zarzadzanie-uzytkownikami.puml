@@ -1,0 +1,22 @@
+left to right direction
+skinparam packageStyle rect
+package "Moduł zarządzania użytkownikami" as users {
+    package "Funkcjonalności użytkownika" as user_features {
+        [Zarejestruj się]
+        [Zaloguj się]
+        [Wyloguj się]
+        [Zmień hasło]
+        [Zmień dane użytkownika]
+        [Przeglądaj profile innych użytkowników]
+        [Dodaj recenzję]
+        [Usuń recenzję]
+    }
+    package "Funkcjonalności administratora" as admin_features {
+        [Dodaj użytkownika]
+        [Usuń użytkownika]
+        [Modyfikuj dane użytkownika]
+        [Przeglądaj listę użytkowników]
+        [Przeglądaj statystyki użytkowników]
+        [Przeglądaj logi systemowe]
+    }
+}

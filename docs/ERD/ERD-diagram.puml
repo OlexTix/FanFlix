@@ -1,0 +1,181 @@
+@startuml erd-diagram
+!define TABLE_BORDER_THICKNESS 2
+!define TABLE_ROW {
+  |{field_name}
+  |{field_type}
+  |{field_size}
+  |{field_description}
+}
+!define TABLE(name, fields) entity name << (T,#FFAAAA) >> {
+  {field_name} {field_type} {field_size} {field_description}
+  --
+  {fields}
+}
+
+!define TABLE_PK(field) PK ({field})
+!define TABLE_FK(field, reference) FK ({field}) references {reference}
+!define TABLE_RELATION(from, to, relation_type) from --{relation_type}{relation_type}{relation_type}{relation_type} to
+!define ENTITY(title, content) package title <<Database>> { content }
+
+ENTITY("System transakcji elektronicznych dla branży kinowej", {
+
+  TABLE("Users", {
+    TABLE_ROW | id | int |  | ID użytkownika
+    TABLE_ROW | email | varchar | 255 | Email użytkownika
+    TABLE_ROW | password | varchar | 255 | Hasło użytkownika
+    TABLE_ROW | first_name | varchar | 255 | Imię użytkownika
+    TABLE_ROW | last_name | varchar | 255 | Nazwisko użytkownika
+    TABLE_ROW | role_id | int |  | ID roli użytkownika
+  }) {
+    TABLE_PK(id)
+    TABLE_FK(role_id, "Roles(id)")
+  }
+
+  TABLE("Roles", {
+    TABLE_ROW | id | int |  | ID roli
+    TABLE_ROW | name | varchar | 255 | Nazwa roli
+    TABLE_ROW | description | varchar | 255 | Opis roli
+  }) {
+    TABLE_PK(id)
+  }
+
+  TABLE("Movies", {
+    TABLE_ROW | id | int |  | ID filmu
+    TABLE_ROW | title | varchar | 255 | Tytuł filmu
+    TABLE_ROW | description | text |  | Opis filmu
+    TABLE_ROW | duration | int |  | Długość filmu w minutach
+    TABLE_ROW | release_date | date |  | Data premiery filmu
+  }) {
+    TABLE_PK(id)
+  }
+
+  TABLE("Cinemas", {
+    TABLE_ROW | id | int |  | ID kina
+    TABLE_ROW | name | varchar | 255 | Nazwa kina
+    TABLE_ROW | address | varchar | 255 | Adres kina
+    TABLE_ROW | phone_number | varchar | 15 | Numer telefonu kina
+  }) {
+    TABLE_PK(id)
+  }
+
+  TABLE("Rooms", {
+    TABLE_ROW | id | int |  | ID sali kinowej
+    TABLE_ROW | cinema_id | int |  | ID kina
+    TABLE_ROW | name | varchar | 255 | Nazwa sali kinowej
+    TABLE_ROW | capacity | int |  | Pojemność sali kinowej
+  }) {
+    TABLE_PK(id)
+    TABLE_FK(cinema_id, "Cinemas(id)")
+  }
+
+    TABLE("Showtimes", {
+        TABLE_ROW | id | int | | ID seansu
+        TABLE_ROW | movie_id | int | | ID filmu
+        TABLE_ROW | room_id | int | | ID sali kinowej
+        TABLE_ROW | start_time | datetime | | Data i czas rozpoczęcia seansu
+        TABLE_ROW | end_time | datetime | | Data i czas zakończenia seansu
+        TABLE_ROW | price | decimal | | Cena biletu na seans
+    }) {
+        TABLE_PK(id)
+        TABLE_FK(movie_id, "Movies(id)")
+        TABLE_FK(room_id, "Rooms(id)")
+    }
+
+    TABLE("Tickets", {
+        TABLE_ROW | id | int | | ID biletu
+        TABLE_ROW | showtime_id | int | | ID seansu
+        TABLE_ROW | user_id | int | | ID użytkownika
+        TABLE_ROW | room_row | varchar | 255 | Rząd miejsca na sali kinowej
+        TABLE_ROW | room_number | int | | Numer miejsca na sali kinowej
+    }) {
+        TABLE_PK(id)
+        TABLE_FK(showtime_id, "Showtimes(id)")
+        TABLE_FK(user_id, "Users(id)")
+    }
+
+})
+
+TABLE_RELATION("Users", "Roles", "-1->")
+TABLE_RELATION("Showtimes", "Movies", "-1->")
+TABLE_RELATION("Showtimes", "Rooms", "-1->")
+TABLE_RELATION("Tickets", "Showtimes", "-1->")
+TABLE_RELATION("Tickets", "Users", "-1->")
+
+@enduml
+
+' @startuml
+' !theme sketchy
+
+' ' hide the spot
+' hide circle
+
+' ' avoid problems with angled crows feet
+' skinparam linetype ortho
+
+' entity "Users" as users {
+
+' *id : int <<generated>>
+' email : varchar(255)
+' password : varchar(255)
+' first_name : varchar(255)
+' last_name : varchar(255)
+' role_id : int <<FK>>
+' }
+
+' entity "Roles" as roles {
+
+' *id : int <<generated>>
+' name : varchar(255)
+' description : varchar(255)
+' }
+
+' entity "Movies" as movies {
+
+' *id : int <<generated>>
+' title : varchar(255)
+' description : text
+' duration : int
+' release_date : date
+' }
+
+' entity "Cinemas" as cinemas {
+
+' *id : int <<generated>>
+' name : varchar(255)
+' address : varchar(255)
+' phone_number : varchar(15)
+' }
+
+' entity "Rooms" as rooms {
+
+' *id : int <<generated>>
+' cinema_id : int <<FK>>
+' name : varchar(255)
+' capacity : int
+' }
+
+' entity "Showtimes" as showtimes {
+
+' *id : int <<generated>>
+' movie_id : int <<FK>>
+' room_id : int <<FK>>
+' start_time : datetime
+' end_time : datetime
+' price : decimal
+' }
+
+' entity "Tickets" as tickets {
+
+' *id : int <<generated>>
+' showtime_id : int <<FK>>
+' user_id : int <<FK>>
+' room_row : varchar(255)
+' room_number : int
+' }
+
+' users ||..o{ tickets
+' showtimes }o..|| movies
+' rooms }o..|| cinemas
+' rooms ||--{ showtimes
+' movies ||--{ showtimes
+' @enduml

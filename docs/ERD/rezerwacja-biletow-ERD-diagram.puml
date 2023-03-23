@@ -1,0 +1,59 @@
+@startuml
+entity "Users" {
+  * id : int <<generated>>
+  --
+  * email : varchar(255)
+  * password : varchar(255)
+  * first_name : varchar(255)
+  * last_name : varchar(255)
+}
+
+entity "Tickets" {
+  * id : int <<generated>>
+  --
+  * showtime_id : int <<FK>>
+  * user_id : int <<FK>>
+  * room_row : varchar(255)
+  * room_number : int
+}
+
+entity "Showtimes" {
+  * id : int <<generated>>
+  --
+  * movie_id : int <<FK>>
+  * room_id : int <<FK>>
+  * start_time : datetime
+  * end_time : datetime
+  * price : decimal
+}
+
+entity "Movies" {
+  * id : int <<generated>>
+  --
+  * title : varchar(255)
+  * description : text
+  * duration : int
+  * release_date : date
+}
+
+entity "Rooms" {
+  * id : int <<generated>>
+  --
+  * cinema_id : int <<FK>>
+  * name : varchar(255)
+  * capacity : int
+}
+
+entity "Cinemas" {
+  * id : int <<generated>>
+  --
+  * name : varchar(255)
+  * address : varchar(255)
+  * phone_number : varchar(15)
+}
+
+Users ||--{ Tickets
+Movies ||--{ Showtimes
+Cinemas ||--{ Rooms
+Rooms ||--{ Showtimes
+@enduml

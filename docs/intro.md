@@ -12,8 +12,4 @@ System ten nie tylko ułatwia i przyspiesza proces zakupu, ale również przyczy
 
 **Witamy w projekcie FanFlix** - innowacyjnym rozwiązaniu dla branży kinowej, które umożliwia zakup biletów online w sposób łatwy, szybki i bezpieczny.
 
-
-
-
-
 Odkryj z nami nowoczesny świat kinowych technologii i korzystaj z usług FanFlix już dziś!

@@ -67,7 +67,8 @@ const config = {
         title: '',
         logo: {
           alt: 'My Site Logo',
-          src: 'https://cdn.discordapp.com/attachments/987381013929938954/1088161262141190144/Zrzut_ekranu_2023-03-22_185908.png',
+          src: 'img/logo.svg',
+          className: 'logo',
         },
         items: [
           {
