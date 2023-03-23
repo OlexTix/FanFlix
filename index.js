@@ -2,6 +2,7 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const db = require('./controllers/queries')
+const { oleCheckJWT } = require("./middleware");
 
 const app = express();
 
@@ -14,11 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.json({ info: 'Home Site' })
 })
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById)
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUserPass)
-app.delete('/users/:id', db.deleteUser)
+app.get('/users', oleCheckJWT.verifyToken, db.getUsers)
+app.get('/users/:id', oleCheckJWT.verifyToken, db.getUserById)
+app.post('/users/register', db.registerUser)
+app.post('/users/login', db.loginUser)
+app.put('/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, db.updateUserPass)
+app.delete('/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, db.deleteUser)
 
 const PORT = process.env.PORT || 3000
 
