@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="#" onclick="return false;"><img src="public/images/fanflix-git.png" alt="FanFlix" width="400"></a>
+  <a href="#" onclick="return false;"><img src="public/images/nfanflix.png" alt="FanFlix" width="330"></a>
   <br>
 </h1>
 
@@ -19,9 +19,6 @@
   <a href="https://nodejs.org/en/">
       <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
   </a>
-  <!-- <a href="https://babeljs.io/">
-    <img src="https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black">
-  </a> -->
 </p>
 
 <p align="center">
