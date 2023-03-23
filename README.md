@@ -26,17 +26,29 @@
   <img src="https://img.shields.io/website-up-down-green-red/https/pulsebook.herokuapp.com.svg?style=flat-square"></a><br><br>
 </p>
 
-<p align="center">
+<h3><p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a>
-</p>
+  
+</p></h3>
+
+## Documentation
+
+<h3> :books: <a href="https://olextix.github.io/FanFlix/documentation/" target="_blank"> FanFlix docs page </a></h3>
 
 ## Key Features
 
-<br>
-<h3> :mag: Thread in progress ... </h3>
-<br>
+- User registration and login
+- Browse information about movies, cinemas and screenings
+- Search for movies based on criteria such as title, genre, cast, etc.
+- Reservation of tickets for selected screenings
+- Payment for tickets
+- Viewing your booking history
+- Adding and removing movie reviews
+- User management by administrators
+- Adding and removing movies, cinemas and cinema halls by administrators
+- Generate user statistics and videos
 
 ## How To Use
 
