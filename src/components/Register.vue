@@ -1,14 +1,17 @@
 <template>
-    <div class="flex justify-content-center" id="login">
-        <h1>Log In</h1>
+    <div class="flex justify-content-center" id="register">
+        <h1>Sign Up</h1>
         <div class="card">
             <div class="field">
-                <InputText id="name-login" v-model="name" type="text" placeholder="Name" autofocus />
+                <InputText id="name-register" v-model="name" type="text" placeholder="Name" autofocus />
+            </div>
+            <div class="field">
+                <InputText id="lastname-register" v-model="lastname" type="text" placeholder="Lastname" autofocus />
             </div>
             <div class="field">
                 <div class="p-input-icon-right">
                     <i class="pi pi-envelope" />
-                    <InputText id="email-login" v-model="email" type="email" placeholder="Email" />
+                    <InputText id="email-register" v-model="email" type="email" placeholder="Email" />
                 </div>
             </div>
             <div class="field">
@@ -29,24 +32,26 @@
                     </Password>
                     <label for="password">Password</label>
                 </div>
+                
+            </div>
+            <div class="field">
+                <InputText id="input" v-model="confirmpassword" type="password" placeholder="Confirm Password" autofocus />
             </div>
             <div class="field-checkbox">
-                <div class="card flex justify-content-center">
-        <Button label="Submit" />
-    </div>
                 <label for="accept">I agree to the terms and conditions*</label>
             </div>
         </div>
     </div>
 </template>
 <style>
-#login> .card >.field
+#register> .card >.field
 {
-margin-top: 1.3vh;
+    margin-top: 1.3vh;
 }
 </style>
 <script setup>
 import { ref } from "vue";
+
 
 const name = ref();
 const email = ref();

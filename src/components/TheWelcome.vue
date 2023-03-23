@@ -21,6 +21,15 @@
     </div>
 </template>
 
+
+<style>
+.card
+{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+</style>
+
 <script setup>
 
 import { ref, onMounted } from "vue";
