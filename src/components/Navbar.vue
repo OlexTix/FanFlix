@@ -5,7 +5,8 @@
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/account">Account</RouterLink>
+        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/sign-up">Sign Up</RouterLink>
       </nav>
     </div>
   </header>
