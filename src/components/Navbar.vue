@@ -1,6 +1,6 @@
 <template>
   <header> 
-    <img alt="Vue logo" class="logo" src="/images/nfanflix3.svg" />
+    <img src="/images/nfanflix3.svg" alt="Vue logo" class="logo"  />
 
     <div class="wrapper">
       <nav>
@@ -20,7 +20,6 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style scoped>
 header {
-  line-height: 1.5;
   max-height: 100vh;
 }
 .logo {

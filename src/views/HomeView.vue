@@ -1,8 +1,9 @@
 <template>
   <main>
     <Navbar />
-    <TheWelcome />
+    <!-- <TheWelcome /> -->
   </main>
+  <TheWelcome />
 </template>
 
 <script setup>
