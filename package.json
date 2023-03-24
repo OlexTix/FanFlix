@@ -10,6 +10,7 @@
   "dependencies": {
     "primeicons": "^6.0.1",
     "primevue": "^3.24.0",
+    "swiper": "^9.1.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
