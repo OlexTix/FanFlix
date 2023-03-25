@@ -1,4 +1,11 @@
 <template>
+    <div class="new-icon">
+      <div class="icons-awansome">
+        <fa-icon icon="fa-solid fa-fire-flame-curved" />
+        <h2 style="margin-left: 1rem;">What's new</h2>
+      </div>
+    </div>
+    
     <div class="carousel-wid">
     <swiper
       :slidesPerView="1"
@@ -10,11 +17,19 @@
           spaceBetween: 16,
         },
         '768': {
+          slidesPerView: 3,
+          spaceBetween: 32,
+        },
+        '980': {
           slidesPerView: 4,
           spaceBetween: 32,
         },
-        '1124': {
+        '1324': {
           slidesPerView: 5,
+          spaceBetween: 34,
+        },
+        '1600': {
+          slidesPerView: 6,
           spaceBetween: 34,
         },
       }"
@@ -32,15 +47,16 @@
       <swiper-slide><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" /></swiper-slide>
     </swiper>
     </div>
+    <!-- <div class="test-spacer"></div> -->
 </template>
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Navigation } from 'swiper';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'primeicons/primeicons.css';
 
   export default {
     components: {
@@ -59,8 +75,12 @@ import 'swiper/css/navigation';
 <style>
 .carousel-wid {
   height: 26rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
+  -webkit-user-select: none;  
+  -moz-user-select: none;     
+  -ms-user-select: none;      
+  user-select: none;  
 }
 .swiper {
   margin: 0;
@@ -80,5 +100,22 @@ import 'swiper/css/navigation';
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.new-icon {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1012px;
+}
+.icons-awansome {
+  display: flex;
+  margin-top: 1.3rem;
+  padding-left: 0.8rem;
+}
+.icons-awansome .svg-inline--fa {
+  height: 2.2rem;
+}
+.test-spacer {
+  height: 900px;
+  background-color: bisque;
 }
 </style>
