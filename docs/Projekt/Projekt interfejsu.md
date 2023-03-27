@@ -9,3 +9,8 @@ Projekt interfejsu został stworzony w celu zapewnienia użytkownikom intuicyjne
 <div style={{border: "1px solid rgba(0, 0, 0, 0.1)", width: "800px", height: "450px"}}>
   <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FwxtBuCvK7h5fZ4yH445Qqr%2FUntitled%3Fnode-id%3D0%253A1%26t%3DPJcgLYDr3uPlxOhN-1" style={{width: "100%", height: "100%", border: "none"}} allowfullscreen></iframe>
 </div>
+
+### Widoki aplikacji
+<div style={{border: "1px solid rgba(0, 0, 0, 0.1)", width: "800px", height: "450px"}}>
+  <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FOST5iv72No6kdqnlLs39DV%2FProjekt-interfejsu%3Fnode-id%3D0%253A1%26t%3DRfUf7Q6b8Uawd7OQ-1" style={{width: "100%", height: "100%", border: "none"}} allowfullscreen></iframe>
+</div>
