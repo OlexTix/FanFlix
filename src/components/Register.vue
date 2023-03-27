@@ -12,6 +12,7 @@
             <Field name="name" v-slot="{ field, errorMessage }">
             <InputText
               v-bind="field"  placeholder="Name"
+              
               aria-describedby="email-help"
               :class="{ 'p-invalid': errorMessage }"
             />
@@ -82,6 +83,12 @@
     </div>
 </template>
 <style>
+
+#register
+{
+    margin-left: 3vh;
+}
+
 #register > form > .card >.field
 {
     margin-top: 1.3vh;

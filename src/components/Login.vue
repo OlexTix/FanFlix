@@ -13,7 +13,7 @@
             </div>
             <div class="field">
                 <div class="p-float-label">
-                    <Password v-model="password">
+                    <Password v-model="password" :feedback="false" toggleMask>
                         <template #header>
                             <h6>Pick a password</h6>
                         </template>
@@ -30,23 +30,37 @@
                     <label for="password">Password</label>
                 </div>
             </div>
-            <div class="field-checkbox">
+    
                 <div class="card flex justify-content-center">
-        <Button label="Submit" />
+        <Button label="Log in" />
     </div>
-                <label for="accept">I agree to the terms and conditions*</label>
+                
             </div>
         </div>
-    </div>
 </template>
 <style>
+#login
+{
+    margin-left: 3vh;
+}
+
+#login>.card>.card.flex.justify-content-center {
+    margin-top: 1.3vh;
+}
+
+
 #login> .card >.field
 {
 margin-top: 1.3vh;
 }
+
+#login> form> .card>.card.flex.justify-content-center{
+    margin-top: 1.3vh;
+}
 </style>
 <script setup>
 import { ref } from "vue";
+import Button from 'primevue/button';
 
 const name = ref();
 const email = ref();
