@@ -1,86 +1,119 @@
-<script setup>
-import WelcomeItem from './WelcomeItem.vue'
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
-import EcosystemIcon from './icons/IconEcosystem.vue'
-import CommunityIcon from './icons/IconCommunity.vue'
-import SupportIcon from './icons/IconSupport.vue'
+<template>
+    <div class="new-icon">
+      <div class="icons-awansome">
+        <fa-icon icon="fa-solid fa-fire-flame-curved" />
+        <h2 style="margin-left: 1rem;">What's new</h2>
+      </div>
+    </div>
+    
+    <div class="carousel-wid">
+    <swiper
+      :slidesPerView="1"
+      :spaceBetween="8"
+      :navigation="true"
+      :breakpoints="{
+        '640': {
+          slidesPerView: 2,
+          spaceBetween: 16,
+        },
+        '768': {
+          slidesPerView: 3,
+          spaceBetween: 32,
+        },
+        '980': {
+          slidesPerView: 4,
+          spaceBetween: 32,
+        },
+        '1324': {
+          slidesPerView: 5,
+          spaceBetween: 34,
+        },
+        '1600': {
+          slidesPerView: 6,
+          spaceBetween: 34,
+        },
+      }"
+      :modules="modules"
+      class="mySwiper"
+    >
+      <swiper-slide><img src="https://cdn.gracza.pl/galeria/mdb/f/3448000.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://www.bilety24.pl/media/cache/resolve/repertoire_big/https://www.bilety24.pl/public/users/1303/o/kot-plakat2.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://i.etsystatic.com/35153613/r/il/83569b/4375657449/il_fullxfull.4375657449_9p7k.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://plcw.tmsimg.com/assets/p22179066_v_v12_aa.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://res.cloudinary.com/westfielddg/image/upload/q6wjfacmlh40hevewkww" /></swiper-slide>
+      <swiper-slide><img src="https://image.tmdb.org/t/p/original/yCvB5fG5aEPqa1St7ihY6KEAsHD.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2019%2F10%2Flittle-women_3-2000.jpg&q=60" /></swiper-slide>
+      <swiper-slide><img src="https://cdn.discordapp.com/attachments/914170768693280768/1088817948573061141/ambulancemovie.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" /></swiper-slide>
+    </swiper>
+    </div>
+    <div class="test-spacer"></div>
+</template>
+
+<script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination, Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'primeicons/primeicons.css';
+
+  export default {
+    components: {
+      Swiper,
+      SwiperSlide,
+    },
+    setup() {
+      return {
+        modules: [Pagination, Navigation],
+      };
+    },
+  };
+
 </script>
 
-<template>
-  <WelcomeItem>
-    <template #icon>
-      <DocumentationIcon />
-    </template>
-    <template #heading>Documentation</template>
-
-    Vue’s
-    <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
-    provides you with all information you need to get started.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <ToolingIcon />
-    </template>
-    <template #heading>Tooling</template>
-
-    This project is served and bundled with
-    <a href="https://vitejs.dev/guide/features.html" target="_blank" rel="noopener">Vite</a>. The
-    recommended IDE setup is
-    <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode</a> +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank" rel="noopener">Volar</a>. If
-    you need to test your components and web pages, check out
-    <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a> and
-    <a href="https://on.cypress.io/component" target="_blank">Cypress Component Testing</a>.
-
-    <br />
-
-    More instructions are available in <code>README.md</code>.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <EcosystemIcon />
-    </template>
-    <template #heading>Ecosystem</template>
-
-    Get official tools and libraries for your project:
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router</a>,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener">Vue Test Utils</a>, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener">Vue Dev Tools</a>. If
-    you need more resources, we suggest paying
-    <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">Awesome Vue</a>
-    a visit.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <CommunityIcon />
-    </template>
-    <template #heading>Community</template>
-
-    Got stuck? Ask your question on
-    <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a>, our official
-    Discord server, or
-    <a href="https://stackoverflow.com/questions/tagged/vue.js" target="_blank" rel="noopener"
-      >StackOverflow</a
-    >. You should also subscribe to
-    <a href="https://news.vuejs.org" target="_blank" rel="noopener">our mailing list</a> and follow
-    the official
-    <a href="https://twitter.com/vuejs" target="_blank" rel="noopener">@vuejs</a>
-    twitter account for latest news in the Vue world.
-  </WelcomeItem>
-
-  <WelcomeItem>
-    <template #icon>
-      <SupportIcon />
-    </template>
-    <template #heading>Support Vue</template>
-
-    As an independent project, Vue relies on community backing for its sustainability. You can help
-    us by
-    <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
-  </WelcomeItem>
-</template>
+<style>
+.carousel-wid {
+  height: 26rem;
+  margin-top: 1.3rem;
+  margin-bottom: 2rem;    
+  user-select: none;  
+}
+.swiper {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.new-icon {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1012px;
+  user-select: none;
+}
+.icons-awansome {
+  display: flex;
+  margin-top: 1.3rem;
+  padding-left: 0.8rem;
+}
+.icons-awansome .svg-inline--fa {
+  height: 2.2rem;
+}
+.test-spacer {
+  height: 900px;
+  background-color: #303446;
+}
+</style>
