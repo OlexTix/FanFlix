@@ -47,7 +47,7 @@
       <swiper-slide><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" /></swiper-slide>
     </swiper>
     </div>
-    <!-- <div class="test-spacer"></div> -->
+    <div class="test-spacer"></div>
 </template>
 
 <script>
@@ -75,11 +75,8 @@ import 'primeicons/primeicons.css';
 <style>
 .carousel-wid {
   height: 26rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  -webkit-user-select: none;  
-  -moz-user-select: none;     
-  -ms-user-select: none;      
+  margin-top: 1.3rem;
+  margin-bottom: 2rem;    
   user-select: none;  
 }
 .swiper {
@@ -105,6 +102,7 @@ import 'primeicons/primeicons.css';
   margin-left: auto;
   margin-right: auto;
   max-width: 1012px;
+  user-select: none;
 }
 .icons-awansome {
   display: flex;
@@ -116,6 +114,6 @@ import 'primeicons/primeicons.css';
 }
 .test-spacer {
   height: 900px;
-  background-color: bisque;
+  background-color: #303446;
 }
 </style>

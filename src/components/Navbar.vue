@@ -14,7 +14,10 @@
   </div> 
   <div class="bottom-nav">
     <div class="buttons">
-      <RouterLink to="/login">Screenings</RouterLink>
+      <div class="buttons-sec">
+        <RouterLink to="/login">Screenings</RouterLink>
+        <RouterLink to="/login">Offers</RouterLink>
+      </div>
     </div>
   </div>
 </div>
@@ -40,6 +43,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0px 1px 8px 1px rgba(33, 33, 33, 1);
 }
 .navbar-one-header {
   margin-left: auto;
@@ -66,23 +70,22 @@ export default {
   align-items: center;
 }
 nav {
-  font-size: 1.2rem;
-  align-items: center;
+  font-size: 1.15rem;
+}
+nav a {
+  display: inline-flex;
+  padding: 0 1rem;
+  /* border-left: 1px solid var(--color-border); */
 }
 nav a.router-link-exact-active {
   color: var(--color-text);
 }
 nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  background-color: var(--color-background);
 }
-nav a {
-  display: inline-flex;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-nav a:first-of-type {
+/* nav a:first-of-type {
   border: 0;
-}
+} */
 .bottom-nav {
   
   background-color: rgba(0, 168, 119, 1);
@@ -104,6 +107,11 @@ nav a:first-of-type {
   text-shadow: 1px 1px 6px rgba(64, 54, 54, 1);
   font-size: 1.2rem;
   font-family: Verdana, Tahoma, sans-serif;
-
+}
+.buttons-sec a {
+  display: inline-flex;
+  padding-right: 0.8rem;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
 }
 </style>
