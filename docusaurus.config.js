@@ -97,6 +97,10 @@ const config = {
               {
                 label: 'Markdown Emoji',
                 to: 'https://gist.github.com/rxaviers/7360908',
+              },
+              {
+                label: 'dbdiagram.io (dbml)',
+                to: 'https://dbdiagram.io/',
               }
             ],
           },

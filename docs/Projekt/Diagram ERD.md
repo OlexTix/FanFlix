@@ -2,50 +2,98 @@
 sidebar_position: 2
 ---
 
-Poniższy diagram ERD przedstawia system FanFlix. System składa się z kilku modułów, które pozwalają na zarządzanie użytkownikami, filmami, kinami i salami kinowymi oraz rezerwacją biletów. Każdy z tych modułów posiada oddzielny diagram ERD, a ten diagram podsumowuje relacje między nimi.
+Poniższy diagram ilustruje strukturę bazy danych, w tym tabele, relacje między nimi oraz klucze główne i obce w systemie FanFlix.
 
-<div style={{textAlign: 'center'}}>
-
-!["Diagram ERD"](http://www.plantuml.com/plantuml/dsvg/dPCxQ-j048Nx_HLxNTrRgBW1Dy4OGo1DI9D7BIQxasZmFiJio8wnyzyZBOeHaeqWZHvdXZEVpeusIO2byKxzaGezwhH5CTL1OH2IWrwy9kIqq4UboEfRJK7qQlM10Ha4xNgjYaAX1t9jSGTiAk2_DylbFrL3Ill8Tgo_4oSf0tWSLnnSANoTQPwYmpcQImuMas6gXMAuRluOTpJhBYHknbxmKvHj6F9xzb6C3Y5XQK6mbRhROF8T1VJmcmy3QnbJceHVnO1bQFmRyg3sVnHcz7CpJIOh1mtt3stb4eg16andd3i7Svwhk1Voiz7wBl_9A6uf9sBUsh8pxSFi7XK6Ez5g9fC5DEJ13R1Uo6nHvg1I3pz1Q1BoPLYE-r4sMJyVHnzF_hFqwLGKHzsp3BJJKUTbLtahV_hEKQf-PNez7wNArqcdsc2mZNVV)
-
+<div style={{
+  textAlign: 'center',
+  position: 'relative',
+  overflow: 'hidden',
+  paddingTop: '56.25%',
+}}>
+  <iframe style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    border: 'none',
+  }} src='https://dbdiagram.io/embed/6440e29a6b31947051e6403f'>
+  </iframe>
 </div>
 
-### Diagram modułu zarządzania użytkownikami
+W naszym diagramie ERD systemu kinowego skupiamy się na następujących aspektach:
 
-<div style={{textAlign: 'center'}}>
+1. <b>Obsługa kin</b>: W bazie danych przechowujemy informacje o kinach, ich adresach oraz salach kinowych. Obejmuje to strukturę taką jak Cinema, Address oraz Cinema_Hall.
 
-!["Diagram modułu zarządzania użytkownikami"](http://www.plantuml.com/plantuml/dsvg/jP4nImD148Nx-HLZgWXU8wIH45BPf0c2THXkHszmT--OcIWXyRzxAn9ryR1ATxpltNmFTcrEwliKuSexJepsmjvs1m3EBdx0sQEnsWoF01Bm3YKxBfVFd5d9EQnMq3J0YIIEy9MqxKZdjul5DGnazjPhgFCdKVDTfiGrYJG1tizh7lh8_wtvwq9WQrK6bpvF7z-o9Z4REnTJbFsxsgCb_26xtuoMuLogKHcmtSo__hh1NyqY-tmoF9sQveYr44em2R-_9okmvXpsANu0)
+2. <b>Zarządzanie filmami</b>: System zawiera informacje o filmach, reżyserach, gatunkach oraz związanych z nimi proiekcjach. Encje takie jak Movie, Director, Genre, Movie_Genre oraz Screening odzwierciedlają te informacje w bazie danych.
 
-</div>
+3. <b>Użytkownicy i role</b>: W systemie mamy trzy rodzaje użytkowników: klientów, pracowników i administratorów. Encja User przechowuje informacje o użytkownikach, a encje Security_Question oraz User_Security_Answer dotyczą pytań zabezpieczających.
 
-Ten diagram ERD przedstawia zależności między trzema encjami: użytkownikami (Users), rolami (Roles) oraz uprawnieniami (Permissions). Encja Users zawiera informacje o użytkownikach, takie jak adres e-mail, hasło i imię oraz nazwisko. Encja Roles reprezentuje role, które użytkownicy mogą pełnić w systemie, takie jak "administrator" lub "użytkownik". Encja Permissions zawiera informacje o uprawnieniach, które mogą być przypisane do ról, takie jak "dodawanie nowych użytkowników" lub "edytowanie informacji o użytkownikach". W celu połączenia ról z uprawnieniami, w diagramie znajduje się również encja pośrednicząca Role_Permissions, która ma klucze obce do tabel Roles i Permissions, umożliwiając przypisywanie uprawnień do ról.
+4. <b>Rezerwacja i sprzedaż biletów</b>: Użytkownicy mogą rezerwować i kupować bilety na różne rodzaje projekcji. Encje Ticket, Ticket_Type oraz Reservation odzwierciedlają te informacje.
 
-### Diagram modułu zarządzania filmami
+5. <b>Historia akcji użytkowników</b>: W celu monitorowania działań użytkowników w systemie, wprowadziliśmy encję User_Action_Log, która przechowuje informacje o różnych akcjach, takich jak rezerwacja biletów, płatności czy zarządzanie seansami.
 
-<div style={{textAlign: 'center'}}>
+## Opis poszczególnych tabel:
 
-!["Diagram modułu zarządzania filmami"](http://www.plantuml.com/plantuml/dsvg/jPB1IiGm48RlynHnJtheHTYBBCiMH0_YCvIX6MqmIMKoNLnsVNUpPYc1HYA2fsdxpTyF_cGN15acP-5A1dAamXj9Fno0l1WvgDNpk3SKLke8OBIwKyQBscnUoHEZaDvkeMaWhbgAS8_S3yZNj-lr3MWAFPjtCQEFIEX3G4-CbtVZ1PWiOQ1EevpJvm6Vi_cHF5VD7br5dAFix_U6gPUHQu8Nmq6waiPY1igIzhyDwNYwNrNblbSp_l0KGLpYnTU5eD9MnQ4lwQgc_Ri3Vn2a-wjEfwOvghmjIAD0Ifcv09YVYhmORXD9eqHsvFNax1S0)
+1. Address:
 
-</div>
+   * ``id_address`` (PK): Unikalny identyfikator dla adresu.
+   * ``street``: Nazwa ulicy.
+   * ``building_number``: Numer budynku.
+   * ``apartment_number`` (opcjonalny): Numer mieszkania.
+   * ``postal_code``: Kod pocztowy.
+   * ``city``: Nazwa miasta.
+   * ``country``: Nazwa kraju.
+2. Cinema:
 
-W tym module encja "Movies" reprezentuje filmy, a kolejno encje "Genres", "Directors" i "Actors" odpowiadają za gatunki, reżyserów i aktorów. Aby zamodelować relacje między tymi encjami, wykorzystano trzy dodatkowe encje pośredniczące: "Movie_Genres", "Movie_Directors" i "Movie_Actors".
+   * ``id_cinema`` (PK): Unikalny identyfikator dla kina.
+   * ``name``: Nazwa kina.
+   * ``id_address`` (FK): Klucz obcy odnoszący się do tabeli Address.
+   * ``phone``: Numer telefonu kina.
+3. Cinema_Hall:
 
-### Diagram modułu zarządzania kinami i salami kinowymi
+   * ``id_cinema_hall`` (PK): Unikalny identyfikator dla sali kinowej.
+   * ``id_cinema`` (FK): Klucz obcy odnoszący się do tabeli Cinema.
+   * ``hall_number``: Numer sali kinowej.
+   * ``number_of_seats``: Liczba miejsc w sali kinowej.
+4. Movie:
 
-<div style={{textAlign: 'center'}}>
+   * ``id_movie`` (PK): Unikalny identyfikator dla filmu.
+   * ``title``: Tytuł filmu.
+   * ``id_director`` (FK): Klucz obcy odnoszący się do tabeli Director.
+   * ``duration``: Czas trwania filmu w minutach.
+   * ``description``: Opis filmu.
+   * ``poster_url``: URL plakatu filmu.
+   * ``youtube_link``: Link do filmu na YouTube.
+   * ``release_date``: Data premiery filmu.
+5. Director:
 
-!["Diagram modułu zarządzania filmami"](http://www.plantuml.com/plantuml/dsvg/bP31IWCn443l-Ogn9nLoKEX5IYa88dZp1yAOZ2QOJ4eoAvJMVpUEXUv1eLxsC6-MzoQRBjXaAjbSIAH2qDz9VDmPGon9Th2uJqm5-mBs1k0QKe0xI2omMhqHKqEXi5uFPArona9ZumERZzWkRvVBAvrZ28rw_mrjOsLoF9KNQZD-C_3dgUEvrd9sXTTeDrjxU5B-Tw37BVfla_unDpzYpcURsyZyb_VdRbTVNIUKVj8V7nuE1slteESR_HudccNCXZXC9Ny1)
+   * ``id_director`` (PK): Unikalny identyfikator dla reżysera.
+   * ``first_name``: Imię reżysera.
+   * ``last_name``: Nazwisko reżysera.
+   * ``nationality`` (opcjonalny): Narodowość reżysera.
+6. Genre:
 
-</div>
+   * ``id_genre`` (PK): Unikalny identyfikator dla gatunku filmu.
+   * ``name``: Nazwa gatunku filmu.
+7. Movie_Genre:
 
-W tym module mamy dwie encje - Cinemas (kina) i Rooms (sale kinowe), które są połączone relacją jeden-do-wielu (jedno kino może mieć wiele sal kinowych). Dodatkowo, Rooms są połączone z encją Halls (sale), również relacją jeden-do-wielu (jedna sala kinowa może mieć wiele sal).
+   * ``id_movie`` (FK): Klucz obcy odnoszący się do tabeli Movie.
+   * ``id_genre`` (FK): Klucz obcy odnoszący się do tabeli Genre.
+8. Screening:
 
-### Diagram modułu rezerwacji biletów
+   * ``id_screening`` (PK): Unikalny identyfikator dla seansu.
+   * ``id_movie`` (FK): Klucz obcy odnoszący się do tabeli Movie.
+   * ``id_cinema_hall`` (FK): Klucz obcy odnoszący się do tabeli Cinema_Hall.
+   * ``id_screening_type`` (FK): Klucz obcy odnoszący się do tabeli Screening_Type.
+   * ``date``: Data seansu.
+   * ``time``: Godzina seansu.
+9. Screening_Type:
 
-<div style={{textAlign: 'center'}}>
+   * ``id_screening_type`` (PK): Unikalny identyfikator dla rodzaju seansu.
+   * ``language``: Język audio seansu.
+   * ``subtitle`` (opcjonalny): Napisy seansu.
+10. Ticket:
 
-!["Diagram modułu zarządzania filmami"](http://www.plantuml.com/plantuml/dsvg/ZPCzQyCm48Pt_merKrlmq4AM4aoWqALqwSTihjAr5jM7ESb9GzB_NkMS64Day6BC-qYwnxhpEaIWs5bJNCK6BOhmWr4skm9Tr74d5Xy1AIp4lX3YLcWb7eHsKQnMt-YG8AAggeJAaZbQq2OjsG391kZwVhcyOT1225jFAiU-D8LOEx2OemOcu5ynEBvhcQndMuR6RwEsM8yMFZrN5SCk86K1UMzhyjkS93FNsK-aVkFOxkrKRhQVzHkDqmuvm5siZrKIKn3n-Ce4dShcBMd98KfjmOo5NrBz-RPfZybsJc6GfDkelKiuuc_iuuw0CpwL8qA34B1EWcVFiSzh-khPEb8xj92zfAaHaz22J9KkM_V8XyskFLK0b28C8OVQnZiSHcVWT_s0yyyd3eUot8lJa1VSdNCup5RHgvvplhA2dnShr-XKPyq_)
-
-</div>
-
-Ten moduł korzysta z encji Users, Tickets, Showtimes, Movies, Rooms i Cinemas. Tickets przechowuje informacje o biletach, które są rezerwowane przez użytkowników (Users) na konkretne seanse (Showtimes). Showtimes z kolei odwołuje się do konkretnego filmu (Movies) oraz konkretnej sali kinowej (Rooms) w konkretnym kinie (Cinemas).
+     * ``id_ticket`` (PK): Unikalny identyfikator dla biletu.
+     * ``id_screening`` (FK): Klucz obcy odnoszący się do
