@@ -47,7 +47,7 @@
       <swiper-slide><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" /></swiper-slide>
     </swiper>
     </div>
-    <div class="test-spacer"></div>
+    
 </template>
 
 <script>
@@ -101,7 +101,7 @@ import 'primeicons/primeicons.css';
 .new-icon {
   margin-left: auto;
   margin-right: auto;
-  max-width: 1012px;
+  max-width: 1024px;
   user-select: none;
 }
 .icons-awansome {
@@ -112,8 +112,5 @@ import 'primeicons/primeicons.css';
 .icons-awansome .svg-inline--fa {
   height: 2.2rem;
 }
-.test-spacer {
-  height: 900px;
-  background-color: #303446;
-}
+
 </style>

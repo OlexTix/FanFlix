@@ -48,7 +48,7 @@ export default {
 .navbar-one-header {
   margin-left: auto;
   margin-right: auto;
-  max-width: 1012px;
+  max-width: 1024px;
   padding: 0.3rem 0.5rem 0.3rem 0.5rem;
   display: flex;
   align-items: center;
@@ -98,7 +98,7 @@ nav a.router-link-exact-active:hover {
   margin-left: auto;
   margin-right: auto;
   padding-left: 0.8rem !important;
-  max-width: 1012px;
+  max-width: 1024px;
   padding: 0.3rem;
 
 }
