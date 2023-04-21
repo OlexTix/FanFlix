@@ -15,7 +15,7 @@
   <div class="bottom-nav">
     <div class="buttons">
       <div class="buttons-sec">
-        <RouterLink to="/login">Screenings</RouterLink>
+        <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
         <RouterLink to="/login">Offers</RouterLink>
       </div>
     </div>

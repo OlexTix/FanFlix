@@ -18,6 +18,11 @@ const router = createRouter({
       path: '/sign-up',
       name: 'register',
       component: () => import('../views/RegisterView.vue')
+    },
+    {
+      path: '/cinemas/nazwa-kina',
+      name: 'screenings',
+      component: () => import('../views/ScreeningsView.vue')
     }
   ]
 })

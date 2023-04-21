@@ -8,12 +8,15 @@ import PrimeVue from 'primevue/config'
 import Rating from 'primevue/rating'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import axios from 'axios';
 import 'primevue/resources/themes/lara-light-indigo/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import './assets/main.css'
 
 library.add(faFireFlameCurved)
+
+axios.defaults.baseURL = 'https://fantasticstudio.online/api';
 
 const app = createApp(App)
 
