@@ -53,6 +53,7 @@ margin: auto;
     background: rgb(0,222,115);
 background: linear-gradient(180deg, rgba(0,222,115,1) 0%, rgba(0,171,89,1) 63%, rgba(0,129,67,1) 100%);
 
+
 }
 
 

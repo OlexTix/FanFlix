@@ -17,7 +17,7 @@
         </Field>
           </div>
           <div class="field">
-            <Field name="email" v-slot="{ field, errorMessage }">
+            <Field name="confirmemail" v-slot="{ field, errorMessage }">
             <InputText
               v-bind="field"  placeholder="Confirm E-mail"
               aria-describedby="email-help"
@@ -163,7 +163,8 @@ const accept = ref(false);
 
 
 const schema = yup.object({
-  email: yup.string().required().email().label('Email address'),
+  email: yup.string().required().email().label('E-mail address'),
+  confirmemail: yup.string().required().email().label('Confirm E-mail'),
   name: yup.string().required().label('Name'),
  lastname: yup.string().required().label('Lastname'), 
  phonenumber: yup.number().required().label('Phone number'),
