@@ -6,3 +6,4 @@ notes.txt
 .nyc
 .env
 .DS_Store
+auth.config.js
