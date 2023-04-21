@@ -28,13 +28,17 @@ const verifyToken = async (req, res, next) => {
       } = await client.query('SELECT * FROM "User" WHERE id_user=$1', [decoded.id]);
 
       if (!user) {
-          return res.status(401).send({ message: "Unauthorized1" });
+          return res.status(401).send({ message: "Unauthorized: no such user" });
       }
 
       // Store decoded JWT payload to be accessible to other middleware
       req.userId = decoded.id;
       req.role = decoded.role;
 
+      if (req.path === '/api/auth/expiration') {
+        client.release();
+        return res.status(200).send({ message: "Authorized" });  
+      }
       next();
 
       client.release();
@@ -44,7 +48,7 @@ const verifyToken = async (req, res, next) => {
       }
       console.error(err.message);
 
-      res.status(401).send({ message: "Unauthorized2" });
+      res.status(401).send({ message: "Unauthorized: error" });
   }
 };
 
