@@ -1,6 +1,6 @@
 <template>
     <div class="other-item">
-      <slot></slot> <!-- Dodaj slot, który pozwala wstawiać inne komponenty -->
+      <slot></slot> <!-- Allows you to insert other components -->
       <Footer />
     </div>
   </template>
@@ -18,8 +18,5 @@
     background-color: var(--color-background-pres);
     display: flex;
     flex-direction: column;
-  }
-  .other-item p {
-    padding: 2em;
   }
   </style>
