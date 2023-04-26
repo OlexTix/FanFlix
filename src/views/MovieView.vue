@@ -1,9 +1,9 @@
 <template>
-    <main>
-      <Navbar/>
-      <MoviePreview />
-      <Footer/>
-    </main>
+  <main>
+    <Navbar />
+    <MoviePreview />
+    <Footer />
+  </main>
 </template>
 
 <script>
@@ -18,6 +18,6 @@ export default defineComponent({
     Navbar,
     MoviePreview,
     Footer
-    }
+  }
 })
 </script>

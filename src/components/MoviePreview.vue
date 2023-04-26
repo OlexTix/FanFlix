@@ -8,15 +8,16 @@
                 allowfullscreen></iframe>
         </div>
         <div id="movie-releasebox">
-            
-                <div id="box1"><img id="img1" class="logo" src="https://www.svgrepo.com/show/490607/calendar-event.svg" width="30px"
-                        style="padding: 3px">
-                    <p style="margin-right: 2vh;">Data premiery: 24 marca 2023</p>
-                    <img id="img2" class="logo" src="https://www.svgrepo.com/show/513817/clock.svg" width="30px" style="padding: 3px">
-                    <p>Czas trwania: 99 minut</p>
-                </div>
-              
-           
+
+            <div id="box1"><img id="img1" class="logo" src="https://www.svgrepo.com/show/490607/calendar-event.svg"
+                    width="30px" style="padding: 3px">
+                <p style="margin-right: 2vh;">Data premiery: 24 marca 2023</p>
+                <img id="img2" class="logo" src="https://www.svgrepo.com/show/513817/clock.svg" width="30px"
+                    style="padding: 3px">
+                <p>Czas trwania: 99 minut</p>
+            </div>
+
+
         </div>
         <div id="moviepreviewbox">
             <p id="movie-description">
@@ -57,11 +58,11 @@
     margin-top: 5vh;
     margin-left: 10vh;
     margin-right: 10vh;
-    
+
 }
 
 #movie-releasebox {
-   text-align: center;
+    text-align: center;
     padding: 1rem;
     margin-left: 10rem;
     margin-right: 10rem;
@@ -70,19 +71,15 @@
 
 #box1 {
     display: flex;
-    width:300px;
+    width: 300px;
     margin-left: auto;
     margin-right: auto;
-    
+
 }
 
-#img1, #img2
-{
+#img1,
+#img2 {
     filter: var(--color-logo);
-  -webkit-filter:  var(--color-logo);
+    -webkit-filter: var(--color-logo);
 }
-
-
-
-
 </style>
