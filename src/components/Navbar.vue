@@ -14,11 +14,16 @@
   </div> 
   <div class="bottom-nav">
     <div class="buttons">
-      <div class="buttons-sec">
-        <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
-        <RouterLink to="/login">Offers</RouterLink>
-      </div>
-    </div>
+      <div class="buttons-sec" style="display: flex; align-items: center;">
+  <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
+  <RouterLink to="/login">Offers</RouterLink>
+  <div style="margin-left: auto;">
+    <RouterLink to="#" id="cinemainfo">
+      <p style="font-weight: 800; font-size: 0.8rem;">Złotno - Kino Tomi</p>
+    </RouterLink>
+  </div>
+</div>
+</div>
   </div>
 </div>
   <RouterView />

@@ -111,6 +111,7 @@
   margin: auto;
   width: 50%;
   padding: 10px;
+  margin-bottom: 5vh;
 }
 
 #signupbutton
@@ -119,7 +120,7 @@
 background: linear-gradient(180deg, rgba(0,222,115,1) 0%, rgba(0,171,89,1) 63%, rgba(0,129,67,1) 100%);
 text-align: center;
 clear: both;
-
+margin-bottom: 5vh;
 
 }
 
