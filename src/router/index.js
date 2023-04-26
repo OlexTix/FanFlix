@@ -23,6 +23,11 @@ const router = createRouter({
       path: '/cinemas/nazwa-kina',
       name: 'screenings',
       component: () => import('../views/ScreeningsView.vue')
+    },
+    {
+      path: '/admin-panel',
+      name: 'admin-panel',
+      component: () => import('../views/AdminPanelView.vue')
     }
   ]
 })
