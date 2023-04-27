@@ -183,27 +183,48 @@ const deleteHall = async (req, res) => {
       return;
     }
 
-    // Delete hall and associated seats from Seat table
-    const deleteHallQuery =
-      'DELETE FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2';
-    const deleteSeatsQuery =
-      'DELETE FROM "Seat" WHERE id_cinema = $1 AND id_cinema_hall = $2';
-    await client.query("BEGIN");
-    await client.query(deleteSeatsQuery, [cinemaId, hallId]);
-    const { rowCount } = await client.query(deleteHallQuery, [
-      cinemaId,
-      hallId,
-    ]);
-    await client.query("COMMIT");
+    // Check if hall exists
+    const { rows: hallRows } = await client.query(
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
+      [cinemaId, hallId]
+    );
 
-    if (rowCount === 0) {
+    if (hallRows.length === 0) {
       res.status(404).send({ message: "Hall not found" });
       return;
     }
 
-    res
-      .status(200)
-      .send({ message: "Hall and associated seats deleted successfully" });
+    // Check if hall has associated seats
+    const { rows: seatRows } = await client.query(
+      'SELECT * FROM "Seat" WHERE id_cinema = $1 AND id_cinema_hall = $2',
+      [cinemaId, hallId]
+    );
+
+    await client.query("BEGIN");
+    
+    if (seatRows.length > 0) {
+      // Delete associated seats
+      const deleteSeatsQuery =
+        'DELETE FROM "Seat" WHERE id_cinema = $1 AND id_cinema_hall = $2';
+      await client.query(deleteSeatsQuery, [cinemaId, hallId]);
+    }
+
+    // Delete hall
+    const deleteHallQuery =
+      'DELETE FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2';
+    const { rowCount } = await client.query(deleteHallQuery, [
+      cinemaId,
+      hallId,
+    ]);
+
+    if (rowCount === 0) {
+      res.status(404).send({ message: "Hall not found" });
+      await client.query("ROLLBACK");
+      return;
+    }
+
+    await client.query("COMMIT");
+    res.status(200).send({ message: "Hall and associated seats deleted successfully" });
   } catch (err) {
     console.error(err.message);
     await client.query("ROLLBACK");

@@ -9,10 +9,10 @@ module.exports = function (app) {
     );
     next();
   });
-  app.post('/cinema/hall', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
-  app.get('/cinema/hall', oleCheckJWT.verifyToken, hall.getHalls)
-  app.get('/cinema/hall/:id', oleCheckJWT.verifyToken, hall.getHallById)
-  app.put('/cinema/hall/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.updateHallsData)
-  app.delete('/cinema/hall/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.deleteHall)
+  app.post('/cinema/:id/hall', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
+  app.get('/cinema/:id/hall', oleCheckJWT.verifyToken, hall.getHalls)
+  app.get('/cinema/:id/hall/:hallId', oleCheckJWT.verifyToken, hall.getHallById)
+  app.put('/cinema/:id/hall/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.updateHallsData)
+  app.delete('/cinema/:id/hall/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.deleteHall)
 
 };
