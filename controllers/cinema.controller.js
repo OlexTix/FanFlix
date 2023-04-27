@@ -64,14 +64,14 @@ const getCinemasList = async (req, res) => {
   }
 };
 
-const getCinemasListById = async (req, res) => {
-  const id = parseInt(req.params.id);
+const getCinemasListByName = async (req, res) => {
+  const name = req.params.name;
   const client = await poolDB.connect();
 
   try {
     const { rows } = await client.query(
-      'SELECT cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address WHERE cinema.id_cinema = $1',
-      [id]
+      'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address WHERE cinema.name = $1',
+      [name]
     );
 
     if (rows.length === 0) {
@@ -268,7 +268,7 @@ module.exports = {
   addCinema,
   getCinemas,
   getCinemasList,
-  getCinemasListById,
+  getCinemasListByName,
   getCinemaById,
   updateCinemasData,
   deleteCinema,

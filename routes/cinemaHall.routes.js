@@ -9,6 +9,7 @@ module.exports = function (app) {
     );
     next();
   });
+  
   app.post('/cinemas/:id/halls', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
   app.get('/cinemas/:id/halls', oleCheckJWT.verifyToken, hall.getHalls)
   app.get('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, hall.getHallById)
