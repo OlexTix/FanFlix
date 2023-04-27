@@ -6,4 +6,3 @@ notes.txt
 .nyc
 .env
 .DS_Store
-config/*
