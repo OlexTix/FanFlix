@@ -13,7 +13,19 @@ const poolDB = new Pool({
 const getCinemasList = async (req, res) => {
   const client = await poolDB.connect();
   const { name, street, city } = req.query;
-  let query = 'SELECT cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
+  let selectColumns = '*';
+
+  if (Object.keys(req.query).length === 1) {
+    if ('name' in req.query && !name) {
+      selectColumns = 'cinema.name';
+    } else if ('street' in req.query && !street) {
+      selectColumns = 'address.street';
+    } else if ('city' in req.query && !city) {
+      selectColumns = 'address.city';
+    } 
+  }
+
+  let query = `SELECT ${selectColumns} FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address`;
   const queryParams = [];
   let queryConditions = '';
 
@@ -21,7 +33,7 @@ const getCinemasList = async (req, res) => {
     queryParams.push(name);
     queryConditions += ` cinema.name = $${queryParams.length}`;
   }
-  
+
   if (street) {
     queryParams.push(street);
     queryConditions += (queryConditions ? ' AND' : '') + ` address.street = $${queryParams.length}`;
