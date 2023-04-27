@@ -1,0 +1,31 @@
+version: '3.9'
+
+name: fanflix
+
+services:
+  api:
+    image: ${DOCKERHUB_USERNAME}/fanflix-api:latest
+    container_name: fanflix_api
+    ports:
+      -  2456:3000
+    restart: unless-stopped
+    environment:
+      DATABASE_USER_NAME: ${DATABASE_USER_NAME}
+      DATABASE_HOST_NAME: ${DATABASE_HOST_NAME}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_LINK: ${DATABASE_LINK}
+      API_SECRET: ${API_SECRET}
+      TOKEN_EXPIRATION: ${TOKEN_EXPIRATION} 
+      NODE_ENV: production
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: fanflix_watchtower
+    command: --cleanup --include-restarting --label-enable --interval 20
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped

@@ -1,6 +1,8 @@
-![Logo]()
-
-
+<h1 align="center">
+  <br>
+  <a href="#" onclick="return false;"><img src="https://github.com/OlexTix/FanFlix/tree/main/public/images/nfanflix.png" alt="FanFlix" width="330"></a>
+  <br>
+</h1>
 
 
 # OleCheckAPI
