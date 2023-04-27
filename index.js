@@ -4,7 +4,9 @@ const express = require("express");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 //parse request of content type json
 app.use(express.json());
 //parse request of content type x-www-form-urlencoded

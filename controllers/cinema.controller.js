@@ -10,6 +10,71 @@ const poolDB = new Pool({
   connectionString,
 });
 
+const getCinemasList = async (req, res) => {
+  const client = await poolDB.connect();
+  const { name, street, city } = req.query;
+  let query = 'SELECT cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
+  const queryParams = [];
+  let queryConditions = '';
+
+  if (name) {
+    queryParams.push(name);
+    queryConditions += ` cinema.name = $${queryParams.length}`;
+  }
+  
+  if (street) {
+    queryParams.push(street);
+    queryConditions += (queryConditions ? ' AND' : '') + ` address.street = $${queryParams.length}`;
+  }
+
+  if (city) {
+    queryParams.push(city);
+    queryConditions += (queryConditions ? ' AND' : '') + ` address.city = $${queryParams.length}`;
+  }
+
+  if (queryConditions) {
+    query += ' WHERE' + queryConditions;
+  }
+
+  try {
+    const { rows } = await client.query(query, queryParams);
+
+    if (rows.length === 0) {
+      res.status(404).json({ message: "Cinema not found" });
+    } else {
+      res.status(200).json(rows);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  } finally {
+    client.release();
+  }
+};
+
+const getCinemasListById = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const client = await poolDB.connect();
+
+  try {
+    const { rows } = await client.query(
+      'SELECT cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address WHERE cinema.id_cinema = $1',
+      [id]
+    );
+
+    if (rows.length === 0) {
+      res.status(404).json({ message: "Cinema not found" });
+    } else {
+      res.status(200).json(rows[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  } finally {
+    client.release();
+  }
+};
+
 const addCinema = async (req, res) => {
   const { name, street, building_number, apartment_number, postal_code, city, country, phone } = req.body;
   const client = await poolDB.connect();
@@ -32,44 +97,6 @@ const addCinema = async (req, res) => {
 
     console.error(err.message);
     res.status(500).send({ message: "Failed to add new cinema" });
-  } finally {
-    client.release();
-  }
-};
-
-const getCinemasList = async (req, res) => {
-  const client = await poolDB.connect();
-  try {
-    const { rows } = await client.query(
-      'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address'
-    );
-    res.status(200).json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
-  } finally {
-    client.release();
-  }
-};
-
-const getCinemasListById = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const client = await poolDB.connect();
-
-  try {
-    const { rows } = await client.query(
-      'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.city FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address WHERE cinema.id_cinema = $1',
-      [id]
-    );
-
-    if (rows.length === 0) {
-      res.status(404).json({ message: "Cinema not found" });
-    } else {
-      res.status(200).json(rows[0]);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
   } finally {
     client.release();
   }

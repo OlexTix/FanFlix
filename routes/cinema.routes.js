@@ -10,12 +10,12 @@ module.exports = function (app) {
     next();
   });
 
-  app.post('/cinema', oleCheckJWT.verifyToken, cinema.addCinema)
-  app.get('/cinema', oleCheckJWT.verifyToken, cinema.getCinemas)
-  app.get('/all/cinema', cinema.getCinemasList)
-  app.get('/all/cinema/:id', cinema.getCinemasListById)
-  app.get('/cinema/:id', oleCheckJWT.verifyToken, cinema.getCinemaById)
-  app.put('/cinema/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, cinema.updateCinemasData)
-  app.delete('/cinema/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, cinema.deleteCinema)
+  app.post('/cinemas', oleCheckJWT.verifyToken, cinema.addCinema)
+  app.get('/cinemas/all', oleCheckJWT.verifyToken, cinema.getCinemas)
+  app.get('/cinemas', cinema.getCinemasList)
+  app.get('/cinemas/:id', cinema.getCinemasListById)
+  app.get('/cinemas/all/:id', oleCheckJWT.verifyToken, cinema.getCinemaById)
+  app.put('/cinemas/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, cinema.updateCinemasData)
+  app.delete('/cinemas/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, cinema.deleteCinema)
 
 };

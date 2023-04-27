@@ -10,10 +10,10 @@ module.exports = function (app) {
     next();
   });
 
-  app.post('/cinema/:id/hall/:hallId/seat', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.addSeat)
-  app.get('/cinema/:id/hall/:hallId/seat/', oleCheckJWT.verifyToken, seat.getSeats)
-  app.get('/cinema/:id/hall/:hallId/seat/:seatId', oleCheckJWT.verifyToken, seat.getSeatById)
-  app.put('/cinema/:id/hall/:hallId/seat/:seatId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.updateSeatData)
-  app.delete('/cinema/:id/hall/:hallId/seat/:seatId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.deleteSeat)
+  app.post('/cinemas/:id/halls/:hallId/seats', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.addSeat)
+  app.get('/cinemas/:id/halls/:hallId/seats/', oleCheckJWT.verifyToken, seat.getSeats)
+  app.get('/cinemas/:id/halls/:hallId/seats/:seatId', oleCheckJWT.verifyToken, seat.getSeatById)
+  app.put('/cinemas/:id/halls/:hallId/seats/:seatId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.updateSeatData)
+  app.delete('/cinemas/:id/halls/:hallId/seats/:seatId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, seat.deleteSeat)
 
 };
