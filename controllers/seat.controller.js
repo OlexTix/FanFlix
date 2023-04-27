@@ -10,72 +10,10 @@ const poolDB = new Pool({
   connectionString,
 });
 
-const addHall = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const { hall_number, number_of_seats } = req.body;
-  const client = await poolDB.connect();
-
-  try {
-    // Check if cinema exists
-    const { rows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-
-    if (rows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
-    }
-
-    // Insert new hall associated with cinema
-    const { rowCount } = await client.query(
-      'INSERT INTO "Cinema_Hall" (id_cinema, hall_number, number_of_seats) VALUES ($1, $2, $3)',
-      [cinemaId, hall_number, number_of_seats]
-    );
-
-    res.status(201).send({ message: "New hall added successfully" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to add new hall" });
-  } finally {
-    client.release();
-  }
-};
-
-const getHalls = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const client = await poolDB.connect();
-
-  try {
-    // Check if cinema exists
-    const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-
-    if (cinemaRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
-    }
-
-    // Get all halls associated with cinema
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-
-    res.status(200).json(hallRows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to get halls" });
-  } finally {
-    client.release();
-  }
-};
-
-const getHallById = async (req, res) => {
+const addSeat = async (req, res) => {
   const cinemaId = parseInt(req.params.id);
   const hallId = parseInt(req.params.hallId);
+  const { row, seat_number } = req.body;
   const client = await poolDB.connect();
 
   try {
@@ -90,7 +28,7 @@ const getHallById = async (req, res) => {
       return;
     }
 
-    // Get hall by id associated with cinema
+    // Check if hall exists
     const { rows: hallRows } = await client.query(
       'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
       [cinemaId, hallId]
@@ -101,72 +39,22 @@ const getHallById = async (req, res) => {
       return;
     }
 
-    res.status(200).json(hallRows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to get hall" });
-  } finally {
-    client.release();
-  }
-};
-
-const updateHallsData = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const hallId = parseInt(req.params.hallId);
-  const { hall_number, number_of_seats } = req.body;
-  const client = await poolDB.connect();
-
-  try {
-    // Check if cinema exists
-    const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-
-    if (cinemaRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
-    }
-
-    // Check if hall exists and retrieve current data
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
-    );
-
-    if (hallRows.length === 0) {
-      res.status(404).send({ message: "Hall not found" });
-      return;
-    }
-
-    const currentHallData = hallRows[0];
-
-    // Update hall data if provided in request body
-    const newHallData = {
-      hall_number: hall_number || currentHallData.hall_number,
-      number_of_seats: number_of_seats || currentHallData.number_of_seats,
-    };
-
+    // Insert new seat associated with hall
     const { rowCount } = await client.query(
-      'UPDATE "Cinema_Hall" SET hall_number = $1, number_of_seats = $2 WHERE id_cinema = $3 AND id_cinema_hall = $4',
-      [newHallData.hall_number, newHallData.number_of_seats, cinemaId, hallId]
+      'INSERT INTO "Seat" (id_cinema_hall, row, seat_number) VALUES ($1, $2, $3)',
+      [hallId, row, seat_number]
     );
 
-    if (rowCount === 0) {
-      res.status(500).send({ message: "Failed to update hall data" });
-      return;
-    }
-
-    res.status(200).send({ message: "Hall data updated successfully" });
+    res.status(201).send({ message: "New seat added successfully" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send({ message: "Failed to update hall data" });
+    res.status(500).send({ message: "Failed to add new seat" });
   } finally {
     client.release();
   }
 };
 
-const deleteHall = async (req, res) => {
+const getSeats = async (req, res) => {
   const cinemaId = parseInt(req.params.id);
   const hallId = parseInt(req.params.hallId);
   const client = await poolDB.connect();
@@ -193,44 +81,202 @@ const deleteHall = async (req, res) => {
       return;
     }
 
-    // Start transaction
-    await client.query("BEGIN");
-
-    // Delete associated seats
-    await client.query('DELETE FROM "Seat" WHERE id_cinema_hall = $1', [
-      hallId,
-    ]);
-
-    // Delete hall
-    const { rowCount } = await client.query(
-      'DELETE FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
+    // Get all seats associated with hall
+    const { rows: seatRows } = await client.query(
+      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1',
+      [hallId]
     );
 
-    if (rowCount === 0) {
-      await client.query("ROLLBACK");
-      res.status(500).send({ message: "Failed to delete hall" });
+    res.status(200).json(seatRows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to get seats" });
+  } finally {
+    client.release();
+  }
+};
+
+const getSeatById = async (req, res) => {
+  const cinemaId = parseInt(req.params.id);
+  const hallId = parseInt(req.params.hallId);
+  const seatId = parseInt(req.params.seatId);
+  const client = await poolDB.connect();
+
+  try {
+    // Check if cinema exists
+    const { rows: cinemaRows } = await client.query(
+      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
+      [cinemaId]
+    );
+
+    if (cinemaRows.length === 0) {
+      res.status(404).send({ message: "Cinema not found" });
       return;
     }
 
-    // Commit transaction
-    await client.query("COMMIT");
+    // Check if hall exists
+    const { rows: hallRows } = await client.query(
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
+      [cinemaId, hallId]
+    );
 
-    res.status(200).send({ message: "Hall deleted successfully" });
+    if (hallRows.length === 0) {
+      res.status(404).send({ message: "Hall not found" });
+      return;
+    }
+
+    // Get seat by id associated with hall
+    const { rows: seatRows } = await client.query(
+      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1 AND id_seat = $2',
+      [hallId, seatId]
+    );
+
+    if (seatRows.length === 0) {
+      res.status(404).send({ message: "Seat not found" });
+      return;
+    }
+
+    res.status(200).json(seatRows[0]);
   } catch (err) {
-    // Rollback transaction on error
-    await client.query("ROLLBACK");
     console.error(err.message);
-    res.status(500).send({ message: "Failed to delete hall" });
+    res.status(500).send({ message: "Failed to get seat" });
+  } finally {
+    client.release();
+  }
+};
+
+const updateSeatData = async (req, res) => {
+  const cinemaId = parseInt(req.params.id);
+  const hallId = parseInt(req.params.hallId);
+  const seatId = parseInt(req.params.seatId);
+  const { row, seat_number } = req.body;
+  const client = await poolDB.connect();
+
+  try {
+    // Check if cinema exists
+    const { rows: cinemaRows } = await client.query(
+      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
+      [cinemaId]
+    );
+
+    if (cinemaRows.length === 0) {
+      res.status(404).send({ message: "Cinema not found" });
+      return;
+    }
+
+    // Check if hall exists
+    const { rows: hallRows } = await client.query(
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
+      [cinemaId, hallId]
+    );
+
+    if (hallRows.length === 0) {
+      res.status(404).send({ message: "Hall not found" });
+      return;
+    }
+
+    // Check if seat exists and retrieve current data
+    const { rows: seatRows } = await client.query(
+      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1 AND id_seat = $2',
+      [hallId, seatId]
+    );
+
+    if (seatRows.length === 0) {
+      res.status(404).send({ message: "Seat not found" });
+      return;
+    }
+
+    const currentSeatData = seatRows[0];
+
+    // Update seat data if provided in request body
+    const newSeatData = {
+      row: row || currentSeatData.row,
+      seat_number: seat_number || currentSeatData.seat_number,
+    };
+
+    const { rowCount } = await client.query(
+      'UPDATE "Seat" SET row = $1, seat_number = $2 WHERE id_cinema_hall = $3 AND id_seat = $4',
+      [newSeatData.row, newSeatData.seat_number, hallId, seatId]
+    );
+
+    if (rowCount === 0) {
+      res.status(500).send({ message: "Failed to update seat data" });
+      return;
+    }
+
+    res.status(200).send({ message: "Seat data updated successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to update seat data" });
+  } finally {
+    client.release();
+  }
+};
+
+const deleteSeat = async (req, res) => {
+  const cinemaId = parseInt(req.params.id);
+  const hallId = parseInt(req.params.hallId);
+  const seatId = parseInt(req.params.seatId);
+  const client = await poolDB.connect();
+
+  try {
+    // Check if cinema exists
+    const { rows: cinemaRows } = await client.query(
+      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
+      [cinemaId]
+    );
+
+    if (cinemaRows.length === 0) {
+      res.status(404).send({ message: "Cinema not found" });
+      return;
+    }
+
+    // Check if hall exists
+    const { rows: hallRows } = await client.query(
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
+      [cinemaId, hallId]
+    );
+
+    if (hallRows.length === 0) {
+      res.status(404).send({ message: "Hall not found" });
+      return;
+    }
+
+    // Check if seat exists
+    const { rows: seatRows } = await client.query(
+      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1 AND id_seat = $2',
+      [hallId, seatId]
+    );
+
+    if (seatRows.length === 0) {
+      res.status(404).send({ message: "Seat not found" });
+      return;
+    }
+
+    // Delete seat by id
+    const { rowCount } = await client.query(
+      'DELETE FROM "Seat" WHERE id_cinema_hall = $1 AND id_seat = $2',
+      [hallId, seatId]
+    );
+
+    if (rowCount === 0) {
+      res.status(500).send({ message: "Failed to delete seat" });
+      return;
+    }
+
+    res.status(200).send({ message: "Seat deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to delete seat" });
   } finally {
     client.release();
   }
 };
 
 module.exports = {
-  addHall,
-  getHalls,
-  getHallById,
-  updateHallsData,
-  deleteHall,
+  addSeat,
+  getSeats,
+  getSeatById,
+  updateSeatData,
+  deleteSeat,
 };
