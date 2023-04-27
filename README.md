@@ -23,7 +23,7 @@
 
 <p align="center">
   <a href="#"><img alt="GitHub" src="https://img.shields.io/github/license/OlexTix/FanFlix"></a>
-  <img src="https://img.shields.io/website-up-down-green-red/https/pulsebook.herokuapp.com.svg?style=flat-square"></a><br><br>
+  <img src="https://img.shields.io/website-up-down-green-red/https/olextix.github.io/FanFlix/.svg?style=flat-square"></a><br><br>
 </p>
 
 <h3><p align="center">
@@ -35,6 +35,7 @@
 
 ## Documentation
 
+<h3> :triangular_flag_on_post: <a href="https://olextix.github.io/FanFlix/" target="_blank"> FanFlix demo </a></h3>
 <h3> :books: <a href="https://olextix.github.io/FanFlix/documentation/" target="_blank"> FanFlix docs page </a></h3>
 
 ## Key Features
