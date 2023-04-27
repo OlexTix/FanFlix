@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faFireFlameCurved, faFilm, faComments, faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
+import { faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config'
@@ -14,7 +14,7 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import './assets/main.css'
 
-library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart)
+library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
 
 axios.defaults.baseURL = 'https://fantasticstudio.online/api';
 

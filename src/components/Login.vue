@@ -2,7 +2,6 @@
     <div class="flex justify-content-center" id="login" style="max-width: 300px">
         <h1>Log In</h1>
         <div class="card">
-
             <div class="field">
                 <div class="p-input-icon-right">
                     <i class="pi pi-envelope" />
@@ -52,8 +51,6 @@
     background: rgb(0, 222, 115);
     background: linear-gradient(180deg, rgba(0, 222, 115, 1) 0%, rgba(0, 171, 89, 1) 63%, rgba(0, 129, 67, 1) 100%);
     margin-bottom: 5vh;
-
-
 }
 
 

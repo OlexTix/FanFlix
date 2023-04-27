@@ -19,6 +19,7 @@
           <RouterLink to="/login">Offers</RouterLink>
           <div style="margin-left: auto;">
             <RouterLink to="#" id="cinemainfo">
+              <fa-icon icon="fa-map-marker-alt" style="margin-right: 10px;"></fa-icon>
               <p style="font-weight: 800; font-size: 0.8rem;">Złotno - Kino Tomi</p>
             </RouterLink>
           </div>
