@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Projekt/Zastosowane technologie",
+  "id": "Projekt/Zastosowane technologie",
+  "title": "Zastosowane technologie",
+  "description": "Zastosowane technologie",
+  "source": "@site/docs/Projekt/Zastosowane technologie.md",
+  "sourceDirName": "Projekt",
+  "slug": "/Projekt/Zastosowane technologie",
+  "permalink": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Zastosowane technologie.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Projekt interfejsu",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu"
+  },
+  "next": {
+    "title": "Wymagania i instalacja",
+    "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja"
+  }
+}

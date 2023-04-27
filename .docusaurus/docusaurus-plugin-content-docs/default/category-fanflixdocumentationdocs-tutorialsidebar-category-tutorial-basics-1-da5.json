@@ -1,0 +1,16 @@
+{
+  "title": "Tutorial - Basics",
+  "description": "Analiza i specyfikacja systemu FanFlix",
+  "slug": "/category/tutorial---basics-1",
+  "permalink": "/FanFlix/documentation/docs/category/tutorial---basics-1",
+  "navigation": {
+    "previous": {
+      "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+      "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+    },
+    "next": {
+      "title": "Diagramy przypadków użycia",
+      "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia"
+    }
+  }
+}

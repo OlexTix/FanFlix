@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Projekt/Diagram ERD",
+  "id": "Projekt/Diagram ERD",
+  "title": "Diagram ERD",
+  "description": "Poniższy diagram ilustruje strukturę bazy danych, w tym tabele, relacje między nimi oraz klucze główne i obce w systemie FanFlix.",
+  "source": "@site/docs/Projekt/Diagram ERD.md",
+  "sourceDirName": "Projekt",
+  "slug": "/Projekt/Diagram ERD",
+  "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagram ERD.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Diagramy przypadków użycia",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia"
+  },
+  "next": {
+    "title": "Diagram hierarchii funkcji",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji"
+  }
+}

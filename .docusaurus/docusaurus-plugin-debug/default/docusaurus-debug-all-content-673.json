@@ -1,0 +1,953 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "label": "Next",
+          "banner": null,
+          "badge": false,
+          "noIndex": false,
+          "className": "docs-version-current",
+          "path": "/FanFlix/documentation/docs",
+          "tagsPath": "/FanFlix/documentation/docs/tags",
+          "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs",
+          "editUrlLocalized": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/i18n/en/docusaurus-plugin-content-docs/current",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "C:\\Users\\mateusz\\source\\aplikacje_internetowe\\FanFlix\\sidebars.js",
+          "contentPath": "C:\\Users\\mateusz\\source\\aplikacje_internetowe\\FanFlix\\docs",
+          "contentPathLocalized": "C:\\Users\\mateusz\\source\\aplikacje_internetowe\\FanFlix\\i18n\\en\\docusaurus-plugin-content-docs\\current",
+          "docs": [
+            {
+              "unversionedId": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "id": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+              "description": "Wdrażając system zarządzania kinem FanFlix, istnieje kilka aspektów prawnych, które należy uwzględnić. W Polsce podstawowe akty prawne regulujące tę dziedzinę to między innymi ustawa z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną oraz ustawa z dnia 29 sierpnia 1997 r. o ochronie danych osobowych.",
+              "source": "@site/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności..md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności..md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 8,
+              "frontMatter": {
+                "sidebar_position": 8
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne"
+              },
+              "next": {
+                "title": "📈 Projekt",
+                "permalink": "/FanFlix/documentation/docs/category/-projekt"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "id": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "title": "Charakterystyka użytkowników, ich ról i uprawnień",
+              "description": "System FanFlix będzie obsługiwał trzy rodzaje użytkowników: klientów, pracowników kina oraz administratorów systemu. Każdy z tych użytkowników będzie miał dostęp do różnych funkcjonalności systemu oraz posiadł odpowiednie uprawnienia w zależności od swojej roli. Poniżej przedstawiamy charakterystykę użytkowników oraz ich ról i uprawnień.",
+              "source": "@site/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Funkcje systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu"
+              },
+              "next": {
+                "title": "Założenia i zależności systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "id": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "title": "Charakterystyka wybranej branży",
+              "description": "Branża kinowa jest zróżnicowana pod względem modelu biznesowego i profilu działalności. Kina generują swoje przychody z różnych źródeł, takich jak sprzedaż biletów kinowych, wynajem sal kinowych, sprzedaż napojów i przekąsek, a także wynajem reklamowych powierzchni. Jednym z kluczowych źródeł przychodów w branży kinowej jest sprzedaż biletów kinowych, która jednak często wiąże się z długimi kolejkami i ograniczeniami czasowymi, co zniechęca niektórych klientów.",
+              "source": "@site/docs/Analiza i specyfikacja/Charakterystyka wybranej branży.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Charakterystyka wybranej branży.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "🔎 Analiza i specyfikacja",
+                "permalink": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja"
+              },
+              "next": {
+                "title": "Opis firmy i jej działalnosci",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Funkcje systemu",
+              "id": "Analiza i specyfikacja/Funkcje systemu",
+              "title": "Funkcje systemu",
+              "description": "Kluczowym elementem projektu systemu kin jest zaprojektowanie i zaimplementowanie funkcji, które ułatwią klientom korzystanie z usług kinowych i zwiększą ich zadowolenie z oferowanych usług. Oto kilka przykładów funkcji, które powinien posiadać nasz system.",
+              "source": "@site/docs/Analiza i specyfikacja/Funkcje systemu.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Funkcje systemu",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Funkcje systemu.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Kontekst funkcjonowania systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu"
+              },
+              "next": {
+                "title": "Charakterystyka użytkowników, ich ról i uprawnień",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "id": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "title": "Kontekst funkcjonowania systemu",
+              "description": "Zakres funkcjonalności",
+              "source": "@site/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Opis firmy i jej działalnosci",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci"
+              },
+              "next": {
+                "title": "Funkcje systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "id": "Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "title": "Opis firmy i jej działalnosci",
+              "description": "Firma, dla której zostanie opracowany system transakcji elektronicznych dla branży kinowej, to sieć kinowa działająca na terenie Polski. Sieć ta została założona w 1995 roku i obecnie posiada kilkadziesiąt sal kinowych w całym kraju.",
+              "source": "@site/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Charakterystyka wybranej branży",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży"
+              },
+              "next": {
+                "title": "Kontekst funkcjonowania systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu"
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "id": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+              "description": "Oto tabela wymagań szczegółowych dla systemu FanFlix. Wymagania niefunkcjonalne dotyczą aspektów systemu, które nie są bezpośrednio związane z funkcjonalnościami, ale są równie ważne dla jego poprawnego funkcjonowania. W tabeli znajdują się numery wymagań, ich nazwy, opisy, dane wejściowe, źródła danych, opisy funkcji, opisy bazy danych oraz wymagania pozafunkcjonalne, jeśli istnieją.",
+              "source": "@site/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 7,
+              "frontMatter": {
+                "sidebar_position": 7
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Założenia i zależności systemu",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu"
+              },
+              "next": {
+                "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+              }
+            },
+            {
+              "unversionedId": "Analiza i specyfikacja/Założenia i zależności systemu",
+              "id": "Analiza i specyfikacja/Założenia i zależności systemu",
+              "title": "Założenia i zależności systemu",
+              "description": "1. System transakcji elektronicznych dla branży kinowej będzie działał jako serwis internetowy, który umożliwi klientom korzystanie z funkcjonalności systemu w dowolnym miejscu i czasie.",
+              "source": "@site/docs/Analiza i specyfikacja/Założenia i zależności systemu.md",
+              "sourceDirName": "Analiza i specyfikacja",
+              "slug": "/Analiza i specyfikacja/Założenia i zależności systemu",
+              "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Założenia i zależności systemu.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 6,
+              "frontMatter": {
+                "sidebar_position": 6
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Charakterystyka użytkowników, ich ról i uprawnień",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień"
+              },
+              "next": {
+                "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+                "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne"
+              }
+            },
+            {
+              "unversionedId": "Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "id": "Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "title": "Instrukcja dla użytkowników systemu",
+              "description": "System FanFlix obsługuje trzy poziomy uprawnień: użytkownik, pracownik i administrator. Każdy z tych poziomów posiada dostęp do różnych funkcji systemu. Poniżej znajduje się krótki opis dla każdej z ról oraz instrukcja obsługi systemu.",
+              "source": "@site/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu.md",
+              "sourceDirName": "Dokumentacja systemu",
+              "slug": "/Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Wymagania i instalacja",
+                "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja"
+              },
+              "next": {
+                "title": "Podsumowanie",
+                "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie"
+              }
+            },
+            {
+              "unversionedId": "Dokumentacja systemu/Podsumowanie",
+              "id": "Dokumentacja systemu/Podsumowanie",
+              "title": "Podsumowanie",
+              "description": "System FanFlix umożliwia efektywne zarządzanie kinami, oferując różnorodne funkcje. W miarę jak rynek i potrzeby użytkowników ewoluują, istnieje wiele możliwości rozwoju i ulepszeń systemu. Poniżej przedstawiamy kilka propozycji:",
+              "source": "@site/docs/Dokumentacja systemu/Podsumowanie.md",
+              "sourceDirName": "Dokumentacja systemu",
+              "slug": "/Dokumentacja systemu/Podsumowanie",
+              "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Dokumentacja systemu/Podsumowanie.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Instrukcja dla użytkowników systemu",
+                "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu"
+              }
+            },
+            {
+              "unversionedId": "Dokumentacja systemu/Wymagania i instalacja",
+              "id": "Dokumentacja systemu/Wymagania i instalacja",
+              "title": "Wymagania i instalacja",
+              "description": "Wymagania:",
+              "source": "@site/docs/Dokumentacja systemu/Wymagania i instalacja.md",
+              "sourceDirName": "Dokumentacja systemu",
+              "slug": "/Dokumentacja systemu/Wymagania i instalacja",
+              "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Dokumentacja systemu/Wymagania i instalacja.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Zastosowane technologie",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie"
+              },
+              "next": {
+                "title": "Instrukcja dla użytkowników systemu",
+                "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu"
+              }
+            },
+            {
+              "unversionedId": "intro",
+              "id": "intro",
+              "title": "🎬 FanFlix Intro",
+              "description": "FanFlix to innowacyjne rozwiązanie, które pozwoli klientom kinowym na wygodne i bezpieczne korzystanie z usług kinowych. Dzięki naszemu systemowi klienci będą mieli dostęp do pełnego repertuaru kinowego.",
+              "source": "@site/docs/intro.md",
+              "sourceDirName": ".",
+              "slug": "/intro",
+              "permalink": "/FanFlix/documentation/docs/intro",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/intro.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "next": {
+                "title": "🔎 Analiza i specyfikacja",
+                "permalink": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja"
+              }
+            },
+            {
+              "unversionedId": "Projekt/Diagram ERD",
+              "id": "Projekt/Diagram ERD",
+              "title": "Diagram ERD",
+              "description": "Poniższy diagram ilustruje strukturę bazy danych, w tym tabele, relacje między nimi oraz klucze główne i obce w systemie FanFlix.",
+              "source": "@site/docs/Projekt/Diagram ERD.md",
+              "sourceDirName": "Projekt",
+              "slug": "/Projekt/Diagram ERD",
+              "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagram ERD.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Diagramy przypadków użycia",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia"
+              },
+              "next": {
+                "title": "Diagram hierarchii funkcji",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji"
+              }
+            },
+            {
+              "unversionedId": "Projekt/Diagram hierarchii funkcji",
+              "id": "Projekt/Diagram hierarchii funkcji",
+              "title": "Diagram hierarchii funkcji",
+              "description": "Poniżej znajduje się diagram hierarchii funkcji, który przedstawia funkcjonalności w ramach poszczególnych modułów systemu Fanflix. Diagram ten pomaga zobrazować strukturę systemu, pokazując, jak poszczególne funkcjonalności są uporządkowane. Każdy moduł systemu ma swoje własne funkcjonalności, które są ze sobą powiązane i umieszczone w odpowiednim miejscu w hierarchii. Dzięki temu diagramowi można łatwo zrozumieć, jak różne funkcjonalności wchodzą w interakcje i jakie są ich relacje w ramach systemu.",
+              "source": "@site/docs/Projekt/Diagram hierarchii funkcji.md",
+              "sourceDirName": "Projekt",
+              "slug": "/Projekt/Diagram hierarchii funkcji",
+              "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagram hierarchii funkcji.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Diagram ERD",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD"
+              },
+              "next": {
+                "title": "Projekt interfejsu",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu"
+              }
+            },
+            {
+              "unversionedId": "Projekt/Diagramy przypadków użycia",
+              "id": "Projekt/Diagramy przypadków użycia",
+              "title": "Diagramy przypadków użycia",
+              "description": "Ogólny diagram przypadków użycia",
+              "source": "@site/docs/Projekt/Diagramy przypadków użycia.md",
+              "sourceDirName": "Projekt",
+              "slug": "/Projekt/Diagramy przypadków użycia",
+              "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagramy przypadków użycia.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "📈 Projekt",
+                "permalink": "/FanFlix/documentation/docs/category/-projekt"
+              },
+              "next": {
+                "title": "Diagram ERD",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD"
+              }
+            },
+            {
+              "unversionedId": "Projekt/Projekt interfejsu",
+              "id": "Projekt/Projekt interfejsu",
+              "title": "Projekt interfejsu",
+              "description": "Projekt interfejsu został stworzony w celu zapewnienia użytkownikom intuicyjnego i wygodnego podglądu, umożliwiającego łatwe i szybkie korzystanie z platformy. Projekt został opracowany w narzędziu Figma, a jego głównymi cechami są: czytelność, łatwość w nawigacji oraz estetyka.",
+              "source": "@site/docs/Projekt/Projekt interfejsu.md",
+              "sourceDirName": "Projekt",
+              "slug": "/Projekt/Projekt interfejsu",
+              "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Projekt interfejsu.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Diagram hierarchii funkcji",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji"
+              },
+              "next": {
+                "title": "Zastosowane technologie",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie"
+              }
+            },
+            {
+              "unversionedId": "Projekt/Zastosowane technologie",
+              "id": "Projekt/Zastosowane technologie",
+              "title": "Zastosowane technologie",
+              "description": "Zastosowane technologie",
+              "source": "@site/docs/Projekt/Zastosowane technologie.md",
+              "sourceDirName": "Projekt",
+              "slug": "/Projekt/Zastosowane technologie",
+              "permalink": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie",
+              "draft": false,
+              "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Zastosowane technologie.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Projekt interfejsu",
+                "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu"
+              },
+              "next": {
+                "title": "Wymagania i instalacja",
+                "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja"
+              }
+            }
+          ],
+          "drafts": [],
+          "sidebars": {
+            "tutorialSidebar": [
+              {
+                "type": "doc",
+                "id": "intro"
+              },
+              {
+                "type": "category",
+                "label": "🔎 Analiza i specyfikacja",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Charakterystyka wybranej branży"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Opis firmy i jej działalnosci"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Kontekst funkcjonowania systemu"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Funkcje systemu"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Założenia i zależności systemu"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Analiza i specyfikacja systemu FanFlix",
+                  "slug": "/category/-analiza-i-specyfikacja",
+                  "permalink": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja"
+                }
+              },
+              {
+                "type": "category",
+                "label": "📈 Projekt",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "Projekt/Diagramy przypadków użycia"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Projekt/Diagram ERD"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Projekt/Diagram hierarchii funkcji"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Projekt/Projekt interfejsu"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Projekt/Zastosowane technologie"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Projekt systemu FanFlix",
+                  "slug": "/category/-projekt",
+                  "permalink": "/FanFlix/documentation/docs/category/-projekt"
+                }
+              },
+              {
+                "type": "category",
+                "label": "Dokumentacja systemu",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "Dokumentacja systemu/Wymagania i instalacja"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Dokumentacja systemu/Instrukcja dla użytkowników systemu"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "Dokumentacja systemu/Podsumowanie"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogSidebarTitle": "Recent posts",
+      "blogPosts": [
+        {
+          "id": "welcome",
+          "metadata": {
+            "permalink": "/FanFlix/documentation/blog/welcome",
+            "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/blog/2021-08-26-welcome/index.md",
+            "source": "@site/blog/2021-08-26-welcome/index.md",
+            "title": "Welcome",
+            "description": "Docusaurus blogging features are powered by the blog plugin.",
+            "date": "2021-08-26T00:00:00.000Z",
+            "formattedDate": "August 26, 2021",
+            "tags": [
+              {
+                "label": "facebook",
+                "permalink": "/FanFlix/documentation/blog/tags/facebook"
+              },
+              {
+                "label": "hello",
+                "permalink": "/FanFlix/documentation/blog/tags/hello"
+              },
+              {
+                "label": "docusaurus",
+                "permalink": "/FanFlix/documentation/blog/tags/docusaurus"
+              }
+            ],
+            "readingTime": 0.405,
+            "hasTruncateMarker": false,
+            "authors": [
+              {
+                "name": "Sébastien Lorber",
+                "title": "Docusaurus maintainer",
+                "url": "https://sebastienlorber.com",
+                "imageURL": "https://github.com/slorber.png",
+                "key": "slorber"
+              },
+              {
+                "name": "Yangshun Tay",
+                "title": "Front End Engineer @ Facebook",
+                "url": "https://github.com/yangshun",
+                "imageURL": "https://github.com/yangshun.png",
+                "key": "yangshun"
+              }
+            ],
+            "frontMatter": {
+              "slug": "welcome",
+              "title": "Welcome",
+              "authors": [
+                "slorber",
+                "yangshun"
+              ],
+              "tags": [
+                "facebook",
+                "hello",
+                "docusaurus"
+              ]
+            },
+            "nextItem": {
+              "title": "MDX Blog Post",
+              "permalink": "/FanFlix/documentation/blog/mdx-blog-post"
+            }
+          },
+          "content": "[Docusaurus blogging features](https://docusaurus.io/docs/blog) are powered by the [blog plugin](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog).\r\n\r\nSimply add Markdown files (or folders) to the `blog` directory.\r\n\r\nRegular blog authors can be added to `authors.yml`.\r\n\r\nThe blog post date can be extracted from filenames, such as:\r\n\r\n- `2019-05-30-welcome.md`\r\n- `2019-05-30-welcome/index.md`\r\n\r\nA blog post folder can be convenient to co-locate blog post images:\r\n\r\n![Docusaurus Plushie](./docusaurus-plushie-banner.jpeg)\r\n\r\nThe blog supports tags as well!\r\n\r\n**And if you don't want a blog**: just delete this directory, and use `blog: false` in your Docusaurus config."
+        },
+        {
+          "id": "mdx-blog-post",
+          "metadata": {
+            "permalink": "/FanFlix/documentation/blog/mdx-blog-post",
+            "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/blog/2021-08-01-mdx-blog-post.mdx",
+            "source": "@site/blog/2021-08-01-mdx-blog-post.mdx",
+            "title": "MDX Blog Post",
+            "description": "Blog posts support Docusaurus Markdown features, such as MDX.",
+            "date": "2021-08-01T00:00:00.000Z",
+            "formattedDate": "August 1, 2021",
+            "tags": [
+              {
+                "label": "docusaurus",
+                "permalink": "/FanFlix/documentation/blog/tags/docusaurus"
+              }
+            ],
+            "readingTime": 0.175,
+            "hasTruncateMarker": false,
+            "authors": [
+              {
+                "name": "Sébastien Lorber",
+                "title": "Docusaurus maintainer",
+                "url": "https://sebastienlorber.com",
+                "imageURL": "https://github.com/slorber.png",
+                "key": "slorber"
+              }
+            ],
+            "frontMatter": {
+              "slug": "mdx-blog-post",
+              "title": "MDX Blog Post",
+              "authors": [
+                "slorber"
+              ],
+              "tags": [
+                "docusaurus"
+              ]
+            },
+            "prevItem": {
+              "title": "Welcome",
+              "permalink": "/FanFlix/documentation/blog/welcome"
+            },
+            "nextItem": {
+              "title": "Long Blog Post",
+              "permalink": "/FanFlix/documentation/blog/long-blog-post"
+            }
+          },
+          "content": "Blog posts support [Docusaurus Markdown features](https://docusaurus.io/docs/markdown-features), such as [MDX](https://mdxjs.com/).\r\n\r\n:::tip\r\n\r\nUse the power of React to create interactive blog posts.\r\n\r\n```js\r\n<button onClick={() => alert('button clicked!')}>Click me!</button>\r\n```\r\n\r\n<button onClick={() => alert('button clicked!')}>Click me!</button>\r\n\r\n:::"
+        },
+        {
+          "id": "long-blog-post",
+          "metadata": {
+            "permalink": "/FanFlix/documentation/blog/long-blog-post",
+            "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/blog/2019-05-29-long-blog-post.md",
+            "source": "@site/blog/2019-05-29-long-blog-post.md",
+            "title": "Long Blog Post",
+            "description": "This is the summary of a very long blog post,",
+            "date": "2019-05-29T00:00:00.000Z",
+            "formattedDate": "May 29, 2019",
+            "tags": [
+              {
+                "label": "hello",
+                "permalink": "/FanFlix/documentation/blog/tags/hello"
+              },
+              {
+                "label": "docusaurus",
+                "permalink": "/FanFlix/documentation/blog/tags/docusaurus"
+              }
+            ],
+            "readingTime": 2.05,
+            "hasTruncateMarker": true,
+            "authors": [
+              {
+                "name": "Endilie Yacop Sucipto",
+                "title": "Maintainer of Docusaurus",
+                "url": "https://github.com/endiliey",
+                "imageURL": "https://github.com/endiliey.png",
+                "key": "endi"
+              }
+            ],
+            "frontMatter": {
+              "slug": "long-blog-post",
+              "title": "Long Blog Post",
+              "authors": "endi",
+              "tags": [
+                "hello",
+                "docusaurus"
+              ]
+            },
+            "prevItem": {
+              "title": "MDX Blog Post",
+              "permalink": "/FanFlix/documentation/blog/mdx-blog-post"
+            },
+            "nextItem": {
+              "title": "First Blog Post",
+              "permalink": "/FanFlix/documentation/blog/first-blog-post"
+            }
+          },
+          "content": "This is the summary of a very long blog post,\r\n\r\nUse a `<!--` `truncate` `-->` comment to limit blog post size in the list view.\r\n\r\n<!--truncate-->\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet"
+        },
+        {
+          "id": "first-blog-post",
+          "metadata": {
+            "permalink": "/FanFlix/documentation/blog/first-blog-post",
+            "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/blog/2019-05-28-first-blog-post.md",
+            "source": "@site/blog/2019-05-28-first-blog-post.md",
+            "title": "First Blog Post",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet",
+            "date": "2019-05-28T00:00:00.000Z",
+            "formattedDate": "May 28, 2019",
+            "tags": [
+              {
+                "label": "hola",
+                "permalink": "/FanFlix/documentation/blog/tags/hola"
+              },
+              {
+                "label": "docusaurus",
+                "permalink": "/FanFlix/documentation/blog/tags/docusaurus"
+              }
+            ],
+            "readingTime": 0.12,
+            "hasTruncateMarker": false,
+            "authors": [
+              {
+                "name": "Gao Wei",
+                "title": "Docusaurus Core Team",
+                "url": "https://github.com/wgao19",
+                "image_url": "https://github.com/wgao19.png",
+                "imageURL": "https://github.com/wgao19.png"
+              }
+            ],
+            "frontMatter": {
+              "slug": "first-blog-post",
+              "title": "First Blog Post",
+              "authors": {
+                "name": "Gao Wei",
+                "title": "Docusaurus Core Team",
+                "url": "https://github.com/wgao19",
+                "image_url": "https://github.com/wgao19.png",
+                "imageURL": "https://github.com/wgao19.png"
+              },
+              "tags": [
+                "hola",
+                "docusaurus"
+              ]
+            },
+            "prevItem": {
+              "title": "Long Blog Post",
+              "permalink": "/FanFlix/documentation/blog/long-blog-post"
+            }
+          },
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet"
+        }
+      ],
+      "blogListPaginated": [
+        {
+          "items": [
+            "welcome",
+            "mdx-blog-post",
+            "long-blog-post",
+            "first-blog-post"
+          ],
+          "metadata": {
+            "permalink": "/FanFlix/documentation/blog",
+            "page": 1,
+            "postsPerPage": 10,
+            "totalPages": 1,
+            "totalCount": 4,
+            "blogDescription": "Blog",
+            "blogTitle": "Blog"
+          }
+        }
+      ],
+      "blogTags": {
+        "/FanFlix/documentation/blog/tags/facebook": {
+          "label": "facebook",
+          "items": [
+            "welcome"
+          ],
+          "permalink": "/FanFlix/documentation/blog/tags/facebook",
+          "pages": [
+            {
+              "items": [
+                "welcome"
+              ],
+              "metadata": {
+                "permalink": "/FanFlix/documentation/blog/tags/facebook",
+                "page": 1,
+                "postsPerPage": 10,
+                "totalPages": 1,
+                "totalCount": 1,
+                "blogDescription": "Blog",
+                "blogTitle": "Blog"
+              }
+            }
+          ]
+        },
+        "/FanFlix/documentation/blog/tags/hello": {
+          "label": "hello",
+          "items": [
+            "welcome",
+            "long-blog-post"
+          ],
+          "permalink": "/FanFlix/documentation/blog/tags/hello",
+          "pages": [
+            {
+              "items": [
+                "welcome",
+                "long-blog-post"
+              ],
+              "metadata": {
+                "permalink": "/FanFlix/documentation/blog/tags/hello",
+                "page": 1,
+                "postsPerPage": 10,
+                "totalPages": 1,
+                "totalCount": 2,
+                "blogDescription": "Blog",
+                "blogTitle": "Blog"
+              }
+            }
+          ]
+        },
+        "/FanFlix/documentation/blog/tags/docusaurus": {
+          "label": "docusaurus",
+          "items": [
+            "welcome",
+            "mdx-blog-post",
+            "long-blog-post",
+            "first-blog-post"
+          ],
+          "permalink": "/FanFlix/documentation/blog/tags/docusaurus",
+          "pages": [
+            {
+              "items": [
+                "welcome",
+                "mdx-blog-post",
+                "long-blog-post",
+                "first-blog-post"
+              ],
+              "metadata": {
+                "permalink": "/FanFlix/documentation/blog/tags/docusaurus",
+                "page": 1,
+                "postsPerPage": 10,
+                "totalPages": 1,
+                "totalCount": 4,
+                "blogDescription": "Blog",
+                "blogTitle": "Blog"
+              }
+            }
+          ]
+        },
+        "/FanFlix/documentation/blog/tags/hola": {
+          "label": "hola",
+          "items": [
+            "first-blog-post"
+          ],
+          "permalink": "/FanFlix/documentation/blog/tags/hola",
+          "pages": [
+            {
+              "items": [
+                "first-blog-post"
+              ],
+              "metadata": {
+                "permalink": "/FanFlix/documentation/blog/tags/hola",
+                "page": 1,
+                "postsPerPage": 10,
+                "totalPages": 1,
+                "totalCount": 1,
+                "blogDescription": "Blog",
+                "blogTitle": "Blog"
+              }
+            }
+          ]
+        }
+      },
+      "blogTagsListPath": "/FanFlix/documentation/blog/tags"
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/FanFlix/documentation/",
+        "source": "@site/src/pages/index.js"
+      },
+      {
+        "type": "mdx",
+        "permalink": "/FanFlix/documentation/markdown-page",
+        "source": "@site/src/pages/markdown-page.md",
+        "title": "Markdown page example",
+        "description": "You don't need React to write simple standalone pages.",
+        "frontMatter": {
+          "title": "Markdown page example"
+        }
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {},
+  "docusaurus-theme-classic": {},
+  "docusaurus-bootstrap-plugin": {},
+  "docusaurus-mdx-fallback-plugin": {}
+}

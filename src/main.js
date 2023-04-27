@@ -1,19 +1,22 @@
 import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faFireFlameCurved, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config'
 import Rating from 'primevue/rating'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import axios from 'axios';
 import 'primevue/resources/themes/lara-light-indigo/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import './assets/main.css'
 
-library.add(faFireFlameCurved)
+library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
+
+axios.defaults.baseURL = 'http://fantasticstudio.online:13000';
 
 const app = createApp(App)
 

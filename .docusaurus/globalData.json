@@ -1,0 +1,123 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/FanFlix/documentation/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/FanFlix/documentation/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Funkcje systemu",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Analiza i specyfikacja/Założenia i zależności systemu",
+              "path": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "path": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Dokumentacja systemu/Podsumowanie",
+              "path": "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Dokumentacja systemu/Wymagania i instalacja",
+              "path": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "intro",
+              "path": "/FanFlix/documentation/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Projekt/Diagram ERD",
+              "path": "/FanFlix/documentation/docs/Projekt/Diagram ERD",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Projekt/Diagram hierarchii funkcji",
+              "path": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Projekt/Diagramy przypadków użycia",
+              "path": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Projekt/Projekt interfejsu",
+              "path": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Projekt/Zastosowane technologie",
+              "path": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/-analiza-i-specyfikacja",
+              "path": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/-projekt",
+              "path": "/FanFlix/documentation/docs/category/-projekt",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/FanFlix/documentation/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

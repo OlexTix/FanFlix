@@ -1,0 +1,246 @@
+{
+  "pluginId": "default",
+  "version": "current",
+  "label": "Next",
+  "banner": null,
+  "badge": false,
+  "noIndex": false,
+  "className": "docs-version-current",
+  "isLast": true,
+  "docsSidebars": {
+    "tutorialSidebar": [
+      {
+        "type": "link",
+        "label": "🎬 FanFlix Intro",
+        "href": "/FanFlix/documentation/docs/intro",
+        "docId": "intro"
+      },
+      {
+        "type": "category",
+        "label": "🔎 Analiza i specyfikacja",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Charakterystyka wybranej branży",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży",
+            "docId": "Analiza i specyfikacja/Charakterystyka wybranej branży"
+          },
+          {
+            "type": "link",
+            "label": "Opis firmy i jej działalnosci",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci",
+            "docId": "Analiza i specyfikacja/Opis firmy i jej działalnosci"
+          },
+          {
+            "type": "link",
+            "label": "Kontekst funkcjonowania systemu",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+            "docId": "Analiza i specyfikacja/Kontekst funkcjonowania systemu"
+          },
+          {
+            "type": "link",
+            "label": "Funkcje systemu",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu",
+            "docId": "Analiza i specyfikacja/Funkcje systemu"
+          },
+          {
+            "type": "link",
+            "label": "Charakterystyka użytkowników, ich ról i uprawnień",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+            "docId": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień"
+          },
+          {
+            "type": "link",
+            "label": "Założenia i zależności systemu",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu",
+            "docId": "Analiza i specyfikacja/Założenia i zależności systemu"
+          },
+          {
+            "type": "link",
+            "label": "Wymagania funkcjonalne i pozafunkcjonalne",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+            "docId": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne"
+          },
+          {
+            "type": "link",
+            "label": "Aspekty prawne dotyczące prowadzonej działalności.",
+            "href": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+            "docId": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+          }
+        ],
+        "href": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja"
+      },
+      {
+        "type": "category",
+        "label": "📈 Projekt",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Diagramy przypadków użycia",
+            "href": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia",
+            "docId": "Projekt/Diagramy przypadków użycia"
+          },
+          {
+            "type": "link",
+            "label": "Diagram ERD",
+            "href": "/FanFlix/documentation/docs/Projekt/Diagram ERD",
+            "docId": "Projekt/Diagram ERD"
+          },
+          {
+            "type": "link",
+            "label": "Diagram hierarchii funkcji",
+            "href": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji",
+            "docId": "Projekt/Diagram hierarchii funkcji"
+          },
+          {
+            "type": "link",
+            "label": "Projekt interfejsu",
+            "href": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu",
+            "docId": "Projekt/Projekt interfejsu"
+          },
+          {
+            "type": "link",
+            "label": "Zastosowane technologie",
+            "href": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie",
+            "docId": "Projekt/Zastosowane technologie"
+          }
+        ],
+        "href": "/FanFlix/documentation/docs/category/-projekt"
+      },
+      {
+        "type": "category",
+        "label": "Dokumentacja systemu",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Wymagania i instalacja",
+            "href": "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja",
+            "docId": "Dokumentacja systemu/Wymagania i instalacja"
+          },
+          {
+            "type": "link",
+            "label": "Instrukcja dla użytkowników systemu",
+            "href": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+            "docId": "Dokumentacja systemu/Instrukcja dla użytkowników systemu"
+          },
+          {
+            "type": "link",
+            "label": "Podsumowanie",
+            "href": "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie",
+            "docId": "Dokumentacja systemu/Podsumowanie"
+          }
+        ]
+      }
+    ]
+  },
+  "docs": {
+    "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.": {
+      "id": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+      "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+      "description": "Wdrażając system zarządzania kinem FanFlix, istnieje kilka aspektów prawnych, które należy uwzględnić. W Polsce podstawowe akty prawne regulujące tę dziedzinę to między innymi ustawa z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną oraz ustawa z dnia 29 sierpnia 1997 r. o ochronie danych osobowych.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień": {
+      "id": "Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień",
+      "title": "Charakterystyka użytkowników, ich ról i uprawnień",
+      "description": "System FanFlix będzie obsługiwał trzy rodzaje użytkowników: klientów, pracowników kina oraz administratorów systemu. Każdy z tych użytkowników będzie miał dostęp do różnych funkcjonalności systemu oraz posiadł odpowiednie uprawnienia w zależności od swojej roli. Poniżej przedstawiamy charakterystykę użytkowników oraz ich ról i uprawnień.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Charakterystyka wybranej branży": {
+      "id": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+      "title": "Charakterystyka wybranej branży",
+      "description": "Branża kinowa jest zróżnicowana pod względem modelu biznesowego i profilu działalności. Kina generują swoje przychody z różnych źródeł, takich jak sprzedaż biletów kinowych, wynajem sal kinowych, sprzedaż napojów i przekąsek, a także wynajem reklamowych powierzchni. Jednym z kluczowych źródeł przychodów w branży kinowej jest sprzedaż biletów kinowych, która jednak często wiąże się z długimi kolejkami i ograniczeniami czasowymi, co zniechęca niektórych klientów.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Funkcje systemu": {
+      "id": "Analiza i specyfikacja/Funkcje systemu",
+      "title": "Funkcje systemu",
+      "description": "Kluczowym elementem projektu systemu kin jest zaprojektowanie i zaimplementowanie funkcji, które ułatwią klientom korzystanie z usług kinowych i zwiększą ich zadowolenie z oferowanych usług. Oto kilka przykładów funkcji, które powinien posiadać nasz system.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Kontekst funkcjonowania systemu": {
+      "id": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+      "title": "Kontekst funkcjonowania systemu",
+      "description": "Zakres funkcjonalności",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Opis firmy i jej działalnosci": {
+      "id": "Analiza i specyfikacja/Opis firmy i jej działalnosci",
+      "title": "Opis firmy i jej działalnosci",
+      "description": "Firma, dla której zostanie opracowany system transakcji elektronicznych dla branży kinowej, to sieć kinowa działająca na terenie Polski. Sieć ta została założona w 1995 roku i obecnie posiada kilkadziesiąt sal kinowych w całym kraju.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne": {
+      "id": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+      "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+      "description": "Oto tabela wymagań szczegółowych dla systemu FanFlix. Wymagania niefunkcjonalne dotyczą aspektów systemu, które nie są bezpośrednio związane z funkcjonalnościami, ale są równie ważne dla jego poprawnego funkcjonowania. W tabeli znajdują się numery wymagań, ich nazwy, opisy, dane wejściowe, źródła danych, opisy funkcji, opisy bazy danych oraz wymagania pozafunkcjonalne, jeśli istnieją.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Analiza i specyfikacja/Założenia i zależności systemu": {
+      "id": "Analiza i specyfikacja/Założenia i zależności systemu",
+      "title": "Założenia i zależności systemu",
+      "description": "1. System transakcji elektronicznych dla branży kinowej będzie działał jako serwis internetowy, który umożliwi klientom korzystanie z funkcjonalności systemu w dowolnym miejscu i czasie.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Dokumentacja systemu/Instrukcja dla użytkowników systemu": {
+      "id": "Dokumentacja systemu/Instrukcja dla użytkowników systemu",
+      "title": "Instrukcja dla użytkowników systemu",
+      "description": "System FanFlix obsługuje trzy poziomy uprawnień: użytkownik, pracownik i administrator. Każdy z tych poziomów posiada dostęp do różnych funkcji systemu. Poniżej znajduje się krótki opis dla każdej z ról oraz instrukcja obsługi systemu.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Dokumentacja systemu/Podsumowanie": {
+      "id": "Dokumentacja systemu/Podsumowanie",
+      "title": "Podsumowanie",
+      "description": "System FanFlix umożliwia efektywne zarządzanie kinami, oferując różnorodne funkcje. W miarę jak rynek i potrzeby użytkowników ewoluują, istnieje wiele możliwości rozwoju i ulepszeń systemu. Poniżej przedstawiamy kilka propozycji:",
+      "sidebar": "tutorialSidebar"
+    },
+    "Dokumentacja systemu/Wymagania i instalacja": {
+      "id": "Dokumentacja systemu/Wymagania i instalacja",
+      "title": "Wymagania i instalacja",
+      "description": "Wymagania:",
+      "sidebar": "tutorialSidebar"
+    },
+    "intro": {
+      "id": "intro",
+      "title": "🎬 FanFlix Intro",
+      "description": "FanFlix to innowacyjne rozwiązanie, które pozwoli klientom kinowym na wygodne i bezpieczne korzystanie z usług kinowych. Dzięki naszemu systemowi klienci będą mieli dostęp do pełnego repertuaru kinowego.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Projekt/Diagram ERD": {
+      "id": "Projekt/Diagram ERD",
+      "title": "Diagram ERD",
+      "description": "Poniższy diagram ilustruje strukturę bazy danych, w tym tabele, relacje między nimi oraz klucze główne i obce w systemie FanFlix.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Projekt/Diagram hierarchii funkcji": {
+      "id": "Projekt/Diagram hierarchii funkcji",
+      "title": "Diagram hierarchii funkcji",
+      "description": "Poniżej znajduje się diagram hierarchii funkcji, który przedstawia funkcjonalności w ramach poszczególnych modułów systemu Fanflix. Diagram ten pomaga zobrazować strukturę systemu, pokazując, jak poszczególne funkcjonalności są uporządkowane. Każdy moduł systemu ma swoje własne funkcjonalności, które są ze sobą powiązane i umieszczone w odpowiednim miejscu w hierarchii. Dzięki temu diagramowi można łatwo zrozumieć, jak różne funkcjonalności wchodzą w interakcje i jakie są ich relacje w ramach systemu.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Projekt/Diagramy przypadków użycia": {
+      "id": "Projekt/Diagramy przypadków użycia",
+      "title": "Diagramy przypadków użycia",
+      "description": "Ogólny diagram przypadków użycia",
+      "sidebar": "tutorialSidebar"
+    },
+    "Projekt/Projekt interfejsu": {
+      "id": "Projekt/Projekt interfejsu",
+      "title": "Projekt interfejsu",
+      "description": "Projekt interfejsu został stworzony w celu zapewnienia użytkownikom intuicyjnego i wygodnego podglądu, umożliwiającego łatwe i szybkie korzystanie z platformy. Projekt został opracowany w narzędziu Figma, a jego głównymi cechami są: czytelność, łatwość w nawigacji oraz estetyka.",
+      "sidebar": "tutorialSidebar"
+    },
+    "Projekt/Zastosowane technologie": {
+      "id": "Projekt/Zastosowane technologie",
+      "title": "Zastosowane technologie",
+      "description": "Zastosowane technologie",
+      "sidebar": "tutorialSidebar"
+    }
+  }
+}

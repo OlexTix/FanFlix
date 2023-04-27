@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+  "id": "Analiza i specyfikacja/Charakterystyka wybranej branży",
+  "title": "Charakterystyka wybranej branży",
+  "description": "Branża kinowa jest zróżnicowana pod względem modelu biznesowego i profilu działalności. Kina generują swoje przychody z różnych źródeł, takich jak sprzedaż biletów kinowych, wynajem sal kinowych, sprzedaż napojów i przekąsek, a także wynajem reklamowych powierzchni. Jednym z kluczowych źródeł przychodów w branży kinowej jest sprzedaż biletów kinowych, która jednak często wiąże się z długimi kolejkami i ograniczeniami czasowymi, co zniechęca niektórych klientów.",
+  "source": "@site/docs/Analiza i specyfikacja/Charakterystyka wybranej branży.md",
+  "sourceDirName": "Analiza i specyfikacja",
+  "slug": "/Analiza i specyfikacja/Charakterystyka wybranej branży",
+  "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Charakterystyka wybranej branży.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "🔎 Analiza i specyfikacja",
+    "permalink": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja"
+  },
+  "next": {
+    "title": "Opis firmy i jej działalnosci",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci"
+  }
+}

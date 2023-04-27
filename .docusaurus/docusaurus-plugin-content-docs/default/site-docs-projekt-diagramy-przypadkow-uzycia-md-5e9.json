@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Projekt/Diagramy przypadków użycia",
+  "id": "Projekt/Diagramy przypadków użycia",
+  "title": "Diagramy przypadków użycia",
+  "description": "Ogólny diagram przypadków użycia",
+  "source": "@site/docs/Projekt/Diagramy przypadków użycia.md",
+  "sourceDirName": "Projekt",
+  "slug": "/Projekt/Diagramy przypadków użycia",
+  "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagramy przypadków użycia.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "📈 Projekt",
+    "permalink": "/FanFlix/documentation/docs/category/-projekt"
+  },
+  "next": {
+    "title": "Diagram ERD",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD"
+  }
+}

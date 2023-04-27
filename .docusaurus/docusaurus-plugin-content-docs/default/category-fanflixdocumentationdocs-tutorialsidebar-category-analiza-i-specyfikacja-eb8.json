@@ -1,0 +1,16 @@
+{
+  "title": "🔎 Analiza i specyfikacja",
+  "description": "Analiza i specyfikacja systemu FanFlix",
+  "slug": "/category/-analiza-i-specyfikacja",
+  "permalink": "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja",
+  "navigation": {
+    "previous": {
+      "title": "🎬 FanFlix Intro",
+      "permalink": "/FanFlix/documentation/docs/intro"
+    },
+    "next": {
+      "title": "Charakterystyka wybranej branży",
+      "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży"
+    }
+  }
+}
