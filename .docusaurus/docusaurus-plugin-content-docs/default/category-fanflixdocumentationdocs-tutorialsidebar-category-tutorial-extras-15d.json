@@ -1,0 +1,15 @@
+{
+  "title": "Tutorial - Extras",
+  "slug": "/category/tutorial---extras",
+  "permalink": "/FanFlix/documentation/docs/category/tutorial---extras",
+  "navigation": {
+    "previous": {
+      "title": "Tutorial Intro",
+      "permalink": "/FanFlix/documentation/docs/intro"
+    },
+    "next": {
+      "title": "Manage Docs Versions",
+      "permalink": "/FanFlix/documentation/docs/tutorial-extras/manage-docs-versions"
+    }
+  }
+}

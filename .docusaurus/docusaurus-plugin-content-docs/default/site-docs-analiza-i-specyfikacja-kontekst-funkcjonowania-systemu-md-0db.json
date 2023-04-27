@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+  "id": "Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+  "title": "Kontekst funkcjonowania systemu",
+  "description": "Zakres funkcjonalności",
+  "source": "@site/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu.md",
+  "sourceDirName": "Analiza i specyfikacja",
+  "slug": "/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+  "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Opis firmy i jej działalnosci",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci"
+  },
+  "next": {
+    "title": "Funkcje systemu",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu"
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "/FanFlix/documentation/__docusaurus/debug-44d": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/__docusaurus/debug/config-016": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/__docusaurus/debug/content-5ca": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    },
+    "allContent": "allContent---fan-flix-documentation-docusaurus-debug-content-246-8c4"
+  },
+  "/FanFlix/documentation/__docusaurus/debug/globalData-1a6": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/__docusaurus/debug/metadata-32f": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/__docusaurus/debug/registry-4da": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/__docusaurus/debug/routes-2ab": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docusaurus-debuge-45-e0c"
+    }
+  },
+  "/FanFlix/documentation/blog-575": {
+    "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "items": [
+      {
+        "content": "content---fan-flix-documentation-blog-766-6df"
+      },
+      {
+        "content": "content---fan-flix-documentation-blogf-4-f-c5f"
+      },
+      {
+        "content": "content---fan-flix-documentation-blog-871-d79"
+      },
+      {
+        "content": "content---fan-flix-documentation-blog-925-84d"
+      }
+    ],
+    "metadata": "metadata---fan-flix-documentation-blog-8-d-7-ac9"
+  },
+  "/FanFlix/documentation/blog/archive-ec9": {
+    "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "archive": "archive---fan-flix-documentation-blog-archive-45-d-234"
+  },
+  "/FanFlix/documentation/blog/first-blog-post-a49": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "content": "content---fan-flix-documentation-blog-first-blog-poste-27-008"
+  },
+  "/FanFlix/documentation/blog/long-blog-post-d1e": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "content": "content---fan-flix-documentation-blog-long-blog-post-736-aa3"
+  },
+  "/FanFlix/documentation/blog/mdx-blog-post-16a": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "content": "content---fan-flix-documentation-blog-mdx-blog-post-593-993"
+  },
+  "/FanFlix/documentation/blog/tags-9ac": {
+    "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "tags": "tags---fan-flix-documentation-blog-tagsade-624"
+  },
+  "/FanFlix/documentation/blog/tags/docusaurus-202": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "items": [
+      {
+        "content": "content---fan-flix-documentation-blog-766-6df"
+      },
+      {
+        "content": "content---fan-flix-documentation-blogf-4-f-c5f"
+      },
+      {
+        "content": "content---fan-flix-documentation-blog-871-d79"
+      },
+      {
+        "content": "content---fan-flix-documentation-blog-925-84d"
+      }
+    ],
+    "tag": "tag---fan-flix-documentation-blog-tags-docusaurus-92-f-2b5",
+    "listMetadata": "listMetadata---fan-flix-documentation-blog-tags-docusaurus-358-d5d"
+  },
+  "/FanFlix/documentation/blog/tags/facebook-824": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "items": [
+      {
+        "content": "content---fan-flix-documentation-blog-766-6df"
+      }
+    ],
+    "tag": "tag---fan-flix-documentation-blog-tags-facebook-432-842",
+    "listMetadata": "listMetadata---fan-flix-documentation-blog-tags-facebookefa-1e4"
+  },
+  "/FanFlix/documentation/blog/tags/hello-cfd": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "items": [
+      {
+        "content": "content---fan-flix-documentation-blog-766-6df"
+      },
+      {
+        "content": "content---fan-flix-documentation-blog-871-d79"
+      }
+    ],
+    "tag": "tag---fan-flix-documentation-blog-tags-hello-682-474",
+    "listMetadata": "listMetadata---fan-flix-documentation-blog-tags-hello-679-9e7"
+  },
+  "/FanFlix/documentation/blog/tags/hola-e22": {
+    "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "items": [
+      {
+        "content": "content---fan-flix-documentation-blog-925-84d"
+      }
+    ],
+    "tag": "tag---fan-flix-documentation-blog-tags-hola-33-c-e8f",
+    "listMetadata": "listMetadata---fan-flix-documentation-blog-tags-hola-44-a-af8"
+  },
+  "/FanFlix/documentation/blog/welcome-cdc": {
+    "__comp": "__comp---theme-blog-post-pageccc-cab",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-blog-35-c-990"
+    },
+    "sidebar": "sidebar---fan-flix-documentation-blog-814-f32",
+    "content": "content---fan-flix-documentation-blog-welcomed-9-f-bf6"
+  },
+  "/FanFlix/documentation/markdown-page-199": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-markdown-page-780-455"
+    },
+    "content": "content---fan-flix-documentation-markdown-page-393-bd2"
+  },
+  "/FanFlix/documentation/docs-525": {
+    "__comp": "__comp---theme-doc-page-1-be-9be",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-docs-957-548"
+    },
+    "versionMetadata": "versionMetadata---fan-flix-documentation-docs-935-364"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.-693": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-aspekty-prawne-dotyczace-prowadzonej-dzialalnosci-0-cd-d9d"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień-d1d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-charakterystyka-uzytkownikow-ich-rol-i-uprawnien-6-d-8-368"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka wybranej branży-cba": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-charakterystyka-wybranej-branzy-2-aa-3af"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu-1b1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-funkcje-systemufc-2-7f0"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu-715": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-kontekst-funkcjonowania-systemu-0-db-268"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Opis firmy i jej działalnosci-d67": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-opis-firmy-i-jej-dzialalnosci-9-de-333"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne-4e7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-wymagania-funkcjonalne-i-pozafunkcjonalnef-35-adf"
+  },
+  "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu-8f0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-analiza-i-specyfikacja-zalozenia-i-zaleznosci-systemub-05-fe4"
+  },
+  "/FanFlix/documentation/docs/category/-analiza-i-specyfikacja-4f2": {
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "categoryGeneratedIndex": "categoryGeneratedIndex---fan-flix-documentation-docs-category-analiza-i-specyfikacjad-07-db6"
+  },
+  "/FanFlix/documentation/docs/category/-projekt-2d5": {
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "categoryGeneratedIndex": "categoryGeneratedIndex---fan-flix-documentation-docs-category-projekt-3-fd-ca1"
+  },
+  "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu-124": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-dokumentacja-systemu-instrukcja-dla-uzytkownikow-systemu-88-d-f88"
+  },
+  "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie-476": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-dokumentacja-systemu-podsumowanie-4-b-2-0c1"
+  },
+  "/FanFlix/documentation/docs/Dokumentacja systemu/Wymagania i instalacja-616": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-dokumentacja-systemu-wymagania-i-instalacja-479-525"
+  },
+  "/FanFlix/documentation/docs/intro-823": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-intro-0-e-3-96b"
+  },
+  "/FanFlix/documentation/docs/Projekt/Diagram ERD-58d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-projekt-diagram-er-ddab-31f"
+  },
+  "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji-edd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-projekt-diagram-hierarchii-funkcjid-7-d-901"
+  },
+  "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia-ef8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-projekt-diagramy-przypadkow-uzycia-5-e-9-5cb"
+  },
+  "/FanFlix/documentation/docs/Projekt/Projekt interfejsu-ef5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-projekt-projekt-interfejsu-759-621"
+  },
+  "/FanFlix/documentation/docs/Projekt/Zastosowane technologie-f18": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---fan-flix-documentation-docs-projekt-zastosowane-technologie-414-b56"
+  },
+  "/FanFlix/documentation/-383": {
+    "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
+    "__context": {
+      "plugin": "plugin---fan-flix-documentation-markdown-page-780-455"
+    },
+    "config": "config---fan-flix-documentation-5-e-9-aaf"
+  }
+}

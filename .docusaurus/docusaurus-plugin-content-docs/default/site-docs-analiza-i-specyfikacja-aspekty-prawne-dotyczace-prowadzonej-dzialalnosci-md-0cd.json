@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+  "id": "Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+  "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+  "description": "Wdrażając system zarządzania kinem FanFlix, istnieje kilka aspektów prawnych, które należy uwzględnić. W Polsce podstawowe akty prawne regulujące tę dziedzinę to między innymi ustawa z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną oraz ustawa z dnia 29 sierpnia 1997 r. o ochronie danych osobowych.",
+  "source": "@site/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności..md",
+  "sourceDirName": "Analiza i specyfikacja",
+  "slug": "/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+  "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności.",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności..md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne"
+  },
+  "next": {
+    "title": "📈 Projekt",
+    "permalink": "/FanFlix/documentation/docs/category/-projekt"
+  }
+}

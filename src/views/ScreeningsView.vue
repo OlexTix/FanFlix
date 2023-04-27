@@ -1,13 +1,18 @@
 <template>
   <Navbar />
-  <OtherItem>
-    <RepertoireComponent />
-    <!-- kolejne komponenty, które będą się stakować wertykalnie -->
-  </OtherItem>
+  <BaseTemplate>
+    <ScreeningsFilterComponent />
+    <ScreeningsTileComponent />
+    <Spacer />
+    <ScreeningsTileComponent />
+    <Spacer />
+  </BaseTemplate>
 </template>
 
 <script setup>
-import RepertoireComponent from '../components/RepertoireComponent.vue'
-import Navbar from '../components/Navbar.vue'
-import OtherItem from '../components/OtherItem.vue'
+  import ScreeningsFilterComponent from '../components/screenings/ScreeningsFilterComponent.vue'
+  import ScreeningsTileComponent from '../components/screenings/ScreeningsTileComponent.vue'
+  import Spacer from '../components/screenings/ScreeningsSpacerComponent.vue'
+  import Navbar from '../components/Navbar.vue'
+  import BaseTemplate from '../components/templates/BaseTemplate.vue'
 </script>

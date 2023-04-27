@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Projekt/Diagram hierarchii funkcji",
+  "id": "Projekt/Diagram hierarchii funkcji",
+  "title": "Diagram hierarchii funkcji",
+  "description": "Poniżej znajduje się diagram hierarchii funkcji, który przedstawia funkcjonalności w ramach poszczególnych modułów systemu Fanflix. Diagram ten pomaga zobrazować strukturę systemu, pokazując, jak poszczególne funkcjonalności są uporządkowane. Każdy moduł systemu ma swoje własne funkcjonalności, które są ze sobą powiązane i umieszczone w odpowiednim miejscu w hierarchii. Dzięki temu diagramowi można łatwo zrozumieć, jak różne funkcjonalności wchodzą w interakcje i jakie są ich relacje w ramach systemu.",
+  "source": "@site/docs/Projekt/Diagram hierarchii funkcji.md",
+  "sourceDirName": "Projekt",
+  "slug": "/Projekt/Diagram hierarchii funkcji",
+  "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Diagram hierarchii funkcji.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Diagram ERD",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Diagram ERD"
+  },
+  "next": {
+    "title": "Projekt interfejsu",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu"
+  }
+}

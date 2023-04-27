@@ -1,15 +1,14 @@
 <template>
   <Navbar />
   <TheWelcome />
-  <OtherItem>
+  <BaseTemplate>
     <News />
-  </OtherItem>
-
+  </BaseTemplate>
 </template>
 
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import Navbar from '../components/Navbar.vue'
-import OtherItem from '../components/OtherItem.vue'
-import News from '../components/News.vue'
+  import TheWelcome from '../components/TheWelcome.vue'
+  import Navbar from '../components/Navbar.vue'
+  import BaseTemplate from '../components/templates/BaseTemplate.vue'
+  import News from '../components/News.vue'
 </script>

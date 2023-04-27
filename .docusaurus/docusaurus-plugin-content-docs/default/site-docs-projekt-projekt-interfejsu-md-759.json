@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Projekt/Projekt interfejsu",
+  "id": "Projekt/Projekt interfejsu",
+  "title": "Projekt interfejsu",
+  "description": "Projekt interfejsu został stworzony w celu zapewnienia użytkownikom intuicyjnego i wygodnego podglądu, umożliwiającego łatwe i szybkie korzystanie z platformy. Projekt został opracowany w narzędziu Figma, a jego głównymi cechami są: czytelność, łatwość w nawigacji oraz estetyka.",
+  "source": "@site/docs/Projekt/Projekt interfejsu.md",
+  "sourceDirName": "Projekt",
+  "slug": "/Projekt/Projekt interfejsu",
+  "permalink": "/FanFlix/documentation/docs/Projekt/Projekt interfejsu",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Projekt/Projekt interfejsu.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Diagram hierarchii funkcji",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Diagram hierarchii funkcji"
+  },
+  "next": {
+    "title": "Zastosowane technologie",
+    "permalink": "/FanFlix/documentation/docs/Projekt/Zastosowane technologie"
+  }
+}

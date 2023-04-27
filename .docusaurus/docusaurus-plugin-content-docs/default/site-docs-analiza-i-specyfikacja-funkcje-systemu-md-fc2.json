@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Analiza i specyfikacja/Funkcje systemu",
+  "id": "Analiza i specyfikacja/Funkcje systemu",
+  "title": "Funkcje systemu",
+  "description": "Kluczowym elementem projektu systemu kin jest zaprojektowanie i zaimplementowanie funkcji, które ułatwią klientom korzystanie z usług kinowych i zwiększą ich zadowolenie z oferowanych usług. Oto kilka przykładów funkcji, które powinien posiadać nasz system.",
+  "source": "@site/docs/Analiza i specyfikacja/Funkcje systemu.md",
+  "sourceDirName": "Analiza i specyfikacja",
+  "slug": "/Analiza i specyfikacja/Funkcje systemu",
+  "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Funkcje systemu",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Funkcje systemu.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Kontekst funkcjonowania systemu",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Kontekst funkcjonowania systemu"
+  },
+  "next": {
+    "title": "Charakterystyka użytkowników, ich ról i uprawnień",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Charakterystyka użytkowników, ich ról i uprawnień"
+  }
+}

@@ -16,7 +16,7 @@ import './assets/main.css'
 
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
 
-axios.defaults.baseURL = 'https://fantasticstudio.online/api';
+axios.defaults.baseURL = 'http://fantasticstudio.online:13000';
 
 const app = createApp(App)
 

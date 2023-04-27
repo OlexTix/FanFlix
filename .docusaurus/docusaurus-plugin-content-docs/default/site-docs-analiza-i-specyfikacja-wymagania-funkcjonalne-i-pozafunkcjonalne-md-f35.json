@@ -1,0 +1,27 @@
+{
+  "unversionedId": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+  "id": "Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+  "title": "Wymagania funkcjonalne i pozafunkcjonalne",
+  "description": "Oto tabela wymagań szczegółowych dla systemu FanFlix. Wymagania niefunkcjonalne dotyczą aspektów systemu, które nie są bezpośrednio związane z funkcjonalnościami, ale są równie ważne dla jego poprawnego funkcjonowania. W tabeli znajdują się numery wymagań, ich nazwy, opisy, dane wejściowe, źródła danych, opisy funkcji, opisy bazy danych oraz wymagania pozafunkcjonalne, jeśli istnieją.",
+  "source": "@site/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne.md",
+  "sourceDirName": "Analiza i specyfikacja",
+  "slug": "/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+  "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Analiza i specyfikacja/Wymagania funkcjonalne i pozafunkcjonalne.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Założenia i zależności systemu",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Założenia i zależności systemu"
+  },
+  "next": {
+    "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+    "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+  }
+}

@@ -1,9 +1,9 @@
 <template>
   <main>
     <Navbar />
-    <OtherItem>
+    <BaseTemplate>
       <Login />
-    </OtherItem>
+    </BaseTemplate>
   </main>
   
 </template>
@@ -12,13 +12,13 @@
 import { defineComponent } from "vue"
 import Navbar from "../components/Navbar.vue"
 import Login from "../components/Login.vue"
-import OtherItem from "../components/OtherItem.vue"
+import BaseTemplate from "../components/templates/BaseTemplate.vue"
 
 export default defineComponent({
   name: 'LoginView',
   components: {
     Navbar,
-    OtherItem,
+    BaseTemplate,
     Login,
 }
 })

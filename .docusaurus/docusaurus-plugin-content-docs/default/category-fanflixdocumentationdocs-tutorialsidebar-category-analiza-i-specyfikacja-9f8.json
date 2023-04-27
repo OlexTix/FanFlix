@@ -1,0 +1,16 @@
+{
+  "title": "Analiza i specyfikacja",
+  "description": "Analiza i specyfikacja systemu FanFlix :mag_right:",
+  "slug": "/category/analiza-i-specyfikacja",
+  "permalink": "/FanFlix/documentation/docs/category/analiza-i-specyfikacja",
+  "navigation": {
+    "previous": {
+      "title": "Aspekty prawne dotyczące prowadzonej działalności.",
+      "permalink": "/FanFlix/documentation/docs/Analiza i specyfikacja/Aspekty prawne dotyczące prowadzonej działalności."
+    },
+    "next": {
+      "title": "Diagramy przypadków użycia",
+      "permalink": "/FanFlix/documentation/docs/Projekt/Diagramy przypadków użycia"
+    }
+  }
+}

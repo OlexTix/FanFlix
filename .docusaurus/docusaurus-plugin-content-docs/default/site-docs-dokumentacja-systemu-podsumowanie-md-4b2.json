@@ -1,0 +1,23 @@
+{
+  "unversionedId": "Dokumentacja systemu/Podsumowanie",
+  "id": "Dokumentacja systemu/Podsumowanie",
+  "title": "Podsumowanie",
+  "description": "System FanFlix umożliwia efektywne zarządzanie kinami, oferując różnorodne funkcje. W miarę jak rynek i potrzeby użytkowników ewoluują, istnieje wiele możliwości rozwoju i ulepszeń systemu. Poniżej przedstawiamy kilka propozycji:",
+  "source": "@site/docs/Dokumentacja systemu/Podsumowanie.md",
+  "sourceDirName": "Dokumentacja systemu",
+  "slug": "/Dokumentacja systemu/Podsumowanie",
+  "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Podsumowanie",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Dokumentacja systemu/Podsumowanie.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Instrukcja dla użytkowników systemu",
+    "permalink": "/FanFlix/documentation/docs/Dokumentacja systemu/Instrukcja dla użytkowników systemu"
+  }
+}

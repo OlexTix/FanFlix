@@ -1,23 +1,23 @@
 <template>
     <main>
       <Navbar/>
-      <OtherItem>
+      <BaseTemplate>
         <Register />
-      </OtherItem>
+      </BaseTemplate>
     </main>
 </template>
 
 <script>
 import { defineComponent } from "vue"
 import Navbar from "../components/Navbar.vue"
-import OtherItem from "../components/OtherItem.vue"
+import BaseTemplate from "../components/templates/BaseTemplate.vue"
 import Register from "../components/Register.vue"
 
 export default defineComponent({
   name: 'RegisterView',
   components: {
     Navbar,
-    OtherItem,
+    BaseTemplate,
     Register,
     }
 })
