@@ -15,7 +15,7 @@
         <div class="title">Cinemas</div>
         <router-link to="/cinemas" class="option">Cinema list</router-link>
         <router-link to="/cinemas/halls" class="option">Cinema halls</router-link>
-        <router-link to="/cinemas/schedule" class="option">Repertoire</router-link>
+        <router-link to="/cinemas/nazwa-kina" class="option">Screenings</router-link>
       </div>
       <div class="category">
         <div class="title">Employees</div>
@@ -88,6 +88,6 @@
 </style>
 
 <script>
-import Dropdown from 'primevue/dropdown';
+
 
 </script>

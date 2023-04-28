@@ -38,7 +38,7 @@ export default {
   methods: {
     async fetchCinemas() {
       try {
-        const response = await axios.get('/cinemas');
+        const response = await axios.get('/api/cinemas');
         this.cinemas = response.data;
         console.log('Otrzymane kina:', this.cinemas);
       } catch (error) {
@@ -48,7 +48,7 @@ export default {
     async fetchRepertoire() {
       if (this.selectedCinema) {
         try {
-          const response = await axios.get(`/cinemas/${this.selectedCinema.name}/repertoire`);
+          const response = await axios.get(`/api/cinemas/${this.selectedCinema.name}/repertoire`);
           this.repertoire = response.data;
           console.log('Otrzymany repertuar:', this.repertoire);
         } catch (error) {

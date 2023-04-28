@@ -3,26 +3,29 @@
     <div class="dashboard-tiles">
       <div class="dashboard-tile">
         <div class="dashboard-tile-header">
-          <h3 class="dashboard-tile-title">Users</h3>
+          <h3 class="dashboard-tile-title">{{ userCount }}</h3>
+          <h2 class="dashboard-tile-subtitle"> (+1234)</h2>
         </div>
         <div class="dashboard-tile-body">
-          <p class="dashboard-tile-info">{{ userCount }}</p>
+          <p class="dashboard-tile-info">Users</p>
         </div>
       </div>
       <div class="dashboard-tile">
         <div class="dashboard-tile-header">
-          <h3 class="dashboard-tile-title">Total visits</h3>
+          <h3 class="dashboard-tile-title">{{ totalVisits }}</h3>
+          <h2 class="dashboard-tile-subtitle"> (+1234)</h2>
         </div>
         <div class="dashboard-tile-body">
-          <p class="dashboard-tile-info">{{ totalVisits }}</p>
+          <p class="dashboard-tile-info">Total visits</p>
         </div>
       </div>
       <div class="dashboard-tile">
         <div class="dashboard-tile-header">
-          <h3 class="dashboard-tile-title">Employees</h3>
+          <h3 class="dashboard-tile-title">{{ employeeCount }}</h3>
+          <h2 class="dashboard-tile-subtitle"> (+1234)</h2>
         </div>
         <div class="dashboard-tile-body">
-          <p class="dashboard-tile-info">{{ employeeCount }}</p>
+          <p class="dashboard-tile-info">Employees</p>
         </div>
       </div>
     </div>
@@ -61,7 +64,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2vh;
+  margin-top: 4vh;
   justify-content: flex-start;
   width: 80%;
   float: left;
@@ -84,14 +87,23 @@ export default {
 
 .dashboard-tile-header {
   background-color: var(--color-logo);
-  padding: 15px;
+  padding: 1.2vh;
   border-radius: 5px 5px 0 0;
+  display: inline-flex;
 }
 
 .dashboard-tile-title {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
+  display: flex;
+}
+
+.dashboard-tile-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  vertical-align: middle;
 }
 
 .dashboard-tile-body {
@@ -102,7 +114,7 @@ export default {
 
 .dashboard-tile-info {
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 600;
 }
 
@@ -117,5 +129,4 @@ export default {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   min-width: calc(33.33% - 10px);
-}
-</style>
+}</style>

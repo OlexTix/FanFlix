@@ -28,6 +28,11 @@ const router = createRouter({
       path: '/admin-panel',
       name: 'admin-panel',
       component: () => import('../views/AdminPanelView.vue')
+    },
+    {
+      path: '/movie',
+      name: 'movie',
+      component: () => import('../views/MovieView.vue')
     }
   ]
 })
