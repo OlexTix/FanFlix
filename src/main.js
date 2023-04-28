@@ -16,7 +16,7 @@ import './assets/main.css'
 
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
 
-axios.defaults.baseURL = 'http://fantasticstudio.online:13000';
+axios.defaults.baseURL = 'https://fanflix.fantasticstudio.online';
 
 const app = createApp(App)
 
