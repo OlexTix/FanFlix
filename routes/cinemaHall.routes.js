@@ -11,8 +11,8 @@ module.exports = function (app) {
   });
   
   app.post('/cinemas/:id/halls', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
-  app.get('/cinemas/:id/halls', oleCheckJWT.verifyToken, hall.getHalls)
-  app.get('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, hall.getHallById)
+  app.get('/cinemas/:name/halls', hall.getHalls)
+  app.get('/cinemas/:name/halls/:hallNumber', hall.getHallByHallNumber)
   app.put('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.updateHallsData)
   app.delete('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.deleteHall)
 

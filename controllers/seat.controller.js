@@ -55,39 +55,53 @@ const addSeat = async (req, res) => {
 };
 
 const getSeats = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const hallId = parseInt(req.params.hallId);
+  const cinemaName = req.params.name;
+  const hallNumber = parseInt(req.params.hallNumber);
   const client = await poolDB.connect();
 
+  const {
+    row,
+    seat_number,
+  } = req.query;
+  let selectColumns = 'seat.row, seat.seat_number';
+
+  if (Object.keys(req.query).length === 1) {
+    if ('row' in req.query && !row) {
+      selectColumns = 'seat.row';
+    } else if ('seat_number' in req.query && !seat_number) {
+      selectColumns = 'seat.seat_number';
+    }
+  }
+
+  let query = `SELECT ${selectColumns} FROM "Seat" AS seat
+               INNER JOIN "Cinema_Hall" AS cinema_hall ON seat.id_cinema_hall = cinema_hall.id_cinema_hall
+               INNER JOIN "Cinema" AS cinema ON cinema_hall.id_cinema = cinema.id_cinema
+               WHERE cinema_hall.hall_number = $1 AND cinema.name = $2`;
+  const queryParams = [hallNumber, cinemaName];
+  let queryConditions = '';
+
+  if (row) {
+    queryParams.push(row);
+    queryConditions += ` AND seat.row = $${queryParams.length}`;
+  }
+
+  if (seat_number) {
+    queryParams.push(seat_number);
+    queryConditions += ` AND seat.seat_number = $${queryParams.length}`;
+  }
+
+  if (queryConditions) {
+    query += queryConditions;
+  }
+
   try {
-    // Check if cinema exists
-    const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-    if (cinemaRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
+    const { rows: seatRows } = await client.query(query, queryParams);
+
+    if (seatRows.length === 0) {
+      res.status(404).send({ message: "Seats not found" });
+    } else {
+      res.status(200).json(seatRows);
     }
-
-    // Check if hall exists
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
-    );
-
-    if (hallRows.length === 0) {
-      res.status(404).send({ message: "Hall not found" });
-      return;
-    }
-
-    // Get all seats associated with hall
-    const { rows: seatRows } = await client.query(
-      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1',
-      [hallId]
-    );
-
-    res.status(200).json(seatRows);
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ message: "Failed to get seats" });
@@ -97,38 +111,34 @@ const getSeats = async (req, res) => {
 };
 
 const getSeatById = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const hallId = parseInt(req.params.hallId);
-  const seatId = parseInt(req.params.seatId);
+  const cinemaName = req.params.name;
+  const hallNumber = parseInt(req.params.hallNumber);
+  const seatNumber = parseInt(req.params.seatNumber);
   const client = await poolDB.connect();
 
   try {
-    // Check if cinema exists
-    const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
+    // Get cinema and hall id
+    const { rows: cinemaHallRows } = await client.query(
+      `SELECT cinema.id_cinema, cinema_hall.id_cinema_hall FROM "Cinema" AS cinema
+       INNER JOIN "Cinema_Hall" AS cinema_hall ON cinema.id_cinema = cinema_hall.id_cinema
+       WHERE cinema.name = $1 AND cinema_hall.hall_number = $2`,
+      [cinemaName, hallNumber]
     );
 
-    if (cinemaRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
+    if (cinemaHallRows.length === 0) {
+      res.status(404).send({ message: "Cinema or hall not found" });
       return;
     }
 
-    // Check if hall exists
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
-    );
+    const cinemaId = cinemaHallRows[0].id_cinema;
+    const hallId = cinemaHallRows[0].id_cinema_hall;
 
-    if (hallRows.length === 0) {
-      res.status(404).send({ message: "Hall not found" });
-      return;
-    }
-
-    // Get seat by id associated with hall
+    // Get seat by seatNumber associated with hall
     const { rows: seatRows } = await client.query(
-      'SELECT * FROM "Seat" WHERE id_cinema_hall = $1 AND id_seat = $2',
-      [hallId, seatId]
+      `SELECT seat.* FROM "Seat" AS seat
+       INNER JOIN "Cinema_Hall" AS cinema_hall ON seat.id_cinema_hall = cinema_hall.id_cinema_hall
+       WHERE cinema_hall.id_cinema_hall = $1 AND seat.seat_number = $2`,
+      [hallId, seatNumber]
     );
 
     if (seatRows.length === 0) {
@@ -136,7 +146,11 @@ const getSeatById = async (req, res) => {
       return;
     }
 
-    res.status(200).json(seatRows[0]);
+    // Send only the row and seat_number as the response
+    res.status(200).json({
+      row: seatRows[0].row,
+      seat_number: seatRows[0].seat_number,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ message: "Failed to get seat" });
