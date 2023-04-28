@@ -9,6 +9,7 @@
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/sign-up">Sign Up</RouterLink>
+          <RouterLink to="/admin-panel">Admin Panel</RouterLink>
         </nav>
       </div>
     </div>
@@ -17,12 +18,7 @@
         <div class="buttons-sec" style="display: flex; align-items: center;">
           <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
           <RouterLink to="/login">Offers</RouterLink>
-          <div style="margin-left: auto;">
-            <RouterLink to="#" id="cinemainfo">
-              <fa-icon icon="fa-map-marker-alt" style="margin-right: 10px;"></fa-icon>
-              <p style="font-weight: 800; font-size: 0.8rem;">Złotno - Kino Tomi</p>
-            </RouterLink>
-          </div>
+          <NavbarLocationInfo />
         </div>
       </div>
     </div>
@@ -32,10 +28,14 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue';
+import NavbarLocationInfo from './navbar/NavbarLocationInfo.vue';
 
 const checked = ref(true);
 export default {
   name: 'Navbar',
+  components: {
+    NavbarLocationInfo
+  },
 
   data: () => ({
     //
@@ -132,4 +132,5 @@ nav a.router-link-exact-active:hover {
   padding-right: 0.8rem;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
-}</style>
+}
+</style>

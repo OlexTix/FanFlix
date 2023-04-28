@@ -1,24 +1,16 @@
 <template>
     <div id="movie-section" class="flex justify-content-center">
-        <h1 style="font-weight: 500;">JOHN WICK: CHAPTER 4</h1>
-        <div id="trailer-iframe">
-            <iframe width="700" height="300" src="https://www.youtube.com/embed/jFsWkFnZfXk"
-                title="JOHN WICK: Chapter 4 Polski Zwiastun 2023 Napisy PL" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-        </div>
+        <MovieTrailer/>
         <div id="movie-releasebox">
 
-            <div id="box1"><img id="img1" class="logo" src="https://www.svgrepo.com/show/490607/calendar-event.svg"
-                    width="30px" style="padding: 3px">
-                <p style="margin-right: 2vh;">Data premiery: 24 marca 2023</p>
-                <img id="img2" class="logo" src="https://www.svgrepo.com/show/513817/clock.svg" width="30px"
-                    style="padding: 3px">
-                <p>Czas trwania: 99 minut</p>
-            </div>
-
-
-        </div>
+<div id="box1"><img id="img1" class="logo" src="https://www.svgrepo.com/show/490607/calendar-event.svg"
+        width="30px" style="padding: 3px">
+    <p style="margin-right: 2vh;">Data premiery: 24 marca 2023</p>
+    <img id="img2" class="logo" src="https://www.svgrepo.com/show/513817/clock.svg" width="30px"
+        style="padding: 3px">
+    <p>Czas trwania: 99 minut</p>
+</div>
+</div>
         <div id="moviepreviewbox">
             <p id="movie-description">
                 Keanu Reeves powraca, by stanąć do decydującej walki z błyskotliwym i bezlitosnym Billem Skarsgardem, który
@@ -32,13 +24,21 @@
                 wielkim finałem tej morderczej symfonii, John Wick trafi na trop swojej dalekiej rodziny, której członkowie
                 mogą mieć decydujący wpływ na wynik całej rozgrywki.
             </p>
-            <img src="https://cdn.gracza.pl/galeria/mdb/f/3448000.jpg">
+            <img src="https://cdn.gracza.pl/galeria/mdb/f/3448000.jpg" style="width: 25%; height: 25%;">
         </div>
+        
     </div>
 </template>
 
 <script>
-
+import { defineComponent } from "vue"
+import MovieTrailer from '../components/movie/MovieTrailer.vue'
+export default defineComponent({
+  name: 'MovieView',
+  components: {
+   MovieTrailer
+    }
+})
 </script>
 
 <style>
@@ -46,19 +46,15 @@
     margin: 2vh;
 }
 
-#trailer-iframe {
-    clear: both;
-    margin: 2vh;
-    text-align: center;
-
-}
-
 #moviepreviewbox {
     display: flex;
-    margin-top: 5vh;
-    margin-left: 10vh;
-    margin-right: 10vh;
+  
+    margin-bottom: 20vh;
+}
 
+#movie-description
+{   
+    margin-right: 3vh;
 }
 
 #movie-releasebox {
@@ -66,17 +62,13 @@
     padding: 1rem;
     margin-left: 10rem;
     margin-right: 10rem;
-
 }
-
 #box1 {
     display: flex;
     width: 300px;
     margin-left: auto;
     margin-right: auto;
-
 }
-
 #img1,
 #img2 {
     filter: var(--color-logo);
