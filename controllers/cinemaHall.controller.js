@@ -49,9 +49,7 @@ const getHalls = async (req, res) => {
   let selectColumns = '*';
 
   if (Object.keys(req.query).length === 1) {
-    if ('id_cinema_hall' in req.query && !id_cinema_hall) {
-      selectColumns = 'cinema_hall.id_cinema_hall';
-    } else if ('hall_number' in req.query && !hall_number) {
+    if ('hall_number' in req.query && !hall_number) {
       selectColumns = 'cinema_hall.hall_number';
     } else if ('number_of_seats' in req.query && !number_of_seats) {
       selectColumns = 'cinema_hall.number_of_seats';
@@ -62,10 +60,7 @@ const getHalls = async (req, res) => {
   const queryParams = [cinemaName];
   let queryConditions = '';
 
-  if (id_cinema_hall) {
-    queryParams.push(id_cinema_hall);
-    queryConditions += ` AND cinema_hall.id_cinema_hall = $${queryParams.length}`;
-  }
+
 
   if (hall_number) {
     queryParams.push(hall_number);

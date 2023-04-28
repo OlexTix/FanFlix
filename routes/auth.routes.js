@@ -10,7 +10,7 @@ module.exports = function (app) {
     next();
   });
 
-  app.get('/auth/expiration', oleCheckJWT.verifyToken, auth.checkExpiration)
-  app.post('/auth/register', auth.registerUser)
-  app.post('/auth/login', auth.loginUser)
+  app.get('/api/auth/expiration', oleCheckJWT.verifyToken, auth.checkExpiration)
+  app.post('/api/auth/register', auth.registerUser)
+  app.post('/api/auth/login', auth.loginUser)
 };

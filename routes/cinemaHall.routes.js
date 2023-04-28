@@ -10,10 +10,10 @@ module.exports = function (app) {
     next();
   });
   
-  app.post('/cinemas/:id/halls', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
-  app.get('/cinemas/:name/halls', hall.getHalls)
-  app.get('/cinemas/:name/halls/:hallNumber', hall.getHallByHallNumber)
-  app.put('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.updateHallsData)
-  app.delete('/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.deleteHall)
+  app.post('/api/cinemas/:id/halls', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.addHall)
+  app.get('/api/cinemas/:name/halls', hall.getHalls)
+  app.get('/api/cinemas/:name/halls/:hallNumber', hall.getHallByHallNumber)
+  app.put('/api/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.updateHallsData)
+  app.delete('/api/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, hall.deleteHall)
 
 };

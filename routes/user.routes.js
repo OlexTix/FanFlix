@@ -10,9 +10,9 @@ module.exports = function (app) {
     next();
   });
 
-  app.get('/users', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.getUsers)
-  app.get('/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.getUserById)
-  app.put('/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.updateUserPass)
-  app.delete('/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.deleteUser)
+  app.get('/api/users', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.getUsers)
+  app.get('/api/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.getUserById)
+  app.put('/api/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.updateUserPass)
+  app.delete('/api/users/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, user.deleteUser)
 
 };
