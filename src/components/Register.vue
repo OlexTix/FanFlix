@@ -6,7 +6,8 @@
         <hr class="divider" />
         <Form :validation-schema="schema" @submit="onSubmit">
           <div class="card">
-            <div class="field">
+            <div class="field-row">
+              <div class="field" style="margin-right: 1vh;">
               <label for="email" class="input-label">E-MAIL</label>
               <Field name="email" v-slot="{ field, errorMessage }">
                 <InputText v-bind="field"  aria-describedby="email-help"
@@ -22,7 +23,9 @@
                 <small id="email-help" class="p-error">{{ errorMessage }}</small>
               </Field>
             </div>
-            <div class="field">
+            </div>
+            <div class="field-row">
+              <div class="field" style="margin-right: 1vh;">
               <label for="email" class="input-label">IMIĘ</label>
               <Field name="name" v-slot="{ field, errorMessage }">
                 <InputText v-bind="field" aria-describedby="email-help"
@@ -38,7 +41,8 @@
                 <small id="email-help" class="p-error">{{ errorMessage }}</small>
               </Field>
             </div>
-
+            </div>
+           
             <div class="field">
               <label for="email" class="input-label">NUMER TELEFONU</label>
               <Field name="phonenumber" v-slot="{ field, errorMessage }" v-model.number="phonenumber" type="number">
@@ -100,7 +104,7 @@
   box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
   margin-top: 2vh;
   margin-bottom: 2vh;
-  padding: 2vh;
+  padding: 5vh;
   justify-content: center;
   align-items: center;
 }
@@ -117,12 +121,20 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  text-align: center;
   cursor: pointer;
 }
 
 #signupbutton:hover {
   background-image: linear-gradient(to bottom, #008660, #005a41);
   border-color: #005f44;
+}
+
+.field-row
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .content-container {
@@ -149,6 +161,8 @@
 
 .input-label {
   font-weight: bold;
+  font-size: 14px;
+    margin-bottom: 5px;
 }
 
 .field-checkbox {

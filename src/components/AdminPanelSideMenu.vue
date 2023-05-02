@@ -66,7 +66,7 @@
 }
 
 .title {
-  font-weight: bold;
+  font-weight: 800;
   margin-bottom: 0.2vh;
 }
 
