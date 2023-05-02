@@ -10,7 +10,7 @@
           </div>
           <div class="input-container">
             <label for="password" class="input-label">HASŁO</label>
-            <Password class="input-password-field" v-model="password" :feedback="false" />
+            <InputText class="input-password-field" type="password" v-model="password" />
           </div>
           <Button class="login-button" @click="login">LOGOWANIE</Button>
           <p class="error-message">{{ errorMessage }}</p>
