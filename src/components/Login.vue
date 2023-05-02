@@ -108,6 +108,7 @@
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 20px;
+    color: white;
   }
   
   .divider {
@@ -120,7 +121,7 @@
   .input-container {
     display: flex;
     flex-direction: column;
-    
+    color: white;
     width: 100%;
     margin-bottom: 20px;
   }
