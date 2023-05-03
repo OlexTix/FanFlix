@@ -9,10 +9,10 @@ module.exports = function (app) {
     allowedHeaders: "x-access-token, Origin, Content-Type, Accept"
   }));
   
-  app.post('/api/cinemas/:id/halls', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.addScreening)
-  app.get('/api/cinemas/:name/halls', screening.getScreening)
-  app.get('/api/cinemas/:name/halls/:hallNumber', screening.getScreeningByName)
-  app.put('/api/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.updateScreeningsData)
-  app.delete('/api/cinemas/:id/halls/:hallId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.deleteScreening)
+  app.post('/api/cinemas/:id/halls/:hallNumber/screenings', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.addScreening)
+  app.get('/api/cinemas/:name/halls/:hallNumber/screenings', screening.getScreenings)
+  app.get('/api/cinemas/:name/halls/:hallNumber/screenings/:screeningName', screening.getScreeningByName)
+  app.put('/api/cinemas/:id/halls/:hallNumber/screenings/:screeningId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.updateScreeningsData)
+  app.delete('/api/cinemas/:id/halls/:hallNumber/screenings/:screeningId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.deleteScreening)
 
 };

@@ -45,7 +45,7 @@ const addHall = async (req, res) => {
 const getHalls = async (req, res) => {
   const cinemaName = req.params.name;
   const client = await poolDB.connect();
-  const { id_cinema_hall, hall_number, number_of_seats } = req.query;
+  const { hall_number, number_of_seats } = req.query;
   let selectColumns = '*';
 
   if (Object.keys(req.query).length === 1) {
