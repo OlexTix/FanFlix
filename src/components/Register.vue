@@ -65,7 +65,8 @@
             <div class="field-checkbox">
               <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
                 conditions*</label>
-                <p class="accept-error" v-if="!accept" style="color: red;">Musisz zaakceptować warunki.</p>
+              <p class="accept-error" v-if="!accept" style="color: red; margin-bottom: 1vh;">Musisz zaakceptować warunki.
+              </p>
             </div>
             <div class="card flex justify-content-center">
               <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton" />
@@ -101,7 +102,7 @@
   font-weight: 500;
   font-size: 18px;
   color: #ffffff;
-  margin-top: 20px;
+  margin: auto;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -175,8 +176,8 @@
   word-wrap: break-word;
   word-break: break-all;
 }
-.accept-error
-{
+
+.accept-error {
   color: red;
   font-weight: bold;
   font-size: 12px;
@@ -213,7 +214,7 @@ const schema = yup.object({
     ),
   confirmpassword: yup.string()
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
-    
+
 
 });
 
