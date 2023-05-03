@@ -41,14 +41,19 @@
     methods: {
         async login() {
             try {
-                const response = await axios.post('/api/auth/login', {
-                    email: this.email,
-                    password: this.password,
-                });
+              const response = await this.$http.post('/api/auth/login', {
+                email: this.email,
+                password: this.password,
+              });
 
                 //TODO
                 // Przetwarzaj odpowiedź, na przykład zapisując token JWT
                 console.log(response.data);
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('email', response.data.email);
+                localStorage.setItem('first_name', response.data.first_name);
+                localStorage.setItem('last_name', response.data.last_name);
+                localStorage.setItem('role', response.data.role);
 
                 this.errorMessage='';
 
