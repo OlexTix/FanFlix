@@ -3,12 +3,38 @@ version: '3.9'
 name: fanflix
 
 services:
+
+  front:
+    image: ${DOCKERHUB_USERNAME}/fanflix-front:latest
+    container_name: fanflix-front
+    restart: unless-stopped
+    networks:
+      - traefik-global-proxy
+      - internal
+    environment:
+      DATABASE_USER_NAME: ${DATABASE_USER_NAME}
+      DATABASE_HOST_NAME: ${DATABASE_HOST_NAME}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_LINK: ${DATABASE_LINK}
+      API_SECRET: ${API_SECRET}
+      TOKEN_EXPIRATION: ${TOKEN_EXPIRATION} 
+      NODE_ENV: production
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.fanflix-front.rule=Host(`fanflix.${MY_DOMAIN}`)"
+      - "traefik.http.routers.fanflix-front.entrypoints=websecure"
+      - "traefik.http.routers.fanflix-front.tls.certresolver=letsencrypt"
+      - "traefik.http.services.fanflix-front.loadbalancer.server.port=80"
   api:
     image: ${DOCKERHUB_USERNAME}/fanflix-api:latest
     container_name: fanflix-api
     restart: unless-stopped
     networks:
       - traefik-global-proxy
+      - internal
     environment:
       DATABASE_USER_NAME: ${DATABASE_USER_NAME}
       DATABASE_HOST_NAME: ${DATABASE_HOST_NAME}
@@ -35,16 +61,13 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: ${DATABASE_USER_NAME}
       POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
     networks:
-      - traefik-global-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-      - "traefik.enable=true"
-      - "traefik.http.routers.fanflix-db.rule=Host(`db.fanflix.${MY_DOMAIN}`)"
-      - "traefik.http.routers.fanflix-db.entrypoints=websecure"
-      - "traefik.http.routers.fanflix-db.tls.certresolver=letsencrypt"
-      - "traefik.http.services.fanflix-db.loadbalancer.server.port=${DATABASE_PORT}"
+      - internal
 
 networks:
   traefik-global-proxy:
     external: true
+  internal:
+    driver: bridge
