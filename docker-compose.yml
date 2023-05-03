@@ -17,7 +17,6 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_LINK: ${DATABASE_LINK}
       API_SECRET: ${API_SECRET}
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION} 
       NODE_ENV: production
@@ -41,7 +40,6 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_LINK: ${DATABASE_LINK}
       API_SECRET: ${API_SECRET}
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION} 
       NODE_ENV: production
@@ -65,6 +63,23 @@ services:
       - ./postgres:/var/lib/postgresql/data
     networks:
       - internal
+
+  docs:
+    image: ${DOCKERHUB_USERNAME}/fanflix-docs:latest
+    container_name: fanflix-docs
+    restart: unless-stopped
+    networks:
+      - traefik-global-proxy
+      - internal
+    environment:
+      NODE_ENV: production
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.fanflix-docs.rule=Host(`docs.fanflix.${MY_DOMAIN}`)"
+      - "traefik.http.routers.fanflix-docs.entrypoints=websecure"
+      - "traefik.http.routers.fanflix-docs.tls.certresolver=letsencrypt"
+      - "traefik.http.services.fanflix-docs.loadbalancer.server.port=80"
 
 networks:
   traefik-global-proxy:
