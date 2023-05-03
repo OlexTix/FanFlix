@@ -16,7 +16,19 @@ import './assets/main.css'
 
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
 
-axios.defaults.baseURL = 'https://fanflix.fantasticstudio.online';
+const axiosInstance = axios.create({
+    baseURL: 'https://fanflix.fantasticstudio.online',
+});
+  
+axiosInstance.interceptors.request.use((config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+        config.headers['x-access-token'] = token;
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
+});
 
 const app = createApp(App)
 
@@ -26,5 +38,7 @@ app.component('fa-icon', FontAwesomeIcon)
 app.component('Rating', Rating)
 app.component('InputText', InputText)
 app.component('Password', Password)
+
+app.config.globalProperties.$http = axiosInstance;
 
 app.mount('#app')

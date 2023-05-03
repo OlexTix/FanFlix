@@ -1,125 +1,189 @@
 <template>
-  <div class="justify-content-center" style="max-width: 300px" id="register">
-    <h1>Sign Up</h1>
-    <Form :validation-schema="schema" @submit="onSubmit">
-      <div class="card">
-        <div class="field">
-          <Field name="email" v-slot="{ field, errorMessage }">
-            <InputText v-bind="field" placeholder="E-mail" aria-describedby="email-help"
-              :class="{ 'p-invalid': errorMessage }" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
-          </Field>
-        </div>
-        <div class="field">
-          <Field name="confirmemail" v-slot="{ field, errorMessage }">
-            <InputText v-bind="field" placeholder="Confirm E-mail" aria-describedby="email-help"
-              :class="{ 'p-invalid': errorMessage }" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
-          </Field>
-        </div>
+  <div class="justify-content-center" id="register">
+    <div class="content-container">
+      <div class="form-container">
+        <h2 class="title">Zarejestruj się</h2>
+        <hr class="divider" />
+        <Form :validation-schema="schema" @submit="onSubmit">
+          <div class="card">
+            <div class="field-row">
+              <div class="field" style="margin-right: 1vh;">
+                <label for="email" class="input-label">E-MAIL</label>
+                <Field name="email" v-slot="{ field, errorMessage }">
+                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
+                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
+                </Field>
+              </div>
+              <div class="field">
+                <label for="confirmemail" class="input-label">POTWIERDŹ ADRES E-MAIL</label>
+                <Field name="confirmemail" v-slot="{ field, errorMessage }">
+                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
+                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
+                </Field>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field" style="margin-right: 1vh;">
+                <label for="name" class="input-label">IMIĘ</label>
+                <Field name="name" v-slot="{ field, errorMessage }">
+                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
+                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
+                </Field>
+              </div>
+              <div class="field">
+                <label for="lastname" class="input-label">NAZWISKO</label>
+                <Field name="lastname" v-slot="{ field, errorMessage }">
+                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
+                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
+                </Field>
+              </div>
+            </div>
 
-
-        <div class="field">
-          <Field name="name" v-slot="{ field, errorMessage }">
-            <InputText v-bind="field" placeholder="Name" aria-describedby="email-help"
-              :class="{ 'p-invalid': errorMessage }" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
-          </Field>
-        </div>
-        <div class="field">
-          <Field name="lastname" v-slot="{ field, errorMessage }">
-            <InputText v-bind="field" placeholder="Lastname" aria-describedby="email-help"
-              :class="{ 'p-invalid': errorMessage }" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
-          </Field>
-        </div>
-
-        <div class="field">
-          <Field name="phonenumber" v-slot="{ field, errorMessage }" v-model.number="phonenumber" type="number">
-            <InputText v-bind="field" placeholder="Phone number" aria-describedby="email-help"
-              :class="{ 'p-invalid': errorMessage }" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
-          </Field>
-        </div>
-
-        <div class="field">
-          <div class="p-float-label">
-            <Password id="password" v-model="password" toggleMask>
-              <template #header>
-                <h6>Pick a password</h6>
-              </template>
-              <template #footer>
-                <p class="mt-2">Suggestions</p>
-                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                  <li>At least one lowercase</li>
-                  <li>At least one uppercase</li>
-                  <li>At least one numeric</li>
-                  <li>Minimum 8 characters</li>
-                </ul>
-              </template>
-              <small id="email-help" class="p-error">{{ errorMessage }}</small>
-            </Password>
-            <label for="password">Password</label>
+            <div class="field">
+              <label for="phonenumber" class="input-label">NUMER TELEFONU</label>
+              <Field name="phonenumber" v-slot="{ field, errorMessage }" v-model.number="phonenumber" type="number">
+                <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
+                <small id="email-help" class="p-error">{{ errorMessage }}</small>
+              </Field>
+            </div>
+            <div class="field">
+              <label for="password" class="input-label">HASŁO</label>
+              <Field name="password" v-slot="{ field, errorMessage }" v-model="password" type="password">
+                <InputText v-bind="field" aria-describedby="email-help" type="password"
+                  :class="{ 'p-invalid': errorMessage }" />
+                <small id="email-help" class="p-error">{{ errorMessage }}</small>
+              </Field>
+            </div>
+            <div class="field">
+              <label for="confirmpassword" class="input-label">POTWIERDŹ HASŁO</label>
+              <Field name="confirmpassword" v-slot="{ field, errorMessage }" v-model="confirmpassword" type="password">
+                <InputText v-bind="field" aria-describedby="email-help" type="password"
+                  :class="{ 'p-invalid': errorMessage }" />
+                <small id="email-help" class="p-error">{{ errorMessage }}</small>
+              </Field>
+            </div>
+            <div class="field-checkbox">
+              <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
+                conditions*</label>
+              <p class="accept-error" v-if="!accept" style="color: red; margin-bottom: 1vh;">Musisz zaakceptować warunki.
+              </p>
+            </div>
+            <div class="card flex justify-content-center">
+              <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton" />
+            </div>
           </div>
-
-        </div>
-        <div class="field">
-          <div class="p-float-label">
-            <Password id="confirmpassword" v-model="confirmpassword" :feedback="false" toggleMask>
-            </Password>
-            <label for="confirmpassword">Confirm Password</label>
-          </div>
-
-        </div>
-        <div class="field-checkbox">
-
-          <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
-            conditions*</label>
-
-        </div>
-        <div class="card flex justify-content-center">
-          <Button label="Sign Up" type="submit" severity="primary" rounded id="signupbutton" />
-        </div>
+        </Form>
       </div>
-    </Form>
+
+    </div>
+
   </div>
 </template>
 <style>
 #register {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-  margin-bottom: 5vh;
+  background-color: #1e1e1e;
+  border-radius: 20px;
+  box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding: 5vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  max-width: 500px;
 }
 
 #signupbutton {
-  background: rgb(0, 222, 115);
-  background: linear-gradient(180deg, rgba(0, 222, 115, 1) 0%, rgba(0, 171, 89, 1) 63%, rgba(0, 129, 67, 1) 100%);
+  width: 250px;
+  height: 40px;
+  border-radius: 6px;
+  background-image: linear-gradient(to bottom, #00a877, #007d59);
+  border-color: #007d59;
+  font-weight: 500;
+  font-size: 18px;
+  color: #ffffff;
+  margin: auto;
+  display: flex;
+  justify-content: center;
   text-align: center;
-  clear: both;
-  margin-bottom: 5vh;
-
+  cursor: pointer;
 }
 
-.input-row {
-  display: block;
+#signupbutton:hover {
+  background-image: linear-gradient(to bottom, #008660, #005a41);
+  border-color: #005f44;
 }
 
-#register>form>.card>.field {
-  margin-top: 1.3vh;
+.field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-
-#register>form>.card>.field-checkbox {
-  margin-top: 1.3vh;
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#register>form>.card>.card.flex.justify-content-center {
-  margin-top: 1.3vh;
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.field-checkbox {
+  color: white;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 2vh;
+  text-align: center;
+  margin-top: 2vh;
+  color: white;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .p-error {
-  display: block;
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  margin-top: 1vh;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.accept-error {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  margin-top: 1vh;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 </style>
 <script setup>
@@ -135,9 +199,6 @@ const email = ref();
 const password = ref();
 const accept = ref(false);
 
-
-
-
 const schema = yup.object({
   email: yup.string().required().email().label('E-mail address'),
   confirmemail: yup.string().required().email().label('Confirm E-mail'),
@@ -152,7 +213,8 @@ const schema = yup.object({
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     ),
   confirmpassword: yup.string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+
 
 });
 

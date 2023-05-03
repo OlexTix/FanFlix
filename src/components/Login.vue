@@ -10,7 +10,7 @@
           </div>
           <div class="input-container">
             <label for="password" class="input-label">HASŁO</label>
-            <Password class="input-password-field" v-model="password" :feedback="false" />
+            <InputText class="input-password-field" type="password" v-model="password" />
           </div>
           <Button class="login-button" @click="login">LOGOWANIE</Button>
           <p class="error-message">{{ errorMessage }}</p>
@@ -41,14 +41,19 @@
     methods: {
         async login() {
             try {
-                const response = await axios.post('/api/auth/login', {
-                    email: this.email,
-                    password: this.password,
-                });
+              const response = await this.$http.post('/api/auth/login', {
+                email: this.email,
+                password: this.password,
+              });
 
                 //TODO
                 // Przetwarzaj odpowiedź, na przykład zapisując token JWT
                 console.log(response.data);
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('email', response.data.email);
+                localStorage.setItem('first_name', response.data.first_name);
+                localStorage.setItem('last_name', response.data.last_name);
+                localStorage.setItem('role', response.data.role);
 
                 this.errorMessage='';
 
@@ -108,6 +113,7 @@
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 20px;
+    color: white;
   }
   
   .divider {
@@ -120,7 +126,7 @@
   .input-container {
     display: flex;
     flex-direction: column;
-    
+    color: white;
     width: 100%;
     margin-bottom: 20px;
   }
