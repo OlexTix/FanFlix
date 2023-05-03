@@ -5,7 +5,7 @@ name: fanflix
 services:
   api:
     image: ${DOCKERHUB_USERNAME}/fanflix-api:latest
-    container_name: fanflix_api
+    container_name: fanflix-api
     restart: unless-stopped
     networks:
       - traefik-global-proxy
@@ -22,18 +22,28 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.simple-fe.rule=Host(`api.fanflix.${MY_DOMAIN}`)"
-      - "traefik.http.routers.simple-fe.entrypoints=websecure"
-      - "traefik.http.routers.simple-fe.tls.certresolver=letsencrypt" 
+      - "traefik.http.routers.fanflix-api.rule=Host(`api.fanflix.${MY_DOMAIN}`)"
+      - "traefik.http.routers.fanflix-api.entrypoints=websecure"
+      - "traefik.http.routers.fanflix-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.fanflix-api.loadbalancer.server.port=3000"
 
-
-  watchtower:
-    image: containrrr/watchtower:latest
-    container_name: fanflix_watchtower
-    command: --cleanup --include-restarting --label-enable --interval 20
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
+  db:
+    image: postgres:latest
+    container_name: fanflix-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USER_NAME}
+      POSTGRES_DB: ${DATABASE_NAME}
+    networks:
+      - traefik-global-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.fanflix-db.rule=Host(`db.fanflix.${MY_DOMAIN}`)"
+      - "traefik.http.routers.fanflix-db.entrypoints=websecure"
+      - "traefik.http.routers.fanflix-db.tls.certresolver=letsencrypt"
+      - "traefik.http.services.fanflix-db.loadbalancer.server.port=${DATABASE_PORT}"
 
 networks:
   traefik-global-proxy:
