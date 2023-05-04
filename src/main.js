@@ -17,7 +17,7 @@ import './assets/main.css'
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot)
 
 const axiosInstance = axios.create({
-    baseURL: 'https://fanflix.fantasticstudio.online',
+    baseURL: 'https://api.fanflix.fantasticstudio.online',
 });
   
 axiosInstance.interceptors.request.use((config) => {
