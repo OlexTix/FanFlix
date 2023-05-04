@@ -81,6 +81,20 @@ services:
       - "traefik.http.routers.fanflix-docs.tls.certresolver=letsencrypt"
       - "traefik.http.services.fanflix-docs.loadbalancer.server.port=80"
 
+  adminer:
+    image: adminer:latest
+    container_name: fanflix-adminer
+    restart: unless-stopped
+    networks:
+      - traefik-global-proxy
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fanflix-adminer.rule=Host(`db.fanflix.${MY_DOMAIN}`)"
+      - "traefik.http.routers.fanflix-adminer.entrypoints=websecure"
+      - "traefik.http.routers.fanflix-adminer.tls.certresolver=letsencrypt"
+      - "traefik.http.services.fanflix-adminer.loadbalancer.server.port=8080"
+      
 networks:
   traefik-global-proxy:
     external: true
