@@ -27,47 +27,46 @@ const checkExpiration = async (req, res) => {
 }
 
 const registerUser = async (req, res) => {
-    const { first_name, last_name, email, password, phone, birth_date, role } = req.body;
-  
-    // Default to "client" role if none provided or an invalid role was given
-    const validRoles = ['client', 'employee', 'admin'];
-    const userRole = validRoles.includes(role) ? role : 'client';
-  
-    try {
-      const client = await poolDB.connect();
-  
-      // Check if user with same email already exists
-      const {
-        rows: existingUsers,
-      } = await client.query(
-        'SELECT * FROM "User" WHERE email=$1',
-        [email]
-      );
-      if (existingUsers.length > 0) {
-        res.status(400).send({ message: "Email is already taken" });
-        return;
-      }
-  
-      // Insert new user with hashed password and default role
-      const {
-        rows: insertedUser,
-      } = await client.query(
-        'INSERT INTO "User" (first_name, last_name, email, password_hash, phone, birth_date, role, registration_date, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), true) RETURNING id_user',
-        [first_name, last_name, email, bcrypt.hashSync(password, 8), phone, birth_date, userRole]
-      );
-  
-      if (insertedUser) {
-        res.send({ message: "User was registered successfully!" });
-      } else {
-        res.status(500).send({ message: "Failed to register user" });
-      }
-  
-      client.release();
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: error.message });
+  const { first_name, last_name, email, password, phone, birth_date } = req.body;
+
+  // Set the default role to "client"
+  const userRole = 'client';
+
+  try {
+    const client = await poolDB.connect();
+
+    // Check if user with same email already exists
+    const {
+      rows: existingUsers,
+    } = await client.query(
+      'SELECT * FROM "User" WHERE email=$1',
+      [email]
+    );
+    if (existingUsers.length > 0) {
+      res.status(400).send({ message: "Email is already taken" });
+      return;
     }
-  };
+
+    // Insert new user with hashed password and default role
+    const {
+      rows: insertedUser,
+    } = await client.query(
+      'INSERT INTO "User" (first_name, last_name, email, password_hash, phone, birth_date, role, registration_date, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), true) RETURNING id_user',
+      [first_name, last_name, email, bcrypt.hashSync(password, 8), phone, birth_date, userRole]
+    );
+
+    if (insertedUser) {
+      res.send({ message: "User was registered successfully!" });
+    } else {
+      res.status(500).send({ message: "Failed to register user" });
+    }
+
+    client.release();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: error.message });
+  }
+};
   
   const loginUser = async (req, res) => {
     const { email, password } = req.body;
