@@ -4,14 +4,13 @@
         <img src="https://www.monolith.pl/wp-content/uploads/2023/02/john-wick-4-jw4-2025x3000-online-character-1sht-keanu-v1-pl-864x1280.jpg" alt="Film poster" class="poster" />
       </div>
       <div class="info-container">
-        <h1 class="film-title">John Wick 4</h1>
+        <h1 class="film-title">{{ screening.title }}</h1>
         <div class="film-genres">
           <span>Thriller</span> | <span>Akcja</span>
         </div>
-        <p class="film-duration">193 min</p>
+        <p class="film-duration">{{ screening.duration }} min</p>
         <div class="film-screenings">
-          <ScreeningsType time="10:00" type="PL Dubbing"></ScreeningsType>
-          <ScreeningsType time="14:15" type="Napisy ENG"></ScreeningsType>
+          <ScreeningsType v-for="item in screening.screenings" :key="item.time" :time="item.time" :type="item.language" />
         </div>
       </div>
     </div>
@@ -19,10 +18,17 @@
   
   <script>
   import ScreeningsType from '../screenings/ScreeningsTypeComponent.vue';
+
   export default {
     name: 'ScreeningsTileComponent',
+    props: {
+      screening: {
+        type: Object,
+        required: true,
+      },
+    },
     components: {
-    ScreeningsType,
+      ScreeningsType,
   },
   };
   </script>
