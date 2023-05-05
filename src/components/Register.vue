@@ -4,81 +4,198 @@
       <div class="form-container">
         <h2 class="title">Zarejestruj się</h2>
         <hr class="divider" />
-        <Form :validation-schema="schema" @submit="onSubmit">
-          <div class="card">
-            <div class="field-row">
-              <div class="field" style="margin-right: 1vh;">
-                <label for="email" class="input-label">E-MAIL</label>
-                <Field name="email" v-slot="{ field, errorMessage }">
-                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
-                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
-                </Field>
-              </div>
-              <div class="field">
-                <label for="confirmemail" class="input-label">POTWIERDŹ ADRES E-MAIL</label>
-                <Field name="confirmemail" v-slot="{ field, errorMessage }">
-                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
-                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
-                </Field>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field" style="margin-right: 1vh;">
-                <label for="name" class="input-label">IMIĘ</label>
-                <Field name="name" v-slot="{ field, errorMessage }">
-                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
-                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
-                </Field>
-              </div>
-              <div class="field">
-                <label for="lastname" class="input-label">NAZWISKO</label>
-                <Field name="lastname" v-slot="{ field, errorMessage }">
-                  <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
-                  <small id="email-help" class="p-error">{{ errorMessage }}</small>
-                </Field>
-              </div>
-            </div>
 
-            <div class="field">
-              <label for="phonenumber" class="input-label">NUMER TELEFONU</label>
-              <Field name="phonenumber" v-slot="{ field, errorMessage }" v-model.number="phonenumber" type="number">
-                <InputText v-bind="field" aria-describedby="email-help" :class="{ 'p-invalid': errorMessage }" />
-                <small id="email-help" class="p-error">{{ errorMessage }}</small>
-              </Field>
+        <div class="card">
+          <div class="field-row">
+            <div class="field" style="margin-right: 1vh;">
+              <label for="email" class="input-label">E-MAIL</label>
+              <InputText v-model="email" id="emailinput" :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessageemail }}</small>
             </div>
             <div class="field">
-              <label for="password" class="input-label">HASŁO</label>
-              <Field name="password" v-slot="{ field, errorMessage }" v-model="password" type="password">
-                <InputText v-bind="field" aria-describedby="email-help" type="password"
-                  :class="{ 'p-invalid': errorMessage }" />
-                <small id="email-help" class="p-error">{{ errorMessage }}</small>
-              </Field>
-            </div>
-            <div class="field">
-              <label for="confirmpassword" class="input-label">POTWIERDŹ HASŁO</label>
-              <Field name="confirmpassword" v-slot="{ field, errorMessage }" v-model="confirmpassword" type="password">
-                <InputText v-bind="field" aria-describedby="email-help" type="password"
-                  :class="{ 'p-invalid': errorMessage }" />
-                <small id="email-help" class="p-error">{{ errorMessage }}</small>
-              </Field>
-            </div>
-            <div class="field-checkbox">
-              <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
-                conditions*</label>
-              <p class="accept-error" v-if="!accept" style="color: red; margin-bottom: 1vh;">Musisz zaakceptować warunki.
-              </p>
-            </div>
-            <div class="card flex justify-content-center">
-              <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton" />
+              <label for="confirmemail" id="confirmemailinput" class="input-label">POTWIERDŹ ADRES E-MAIL</label>
+              <InputText v-model="confirmemail" :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessageconfirmemail }}</small>
+
             </div>
           </div>
-        </Form>
+          <div class="field-row">
+            <div class="field" style="margin-right: 1vh;">
+              <label for="first_name" class="input-label">IMIĘ</label>
+
+              <InputText v-model="first_name" :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessagefirst_name }}</small>
+
+            </div>
+            <div class="field">
+              <label for="last_name" class="input-label">NAZWISKO</label>
+
+              <InputText v-model="last_name" :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessagelast_name }}</small>
+
+            </div>
+          </div>
+          <div class="field">
+            <label for="phone" class="input-label">NUMER TELEFONU</label>
+
+            <InputText v-model="phone" :class="{ 'p-invalid': errorMessage }" />
+            <small class="p-error">{{ errorMessagephone }}</small>
+
+          </div>
+          <div class="field">
+            <label for="birth_date" class="input-label">DATA URODZENIA</label>
+            <Calendar name="birth_date" v-model="birth_date" dateFormat="yy-mm-dd"
+              :class="{ 'p-invalid': errorMessage }" />
+            <small class="p-error">{{ errorMessagebirth_date }}</small>
+          </div>
+          <div class="field">
+            <label for="password" class="input-label">HASŁO</label>
+
+            <InputText v-model="password" id="passwordinput" type="password" :class="{ 'p-invalid': errorMessage }" />
+            <small class="p-error">{{ errorMessagepassword }}</small>
+
+          </div>
+          <div class="field">
+            <label for="confirmpassword" class="input-label">POTWIERDŹ HASŁO</label>
+
+            <InputText v-model="confirmpassword" id="confirmpasswordinput" type="password"
+              :class="{ 'p-invalid': errorMessage }" />
+            <small class="p-error">{{ errorMessageconfirmpassword }}</small>
+          </div>
+          <div class="field-checkbox">
+            <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
+              conditions*</label>
+            <p class="accept-error" v-if="!accept" style="color: red; margin-bottom: 1vh;">Musisz zaakceptować warunki.
+            </p>
+          </div>
+          <div class="card flex justify-content-center">
+            <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton"
+              @click="register" />
+            <small id="email-help" class="p-error">{{ errorMessage }}</small>
+          </div>
+        </div>
+
       </div>
-
     </div>
-
   </div>
 </template>
+
+<script>
+import Button from 'primevue/button';
+import Checkbox from 'primevue/checkbox';
+import Calendar from 'primevue/calendar';
+import axios from 'axios';
+export default {
+  name: 'RegisterForm',
+  components: {
+    Button,
+    Calendar,
+    Checkbox
+  },
+  data() {
+    return {
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      phone: '',
+      email: '',
+      confirmemail: '',
+      password: '',
+      confirmpassword: '',
+      errorMessage: '',
+      errorMessageemail: '',
+      errorMessageconfirmemail: '',
+      errorMessagefirst_name: '',
+      errorMessagelast_name: '',
+      errorMessagephone: '',
+      errorMessagebirth_date: '',
+      errorMessagepassword: '',
+      errorMessageconfirmpassword: '',
+
+
+    };
+  },
+  methods: {
+    async validate() {
+      this.errorMessageemail = '';
+      this.errorMessageconfirmemail = '';
+      this.errorMessagefirst_name = '';
+      this.errorMessagelast_name = '';
+      this.errorMessagephone = '';
+      this.errorMessagebirth_date = '';
+      this.errorMessagepassword = '';
+      this.errorMessageconfirmpassword = '';
+      if (this.email.length == 0) {
+        this.errorMessageemail = "Pole E-mail jest wymagane";
+      }
+      if (this.confirmemail != this.email) {
+        this.errorMessageconfirmemail = "Adresy e-mail muszą się zgadzać";
+      }
+      if (this.first_name.length == 0) {
+        this.errorMessagefirst_name = "Pole Imię jest wymagane";
+      }
+      if (this.last_name.length == 0) {
+        this.errorMessagelast_name = "Pole Nazwisko jest wymagane";
+      }
+      if (this.phone.length == 0) {
+        this.errorMessagephone = "Pole Nr tel jest wymagane";
+      }
+      if (this.birth_date.length == 0) {
+        this.errorMessagebirth_date = "Pole Data Urodzenia jest wymagane";
+      }
+      if (this.password.length < 8) {
+        this.errorMessagepassword = "Pole Hasło jest wymagane (minimum 8 znaków)";
+      }
+      if (this.confirmpassword != this.password) {
+        this.errorMessageconfirmpassword = "Hasła muszą się zgadzać";
+      }
+    },
+    async register() {
+      try {
+        this.validate();
+        const response = await this.$http.post('/api/auth/register', {
+          first_name: this.first_name,
+          last_name: this.last_name,
+          phone: this.phone,
+          birth_date: this.birth_date,
+          email: this.email,
+          password: this.password,
+        });
+
+        //TODO
+        // Przetwarzaj odpowiedź, na przykład zapisując token JWT
+        console.log(response.data);
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('email', response.data.email);
+        localStorage.setItem('first_name', response.data.first_name);
+        localStorage.setItem('last_name', response.data.last_name);
+        localStorage.setItem('role', response.data.role);
+
+        this.errorMessage = '';
+
+      } catch (error) {
+        console.error('Błąd rejestracji:', error);
+
+        if (error.response) {
+          switch (error.response.status) {
+            case 400:
+              this.errorMessage = 'Błąd rejestracji';
+              break;
+            case 500:
+              this.errorMessage = `Błąd serwera: ${error.response.data.message}`;
+              break;
+            default:
+              this.errorMessage = 'Wystąpił nieznany błąd';
+          }
+        } else {
+          this.errorMessage = 'Wystąpił problem z połączeniem';
+        }
+      }
+    },
+  },
+};
+</script>
+
 <style>
 #register {
   background-color: #1e1e1e;
@@ -186,45 +303,3 @@
   word-break: break-all;
 }
 </style>
-<script setup>
-import { ref } from "vue";
-import Button from 'primevue/button';
-import Checkbox from 'primevue/checkbox';
-import { Field, Form } from 'vee-validate';
-import * as yup from 'yup';
-
-
-const name = ref();
-const email = ref();
-const password = ref();
-const accept = ref(false);
-
-const schema = yup.object({
-  email: yup.string().required().email().label('E-mail address'),
-  confirmemail: yup.string().required().email().label('Confirm E-mail'),
-  name: yup.string().required().label('Name'),
-  lastname: yup.string().required().label('Lastname'),
-  phonenumber: yup.number().required().label('Phone number'),
-  password: yup
-    .string()
-    .required('Please Enter your password')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    ),
-  confirmpassword: yup.string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
-
-
-});
-
-
-function onSubmit(values, actions) {
-  console.log(JSON.stringify(values, null, 2));
-  actions.resetForm();
-}
-
-
-</script>
-
-
