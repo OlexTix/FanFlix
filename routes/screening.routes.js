@@ -10,8 +10,8 @@ module.exports = function (app) {
   }));
   
   app.post('/api/cinemas/:id/halls/:hallNumber/screenings', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.addScreening)
-  app.get('/api/cinemas/:name/halls/:hallNumber/screenings', screening.getScreenings)
-  app.get('/api/cinemas/:name/halls/:hallNumber/screenings/:screeningName', screening.getScreeningByName)
+  app.get('/api/cinemas/:name/screenings', screening.getScreenings)
+  app.get('/api/cinemas/:name/screenings/:screeningName', screening.getScreeningByName)
   app.put('/api/cinemas/:id/halls/:hallNumber/screenings/:screeningId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.updateScreeningsData)
   app.delete('/api/cinemas/:id/halls/:hallNumber/screenings/:screeningId', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, screening.deleteScreening)
 
