@@ -26,8 +26,23 @@ const checkExpiration = async (req, res) => {
     res.status(200).json({ message: "Authorized" });
 }
 
+const validateUserData = (data) => {
+  const { first_name, last_name, email, password, phone, birth_date } = data;
+
+  if (!first_name || !last_name || !email || !password || !phone || !birth_date) {
+    return false;
+  }
+  return true;
+};
+
 const registerUser = async (req, res) => {
   const { first_name, last_name, email, password, phone, birth_date } = req.body;
+
+  // Validate user data
+  if (!validateUserData(req.body)) {
+    res.status(400).send({ message: "All fields are required" });
+    return;
+  }
 
   // Set the default role to "client"
   const userRole = 'client';

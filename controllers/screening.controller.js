@@ -161,7 +161,7 @@ const getScreenings = async (req, res) => {
           id_movie: item.id_movie,
           title: item.title,
           poster_url: item.poster_url,
-          genres: item.genres.split(','), // Add genres property, split the comma-separated string into an array
+          genres: item.genres.split(','),
           screenings: [
             {
               id_screening: item.id_screening,
