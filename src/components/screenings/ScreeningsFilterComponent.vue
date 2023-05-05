@@ -1,17 +1,17 @@
 <template>
   <div class="rep-container">
+    <Toast />
     <h2 class="rep-title">REPERTUAR</h2>
     <Dropdown v-model="selectedCinema" :options="cinemas" optionLabel="name" placeholder="Select a Cinema" class="w-full md:w-14rem rep-dropdown-custom" />
     <div class="rep-days-container">
-      <header class="rep-current-day">{{ getCurrentDay() }}</header>
-      <header class="rep-weekday" v-for="(day, index) in days">{{ day }}</header>
+      <header class="rep-current-day" @click="onDayClick(0)">{{ getCurrentDay() }}</header>
+      <header class="rep-weekday" v-for="(day, index) in days" @click="onDayClick(index+1)">{{ day }}</header>
     </div>
     <h2 class="rep-date">{{ getDate() }}</h2>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import Dropdown from 'primevue/dropdown';
 
 export default {
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       selectedCinema: null,
+      selectedDate: null,
       cinemas: [],
       days: [],
     };
@@ -32,28 +33,19 @@ export default {
   },
   async created() {
     this.days = this.buildDaysArray(this.currentDayIndex);
-    await this.fetchCinemas();
-    await this.fetchRepertoire();
+    this.fetchCinemas();
+    this.onDayClick(0);
+    this.emitSelectedData();
   },
   methods: {
     async fetchCinemas() {
       try {
-        const response = await axios.get('/api/cinemas');
+        const response = await this.$http.get('/api/cinemas');
         this.cinemas = response.data;
         console.log('Otrzymane kina:', this.cinemas);
       } catch (error) {
+        this.$toast.add({ severity: 'error', summary: 'Error', detail: `Błąd podczas pobierania kin.`, life: 3000 });
         console.error('Błąd podczas pobierania kin:', error.message, error.response);
-      }
-    },
-    async fetchRepertoire() {
-      if (this.selectedCinema) {
-        try {
-          const response = await axios.get(`/api/cinemas/${this.selectedCinema.name}/repertoire`);
-          this.repertoire = response.data;
-          console.log('Otrzymany repertuar:', this.repertoire);
-        } catch (error) {
-          console.error('Błąd podczas pobierania repertuaru:', error);
-        }
       }
     },
     getCurrentDay() {
@@ -79,11 +71,39 @@ export default {
       const weekdays = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek','Piątek', 'Sobota'];
       return weekdays[day];
     },
+    formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
+    onDayClick(dayIndex) {
+      const selectedDate = new Date();
+      selectedDate.setDate(selectedDate.getDate() + dayIndex);
+      this.selectedDate = this.formatDate(selectedDate);
+      this.emitSelectedData();
+    },
+    emitSelectedData() {
+      if (this.selectedCinema && this.selectedDate) {
+        this.$emit('selected-data-changed', {
+          cinema: this.selectedCinema.name,
+          date: this.selectedDate,
+        });
+      }
+    },
+    showToast(severity, summary, detail) {
+      this.toast.add({
+        severity,
+        summary,
+        detail,
+        life: 3000,
+      });
+    },
   },
   watch: {
     selectedCinema(newValue, oldValue) {
       console.log('Zmiana wybranego kina z', oldValue, 'na', newValue);
-      this.fetchRepertoire();
+      this.emitSelectedData();
     },
   },
 };
@@ -116,6 +136,12 @@ export default {
     font-size: 16px;
     font-weight: 700;
     margin-right: 10px;
+  }
+
+  header:hover {
+    color: #01B25B;
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
   }
   
   .rep-weekday {

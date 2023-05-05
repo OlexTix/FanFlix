@@ -1,28 +1,40 @@
 <template>
     <div class="repertoire-tile">
       <div class="poster-container">
-        <img src="https://www.monolith.pl/wp-content/uploads/2023/02/john-wick-4-jw4-2025x3000-online-character-1sht-keanu-v1-pl-864x1280.jpg" alt="Film poster" class="poster" />
+        <img :src="movie.poster_url" alt="Film poster" class="poster" />
       </div>
       <div class="info-container">
-        <h1 class="film-title">John Wick 4</h1>
+        <h1 class="film-title">{{ movie.title }}</h1>
         <div class="film-genres">
-          <span>Thriller</span> | <span>Akcja</span>
+          <div v-for="(genre, index) in movie.genres" :key="index">
+            <span>{{ genre }}</span>
+            <span v-if="index !== movie.genres.length - 1"> | </span>
+          </div>
         </div>
-        <p class="film-duration">193 min</p>
+        <p class="film-duration">{{ movie.duration }} min</p>
         <div class="film-screenings">
-          <ScreeningsType time="10:00" type="PL Dubbing"></ScreeningsType>
-          <ScreeningsType time="14:15" type="Napisy ENG"></ScreeningsType>
+          <ScreeningsType v-for="item in movie.screenings" :key="item.time" :time="item.time" :type="item.language" />
         </div>
       </div>
     </div>
+    <Spacer />
   </template>
   
   <script>
   import ScreeningsType from '../screenings/ScreeningsTypeComponent.vue';
+  import Spacer from '../screenings/ScreeningsSpacerComponent.vue';
+
   export default {
     name: 'ScreeningsTileComponent',
+    props: {
+      movie: {
+        type: Object,
+        required: true,
+      },
+    },
     components: {
-    ScreeningsType,
+      ScreeningsType,
+      Spacer
   },
   };
   </script>
