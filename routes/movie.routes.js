@@ -10,8 +10,8 @@ module.exports = function (app) {
   }));
 
   app.post('/api/movies/add', oleCheckJWT.verifyToken, movie.addMovie)
-  app.get('/api/movies', oleCheckJWT.verifyToken, movie.getMovies)
-  app.get('/api/movies/:id', oleCheckJWT.verifyToken, movie.getMovieById)
+  app.get('/api/movies', movie.getMovies)
+  app.get('/api/movies/:movieName', movie.getMovieByName)
   app.put('/api/movies/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, movie.updateMoviesData)
   app.delete('/api/movies/:id', oleCheckJWT.verifyToken, oleCheckJWT.isAdmin, movie.deleteMovie)
 

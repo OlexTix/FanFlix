@@ -114,51 +114,84 @@ const getMovies = async (req, res) => {
     poster_url,
     youtube_link,
     release_date,
+    first_name,
+    last_name,
+    nationality
   } = req.query;
   const client = await poolDB.connect();
-  let selectColumns = "*";
 
-  if (Object.keys(req.query).length === 1) {
-    // Add conditions for each column as needed
-  }
+  let query = `
+    SELECT 
+      m.id_movie, 
+      m.title, 
+      array_agg(g.name) AS genres, 
+      d.first_name, 
+      d.last_name, 
+      d.nationality, 
+      m.duration, 
+      m.description, 
+      m.poster_url, 
+      m.youtube_link, 
+      m.release_date
+    FROM "Movie" AS m
+    INNER JOIN "Director" AS d ON m.id_director = d.id_director
+    LEFT JOIN "Movie_Genre" AS mg ON m.id_movie = mg.id_movie
+    LEFT JOIN "Genre" AS g ON mg.id_genre = g.id_genre
+  `;
 
-  let query = `SELECT ${selectColumns} FROM "Movie"`;
   const queryParams = [];
   let queryConditions = "";
 
   if (title) {
     queryParams.push(title);
-    queryConditions += ` AND title = $${queryParams.length}`;
+    queryConditions += ` AND m.title = $${queryParams.length}`;
   }
 
   if (duration) {
     queryParams.push(duration);
-    queryConditions += ` AND duration = $${queryParams.length}`;
+    queryConditions += ` AND m.duration = $${queryParams.length}`;
   }
 
   if (description) {
     queryParams.push(description);
-    queryConditions += ` AND description = $${queryParams.length}`;
+    queryConditions += ` AND m.description = $${queryParams.length}`;
   }
 
   if (poster_url) {
     queryParams.push(poster_url);
-    queryConditions += ` AND poster_url = $${queryParams.length}`;
+    queryConditions += ` AND m.poster_url = $${queryParams.length}`;
   }
 
   if (youtube_link) {
     queryParams.push(youtube_link);
-    queryConditions += ` AND youtube_link = $${queryParams.length}`;
+    queryConditions += ` AND m.youtube_link = $${queryParams.length}`;
   }
 
   if (release_date) {
     queryParams.push(release_date);
-    queryConditions += ` AND release_date = $${queryParams.length}`;
+    queryConditions += ` AND m.release_date = $${queryParams.length}`;
+  }
+
+  if (first_name) {
+    queryParams.push(first_name);
+    queryConditions += ` AND d.first_name = $${queryParams.length}`;
+  }
+
+  if (last_name) {
+    queryParams.push(last_name);
+    queryConditions += ` AND d.last_name = $${queryParams.length}`;
+  }
+
+  if (nationality) {
+    queryParams.push(nationality);
+    queryConditions += ` AND d.nationality = $${queryParams.length}`;
   }
 
   if (queryConditions) {
     query += ` WHERE ${queryConditions.slice(5)}`;
   }
+
+  query += ` GROUP BY m.id_movie, d.id_director`;
 
   try {
     const { rows: movieRows } = await client.query(query, queryParams);
@@ -176,17 +209,31 @@ const getMovies = async (req, res) => {
   }
 };
 
-const getMovieById = async (req, res) => {
-  const movieId = parseInt(req.params.id);
+const getMovieByName = async (req, res) => {
+  const movieName = req.params.movieName;
   const client = await poolDB.connect();
 
   try {
     const { rows: movieRows } = await client.query(
-      `SELECT movie.*, director.first_name, director.last_name, director.nationality
-             FROM "Movie" AS movie
-             INNER JOIN "Director" AS director ON movie.id_director = director.id_director
-             WHERE movie.id_movie = $1`,
-      [movieId]
+      `SELECT
+        m.id_movie,
+        m.title,
+        array_agg(g.name) AS genres,
+        d.first_name,
+        d.last_name,
+        d.nationality,
+        m.duration,
+        m.description,
+        m.poster_url,
+        m.youtube_link,
+        m.release_date
+      FROM "Movie" AS m
+      INNER JOIN "Director" AS d ON m.id_director = d.id_director
+      LEFT JOIN "Movie_Genre" AS mg ON m.id_movie = mg.id_movie
+      LEFT JOIN "Genre" AS g ON mg.id_genre = g.id_genre
+      WHERE m.title = $1
+      GROUP BY m.id_movie, d.id_director`,
+      [movieName]
     );
 
     if (movieRows.length === 0) {
@@ -196,7 +243,7 @@ const getMovieById = async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).send({ message: "Failed to get movie by id" });
+    res.status(500).send({ message: "Failed to get movie by name" });
   } finally {
     client.release();
   }
@@ -294,7 +341,7 @@ const deleteMovie = async (req, res) => {
 module.exports = {
   addMovie,
   getMovies,
-  getMovieById,
+  getMovieByName,
   updateMoviesData,
   deleteMovie,
 };
