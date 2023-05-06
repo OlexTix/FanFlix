@@ -1,8 +1,11 @@
 <template>
     <div class="location-wrapper">
-      <RouterLink to="#" class="cinema-info">
+      <RouterLink to="#" class="cinema-info" v-if="selectedCinema">
         <fa-icon icon="fa-map-marker-alt" class="location-icon"></fa-icon>
         <p class="cinema-name">{{ selectedCinema }}</p>
+      </RouterLink>
+      <RouterLink to="#" class="cinema-info" v-else>
+        <p class="cinema-name">Wybierz kino</p>
       </RouterLink>
     </div>
   </template>
@@ -14,7 +17,7 @@ import { ref, onMounted } from 'vue';
 export default {
   name: 'NavbarLocationInfo',
   setup() {
-    const selectedCinema = ref("");
+    const selectedCinema = ref(null);
 
     onMounted(() => {
       const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));

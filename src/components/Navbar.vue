@@ -39,8 +39,12 @@ export default {
   computed: {
     screeningsLink() {
       const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
-      const selectedCinema = selectedCinemaObj.name;
-      return selectedCinema ? `/cinemas/${selectedCinema}/screenings` : '/cinemas/select-cinema/screenings';
+      if (selectedCinemaObj && selectedCinemaObj.name) {
+        const selectedCinema = selectedCinemaObj.name;
+        return `/cinemas/${selectedCinema}/screenings`;
+      } else {
+        return '/cinemas/select-cinema/screenings';
+      }
     },
   }
 }
