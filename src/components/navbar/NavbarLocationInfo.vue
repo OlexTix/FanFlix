@@ -1,8 +1,8 @@
 <template>
     <div class="location-wrapper">
-      <RouterLink to="#" class="cinema-info" v-if="selectedCinema">
+      <RouterLink :to="`/cinemas/${selectedCinemaObj.name}/screenings`" class="cinema-info" v-if="selectedCinemaObj">
         <fa-icon icon="fa-map-marker-alt" class="location-icon"></fa-icon>
-        <p class="cinema-name">{{ selectedCinema }}</p>
+        <p class="cinema-name">{{ selectedCinemaObj.city }} - {{ selectedCinemaObj.name }}</p>
       </RouterLink>
       <RouterLink to="/cinemas/select-cinema/screenings" class="cinema-info" v-else>
         <fa-icon icon="fa-hand" class="location-icon"></fa-icon>
@@ -18,7 +18,7 @@
     name: 'NavbarLocationInfo',
     data() {
       return {
-        selectedCinema: null,
+        selectedCinemaObj: null,
       };
     },
     mounted() {
@@ -32,10 +32,7 @@
     },
     methods: {
       updateSelectedCinema() {
-        const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
-        if (selectedCinemaObj) {
-          this.selectedCinema = `${selectedCinemaObj.city} - ${selectedCinemaObj.name}`;
-        }
+        this.selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
       },
     },
   };

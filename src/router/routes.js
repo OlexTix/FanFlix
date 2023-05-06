@@ -30,8 +30,8 @@ const router = createRouter({
       component: () => import('../views/AdminPanelView.vue')
     },
     {
-      path: '/movie',
-      name: 'movie',
+      path: '/movies/:nazwaFilmu',
+      name: 'movies',
       component: () => import('../views/MovieView.vue')
     },
     {
