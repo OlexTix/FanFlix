@@ -59,6 +59,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -96,82 +97,154 @@ export default {
     };
   },
   methods: {
-    async validate() {
-      this.errorMessageemail = '';
-      this.errorMessageconfirmemail = '';
-      this.errorMessagefirst_name = '';
-      this.errorMessagelast_name = '';
-      this.errorMessagephone = '';
-      this.errorMessagebirth_date = '';
-      this.errorMessagepassword = '';
-      this.errorMessageconfirmpassword = '';
-      if (this.email.length == 0) {
-        this.errorMessageemail = "E-mail field is required";
-      }
-      if (this.confirmemail != this.email) {
-        this.errorMessageconfirmemail = "E-mail addresses must match";
-      }
-      if (this.first_name.length == 0) {
-        this.errorMessagefirst_name = "Firstname field is required";
-      }
-      if (this.last_name.length == 0) {
-        this.errorMessagelast_name = "Lastname field is required";
-      }
-      if (this.phone.length == 0) {
-        this.errorMessagephone = "Phone number field is required";
-      }
-      if (this.birth_date.length == 0) {
-        this.errorMessagebirth_date = "Birthdate field is required";
-      }
-      if (this.password.length < 8) {
-        this.errorMessagepassword = "Password field is required (at least 8 characters)";
-      }
-      if (this.confirmpassword != this.password) {
-        this.errorMessageconfirmpassword = "Passwords must match";
-      }
-    },
-    async register() {
-      try {
-        this.validate();
-        const response = await this.$http.post('/api/auth/register', {
-          first_name: this.first_name,
-          last_name: this.last_name,
-          phone: this.phone,
-          birth_date: this.birth_date,
-          email: this.email,
-          password: this.password,
-        });
+async validate() {
+  this.errorMessageemail = '';
+  this.errorMessageconfirmemail = '';
+  this.errorMessagefirst_name = '';
+  this.errorMessagelast_name = '';
+  this.errorMessagephone = '';
+  this.errorMessagebirth_date = '';
+  this.errorMessagepassword = '';
+  this.errorMessageconfirmpassword = '';
 
-        //TODO
-        // Przetwarzaj odpowiedź, na przykład zapisując token JWT
-        console.log(response.data);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('email', response.data.email);
-        localStorage.setItem('first_name', response.data.first_name);
-        localStorage.setItem('last_name', response.data.last_name);
-        localStorage.setItem('role', response.data.role);
+  // Watchers for each input field
+  this.$watch('email', () => { this.validateEmail(); });
+  this.$watch('confirmemail', () => { this.validateConfirmEmail(); });
+  this.$watch('first_name', () => { this.validateFirstName(); });
+  this.$watch('last_name', () => { this.validateLastName(); });
+  this.$watch('phone', () => { this.validatePhone(); });
+  this.$watch('birth_date', () => { this.validateBirthDate(); });
+  this.$watch('password', () => { this.validatePassword(); });
+  this.$watch('confirmpassword', () => { this.validateConfirmPassword(); });
 
-        this.errorMessage = '';
+  // Initial validation
+  this.validateEmail();
+  this.validateConfirmEmail();
+  this.validateFirstName();
+  this.validateLastName();
+  this.validatePhone();
+  this.validateBirthDate();
+  this.validatePassword();
+  this.validateConfirmPassword();
+},
 
-      } catch (error) {
-        console.error('Błąd rejestracji:', error);
+validateEmail() {
+  if (this.email.length === 0) {
+    this.errorMessageemail = "E-mail field is required";
+  } else {
+    this.errorMessageemail = '';
+  }
+},
 
-        if (error.response) {
-          switch (error.response.status) {
-            case 400:
-              this.errorMessage = 'Błąd rejestracji';
-              break;
-            case 500:
-              this.errorMessage = `Błąd serwera: ${error.response.data.message}`;
-              break;
-            default:
-              this.errorMessage = 'Wystąpił nieznany błąd';
-          }
-        } else {
-          this.errorMessage = 'Wystąpił problem z połączeniem';
-        }
+validateConfirmEmail() {
+  if (this.confirmemail !== this.email) {
+    this.errorMessageconfirmemail = "E-mail addresses must match";
+  } else {
+    this.errorMessageconfirmemail = '';
+  }
+},
+
+validateFirstName() {
+  if (this.first_name.length === 0) {
+    this.errorMessagefirst_name = "Firstname field is required";
+  } else {
+    this.errorMessagefirst_name = '';
+  }
+},
+
+validateLastName() {
+  if (this.last_name.length === 0) {
+    this.errorMessagelast_name = "Lastname field is required";
+  } else {
+    this.errorMessagelast_name = '';
+  }
+},
+
+validatePhone() {
+  if (this.phone.length === 0) {
+    this.errorMessagephone = "Phone number field is required";
+  } else {
+    this.errorMessagephone = '';
+  }
+},
+
+validateBirthDate() {
+  if (this.birth_date.length === 0) {
+    this.errorMessagebirth_date = "Birthdate field is required";
+  } else {
+    this.errorMessagebirth_date = '';
+  }
+},
+
+validatePassword() {
+  if (this.password.length < 8) {
+    this.errorMessagepassword = "Password field is required (at least 8 characters)";
+  } else {
+    this.errorMessagepassword = '';
+  }
+},
+
+validateConfirmPassword() {
+  if (this.confirmpassword !== this.password) {
+    this.errorMessageconfirmpassword = "Passwords must match";
+  } else {
+    this.errorMessageconfirmpassword = '';
+  }
+},
+async register() {
+  this.validate();
+  // Check for any validation errors
+  if (this.errorMessageemail || this.errorMessageconfirmemail || this.errorMessagefirst_name ||
+      this.errorMessagelast_name || this.errorMessagephone || this.errorMessagebirth_date ||
+      this.errorMessagepassword || this.errorMessageconfirmpassword) {
+    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Błędy w walidacji', life: 3000 });
+    return;
+  }
+  try {
+    const response = await this.$http.post('/api/auth/register', {
+      first_name: this.first_name,
+      last_name: this.last_name,
+      phone: this.phone,
+      birth_date: this.birth_date,
+      email: this.email,
+      password: this.password,
+    });
+
+    console.log(response.data);
+    localStorage.setItem('accessToken', response.data.accessToken);
+    localStorage.setItem('email', response.data.email);
+    localStorage.setItem('first_name', response.data.first_name);
+    localStorage.setItem('last_name', response.data.last_name);
+    localStorage.setItem('role', response.data.role);
+
+    this.errorMessage = '';
+
+    if (response.status === 200) {
+      const $toastLife = 3000;
+      this.$toast.add({ severity: 'info', summary: 'Info', detail: `Zarejestrowano użytkownika. Możesz się zalogować`, life: $toastLife });
+      await new Promise(resolve => setTimeout(resolve, $toastLife));
+      this.$router.push('/');
+    }
+
+  } catch (error) {
+    console.error('Błąd rejestracji:', error);
+
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          this.errorMessage = 'Błąd rejestracji';
+          break;
+        case 500:
+          this.errorMessage = `Błąd serwera: ${error.response.data.message}`;
+          break;
+        default:
+          this.errorMessage = 'Wystąpił nieznany błąd';
       }
-    },
+    } else {
+      this.errorMessage = 'Wystąpił problem z połączeniem';
+    }
+  }
+},
   },
 };
 </script>
