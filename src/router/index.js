@@ -20,7 +20,7 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue')
     },
     {
-      path: '/cinemas/nazwa-kina',
+      path: '/cinemas/:nazwaKina/screenings',
       name: 'screenings',
       component: () => import('../views/ScreeningsView.vue')
     },

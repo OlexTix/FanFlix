@@ -6,9 +6,9 @@
       </div>
       <div class="wrapper">
         <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/login">Login</RouterLink>
-          <RouterLink to="/sign-up">Sign Up</RouterLink>
+          <RouterLink to="/">Strona główna</RouterLink>
+          <RouterLink to="/login">Zaloguj się</RouterLink>
+          <RouterLink to="/sign-up">Rejestracja</RouterLink>
           <RouterLink to="/admin-panel">Admin Panel</RouterLink>
         </nav>
       </div>
@@ -16,8 +16,8 @@
     <div class="bottom-nav">
       <div class="buttons">
         <div class="buttons-sec" style="display: flex; align-items: center;">
-          <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
-          <RouterLink to="/login">Offers</RouterLink>
+          <RouterLink :to="screeningsLink">Repertuar</RouterLink>
+          <RouterLink to="/login">Oferty</RouterLink>
           <NavbarLocationInfo />
         </div>
       </div>
@@ -36,10 +36,13 @@ export default {
   components: {
     NavbarLocationInfo
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    screeningsLink() {
+      const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
+      const selectedCinema = selectedCinemaObj.name;
+      return selectedCinema ? `/cinemas/${selectedCinema}/screenings` : '/cinemas/select-cinema/screenings';
+    },
+  }
 }
 </script>
 

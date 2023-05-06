@@ -62,12 +62,6 @@
               :class="{ 'p-invalid': errorMessage }" />
             <small class="p-error">{{ errorMessageconfirmpassword }}</small>
           </div>
-          <div class="field-checkbox">
-            <Checkbox v-model="accept" name="accept" :binary="true" /> <label for="accept">I agree to the terms and
-              conditions*</label>
-            <p class="accept-error" v-if="!accept" style="color: red; margin-bottom: 1vh;">Musisz zaakceptować warunki.
-            </p>
-          </div>
           <div class="card flex justify-content-center">
             <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton"
               @click="register" />
@@ -126,28 +120,28 @@ export default {
       this.errorMessagepassword = '';
       this.errorMessageconfirmpassword = '';
       if (this.email.length == 0) {
-        this.errorMessageemail = "Pole E-mail jest wymagane";
+        this.errorMessageemail = "E-mail field is required";
       }
       if (this.confirmemail != this.email) {
-        this.errorMessageconfirmemail = "Adresy e-mail muszą się zgadzać";
+        this.errorMessageconfirmemail = "E-mail addresses must match";
       }
       if (this.first_name.length == 0) {
-        this.errorMessagefirst_name = "Pole Imię jest wymagane";
+        this.errorMessagefirst_name = "Firstname field is required";
       }
       if (this.last_name.length == 0) {
-        this.errorMessagelast_name = "Pole Nazwisko jest wymagane";
+        this.errorMessagelast_name = "Lastname field is required";
       }
       if (this.phone.length == 0) {
-        this.errorMessagephone = "Pole Nr tel jest wymagane";
+        this.errorMessagephone = "Phone number field is required";
       }
       if (this.birth_date.length == 0) {
-        this.errorMessagebirth_date = "Pole Data Urodzenia jest wymagane";
+        this.errorMessagebirth_date = "Birthdate field is required";
       }
       if (this.password.length < 8) {
-        this.errorMessagepassword = "Pole Hasło jest wymagane (minimum 8 znaków)";
+        this.errorMessagepassword = "Password field is required (at least 8 characters)";
       }
       if (this.confirmpassword != this.password) {
-        this.errorMessageconfirmpassword = "Hasła muszą się zgadzać";
+        this.errorMessageconfirmpassword = "Passwords must match";
       }
     },
     async register() {
