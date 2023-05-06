@@ -126,7 +126,7 @@ const getScreenings = async (req, res) => {
     const { whereClause, queryParams } = buildWhereClauseAndParams(req.query, cinemaHallIds);
 
     const query = `
-    SELECT s.id_screening, m.id_movie, m.title, m.poster_url, st.language, st.subtitle, s.date, s.time, string_agg(g.name, ',') as genres
+    SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, st.language, st.subtitle, s.date, s.time, string_agg(g.name, ',') as genres
     FROM "Screening" s
     JOIN "Cinema_Hall" ch ON ch.id_cinema_hall = s.id_cinema_hall
     JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
@@ -135,8 +135,8 @@ const getScreenings = async (req, res) => {
     LEFT JOIN "Movie_Genre" mg ON mg.id_movie = m.id_movie
     LEFT JOIN "Genre" g ON g.id_genre = mg.id_genre
     ${whereClause}
-    GROUP BY s.id_screening, m.id_movie, m.title, m.poster_url, st.language, st.subtitle, s.date, s.time
-  `;
+    GROUP BY s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, st.language, st.subtitle, s.date, s.time
+    `;
 
     const { rows: screeningRows } = await client.query(query, queryParams);
     const screeningRowsString = JSON.stringify(screeningRows);
@@ -145,9 +145,9 @@ const getScreenings = async (req, res) => {
     const outputJson = inputJson.reduce((accumulator, item) => {
 
       const existingMovieIndex = accumulator.findIndex(movie => movie.id_movie === item.id_movie);
-
+    
       if (existingMovieIndex !== -1) {
-
+    
         accumulator[existingMovieIndex].screenings.push({
           id_screening: item.id_screening,
           language: item.language,
@@ -156,11 +156,12 @@ const getScreenings = async (req, res) => {
           time: item.time
         });
       } else {
-
+    
         accumulator.push({
           id_movie: item.id_movie,
           title: item.title,
           poster_url: item.poster_url,
+          duration: item.duration,
           genres: item.genres.split(','),
           screenings: [
             {
@@ -173,12 +174,12 @@ const getScreenings = async (req, res) => {
           ]
         });
       }
-
+    
       return accumulator;
     }, []);
 
     if (screeningRows.length === 0) {
-      res.status(404).send({ message: "Screenings not found" });
+      res.status(200).send({ message: "Screenings not found" });
     } else {
       res.status(200).json(outputJson);
     }
@@ -215,22 +216,47 @@ const getScreenings = async (req, res) => {
       const id_cinema_hall = cinemaHallRows[0].id_cinema_hall;
 
       const query = `
-          SELECT s.id_screening, m.title, ch.hall_number, st.language, st.subtitle, s.date, s.time
-          FROM "Screening" s
-          JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
-          JOIN "Movie" m ON m.id_movie = s.id_movie
-          JOIN "Cinema_Hall" ch ON ch.id_cinema_hall = s.id_cinema_hall
-          JOIN "Screening_Type" st ON st.id_screening_type = s.id_screening_type
-          WHERE s.id_cinema_hall = $1 AND m.title = $2
-        `;
+      SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, string_agg(g.name, ',') as genres, st.language, st.subtitle, s.date, s.time
+      FROM "Screening" s
+      JOIN "Cinema_Hall" ch ON ch.id_cinema_hall = s.id_cinema_hall
+      JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
+      JOIN "Movie" m ON m.id_movie = s.id_movie
+      JOIN "Director" d ON d.id_director = m.id_director
+      JOIN "Screening_Type" st ON st.id_screening_type = s.id_screening_type
+      LEFT JOIN "Movie_Genre" mg ON mg.id_movie = m.id_movie
+      LEFT JOIN "Genre" g ON g.id_genre = mg.id_genre
+      WHERE s.id_cinema_hall = $1 AND m.title = $2
+      GROUP BY s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, st.language, st.subtitle, s.date, s.time
+    `;
       const queryParams = [id_cinema_hall, screeningName];
   
       const { rows: screeningRows } = await client.query(query, queryParams);
   
       if (screeningRows.length === 0) {
-        res.status(404).send({ message: "Screening not found" });
+        res.status(200).send({ message: "Screening not found" });
       } else {
-        res.status(200).json(screeningRows);
+        const screening = screeningRows[0];
+        const outputJson = {
+          id_movie: screening.id_movie,
+          title: screening.title,
+          genres: screening.genres.split(','),
+          first_name: screening.first_name,
+          last_name: screening.last_name,
+          nationality: screening.nationality,
+          duration: screening.duration,
+          description: screening.description,
+          poster_url: screening.poster_url,
+          screenings: [
+            {
+              id_screening: screening.id_screening,
+              language: screening.language,
+              subtitle: screening.subtitle,
+              date: screening.date,
+              time: screening.time
+            }
+          ]
+        };
+        res.status(200).json(outputJson);
       }
     } catch (err) {
       console.error(err.message);
