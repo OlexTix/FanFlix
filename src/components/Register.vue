@@ -4,7 +4,6 @@
       <div class="form-container">
         <h2 class="title">Zarejestruj się</h2>
         <hr class="divider" />
-
         <div class="card">
           <div class="field-row">
             <div class="field" style="margin-right: 1vh;">
@@ -16,31 +15,24 @@
               <label for="confirmemail" id="confirmemailinput" class="input-label">POTWIERDŹ ADRES E-MAIL</label>
               <InputText v-model="confirmemail" :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessageconfirmemail }}</small>
-
             </div>
           </div>
           <div class="field-row">
             <div class="field" style="margin-right: 1vh;">
               <label for="first_name" class="input-label">IMIĘ</label>
-
               <InputText v-model="first_name" :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagefirst_name }}</small>
-
             </div>
             <div class="field">
               <label for="last_name" class="input-label">NAZWISKO</label>
-
               <InputText v-model="last_name" :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagelast_name }}</small>
-
             </div>
           </div>
           <div class="field">
             <label for="phone" class="input-label">NUMER TELEFONU</label>
-
             <InputText v-model="phone" :class="{ 'p-invalid': errorMessage }" />
             <small class="p-error">{{ errorMessagephone }}</small>
-
           </div>
           <div class="field">
             <label for="birth_date" class="input-label">DATA URODZENIA</label>
@@ -50,14 +42,11 @@
           </div>
           <div class="field">
             <label for="password" class="input-label">HASŁO</label>
-
             <InputText v-model="password" id="passwordinput" type="password" :class="{ 'p-invalid': errorMessage }" />
             <small class="p-error">{{ errorMessagepassword }}</small>
-
           </div>
           <div class="field">
             <label for="confirmpassword" class="input-label">POTWIERDŹ HASŁO</label>
-
             <InputText v-model="confirmpassword" id="confirmpasswordinput" type="password"
               :class="{ 'p-invalid': errorMessage }" />
             <small class="p-error">{{ errorMessageconfirmpassword }}</small>
@@ -65,10 +54,9 @@
           <div class="card flex justify-content-center">
             <Button label="ZAREJESTRUJ SIE" type="submit" severity="primary" rounded id="signupbutton"
               @click="register" />
-            <small id="email-help" class="p-error">{{ errorMessage }}</small>
+            <small class="p-error">{{ errorMessage }}</small>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -105,8 +93,6 @@ export default {
       errorMessagebirth_date: '',
       errorMessagepassword: '',
       errorMessageconfirmpassword: '',
-
-
     };
   },
   methods: {
