@@ -148,14 +148,14 @@ const getScreenings = async (req, res) => {
       const existingMovieIndex = accumulator.findIndex(
         (movie) => movie.id_movie === item.id_movie
       );
-
+  
       if (existingMovieIndex !== -1) {
         accumulator[existingMovieIndex].screenings.push({
           id_screening: item.id_screening,
           language: item.language,
           subtitle: item.subtitle,
           date: item.date,
-          time: item.time,
+          time: moment(item.time, "HH:mm:ss").format("HH:mm"), 
         });
       } else {
         accumulator.push({
@@ -170,12 +170,12 @@ const getScreenings = async (req, res) => {
               language: item.language,
               subtitle: item.subtitle,
               date: item.date,
-              time: moment(item.time, "HH:mm:ss").format("HH:mm"),
+              time: moment(item.time, "HH:mm:ss").format("HH:mm"), 
             },
           ],
         });
       }
-
+  
       return accumulator;
     }, []);
 
