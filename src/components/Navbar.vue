@@ -27,8 +27,7 @@
   <RouterView />
 </template>
 <script>
-import { RouterLink, RouterView, useRouter } from 'vue-router';
-import { ref, computed, inject } from 'vue';
+import { RouterLink, RouterView } from 'vue-router';
 import NavbarLocationInfo from './navbar/NavbarLocationInfo.vue';
 
 export default {
@@ -57,6 +56,7 @@ export default {
     logout() {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('userData');
+      this.$toast.add({ severity: 'info', summary: 'Wylogowano pomyślnie :)', detail: "", life: 3000 });
       this.$router.push('/');
       this.loggedIn = null;
       this.isAdmin = null;

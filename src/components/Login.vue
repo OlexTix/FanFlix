@@ -25,7 +25,6 @@
   
   <script>
   import Button from 'primevue/button';
-  import axios from 'axios';
   export default {
     name: 'LoginForm',
     components: {
@@ -55,11 +54,13 @@
               };
               const userDataJSON = JSON.stringify(userData);
               localStorage.setItem('userData', userDataJSON);
+
               console.log("Bieżący użytkownik: ", response.data);
 
               this.emitter.emit('updateUserData');
-
               this.errorMessage='';
+
+              this.$router.push('/');
 
             } catch (error) {
                 console.error('Błąd logowania:', error);
