@@ -25,7 +25,6 @@
   
   <script>
   import Button from 'primevue/button';
-  import axios from 'axios';
   export default {
     name: 'LoginForm',
     components: {
@@ -46,16 +45,22 @@
                 password: this.password,
               });
 
-                //TODO
-                // Przetwarzaj odpowiedź, na przykład zapisując token JWT
-                console.log(response.data);
-                localStorage.setItem('accessToken', response.data.accessToken);
-                localStorage.setItem('email', response.data.email);
-                localStorage.setItem('first_name', response.data.first_name);
-                localStorage.setItem('last_name', response.data.last_name);
-                localStorage.setItem('role', response.data.role);
+              localStorage.setItem('accessToken', response.data.accessToken);
+              const userData = {
+                email: response.data.email,
+                first_name: response.data.first_name,
+                last_name: response.data.last_name,
+                role: response.data.role,
+              };
+              const userDataJSON = JSON.stringify(userData);
+              localStorage.setItem('userData', userDataJSON);
 
-                this.errorMessage='';
+              console.log("Bieżący użytkownik: ", response.data);
+
+              this.emitter.emit('updateUserData');
+              this.errorMessage='';
+
+              this.$router.push('/');
 
             } catch (error) {
                 console.error('Błąd logowania:', error);
