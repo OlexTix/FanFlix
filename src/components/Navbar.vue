@@ -16,7 +16,7 @@
     <div class="bottom-nav">
       <div class="buttons">
         <div class="buttons-sec" style="display: flex; align-items: center;">
-          <RouterLink to="/cinemas/nazwa-kina">Repertuar</RouterLink>
+          <RouterLink :to="screeningsLink">Repertuar</RouterLink>
           <RouterLink to="/login">Oferty</RouterLink>
           <NavbarLocationInfo />
         </div>
@@ -36,10 +36,13 @@ export default {
   components: {
     NavbarLocationInfo
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    screeningsLink() {
+      const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
+      const selectedCinema = selectedCinemaObj.name;
+      return selectedCinema ? `/cinemas/${selectedCinema}/screenings` : '/cinemas/select-cinema/screenings';
+    },
+  }
 }
 </script>
 
@@ -82,12 +85,12 @@ export default {
 }
 
 nav {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 
 nav a {
   display: inline-flex;
-  padding: 0 0.7rem;
+  padding: 0 1rem;
   /* border-left: 1px solid var(--color-border); */
 }
 
@@ -114,19 +117,16 @@ nav a.router-link-exact-active:hover {
 .buttons {
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0.6rem !important;
-  padding-right: 0.6rem !important;
+  padding-left: 0.8rem !important;
   max-width: 1024px;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  
+  padding: 0.3rem;
+
 }
 
 .buttons a {
   color: white;
   text-shadow: 1px 1px 6px rgba(64, 54, 54, 1);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-family: Verdana, Tahoma, sans-serif;
 }
 
