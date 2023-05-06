@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <main class="main-container">
-    <div class="login-container">
+    <div class="register-container">
       <Register />
     </div>
     <Footer />
@@ -35,7 +35,7 @@ export default defineComponent({
   min-height: 100vh;
 }
 
-.login-container {
+.register-container {
   flex-grow: 0;
   display: flex;
   justify-content: center;
