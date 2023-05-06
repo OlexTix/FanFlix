@@ -2,7 +2,7 @@
     <div class="new-icon">
       <div class="icons-awansome">
         <fa-icon icon="fa-solid fa-fire-flame-curved" />
-        <h2 style="margin-left: 1rem;">What's new</h2>
+        <p style="margin-left: 1rem;">Co nowego</p>
       </div>
     </div>
     
@@ -106,11 +106,15 @@ import 'primeicons/primeicons.css';
 }
 .icons-awansome {
   display: flex;
-  margin-top: 1.3rem;
+  margin-top: 1.2rem;
   padding-left: 0.8rem;
 }
+.icons-awansome p {
+  font-size: 1.2rem;
+  margin: 0.3rem 0;
+}
 .icons-awansome .svg-inline--fa {
-  height: 2.2rem;
+  height: 2.1rem;
 }
 
 </style>

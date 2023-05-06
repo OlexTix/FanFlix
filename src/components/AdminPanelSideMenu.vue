@@ -6,33 +6,33 @@
     <div class="divider"></div>
     <div class="options">
       <div class="category">
-        <div class="title">Users</div>
-        <router-link to="/users" class="option">User list</router-link>
-        <router-link to="/users/edit" class="option">Edit user</router-link>
-        <router-link to="/users/register" class="option">Register user</router-link>
+        <div class="title">Użytkownicy</div>
+        <router-link to="/users" class="option">Lista użytkowników</router-link>
+        <router-link to="/users/edit" class="option">Edycja użytkowników</router-link>
+        <router-link to="/users/register" class="option">Zarejesrtuj użytkownika</router-link>
       </div>
       <div class="category">
-        <div class="title">Cinemas</div>
-        <router-link to="/cinemas" class="option">Cinema list</router-link>
-        <router-link to="/cinemas/halls" class="option">Cinema halls</router-link>
-        <router-link to="/cinemas/nazwa-kina" class="option">Screenings</router-link>
+        <div class="title">Kina</div>
+        <router-link to="/cinemas" class="option">Lista kin</router-link>
+        <router-link to="/cinemas/halls" class="option">Sale kinowe</router-link>
+        <router-link to="/cinemas/nazwa-kina" class="option">Repertuar</router-link>
       </div>
       <div class="category">
-        <div class="title">Employees</div>
-        <router-link to="/employees" class="option">Employee list</router-link>
-        <router-link to="/employees/fire" class="option">Fire an employee</router-link>
-        <router-link to="/employees/hire" class="option">Employ an employee</router-link>
+        <div class="title">Pracownicy</div>
+        <router-link to="/employees" class="option">Lista pracowników</router-link>
+        <router-link to="/employees/modify" class="option">Edytuj pracownika</router-link>
       </div>
       <div class="category">
-        <div class="title">Other</div>
-        <router-link to="/about" class="option">Website info</router-link>
-        <router-link to="/logs" class="option">Logs</router-link>
+        <div class="title">Inne</div>
+        <router-link to="/logs" class="option">Logi</router-link>
+        <router-link to="/about" class="option">Informacje</router-link>
+        <router-link to="/change-password" class="option">Zmień hasło</router-link>
       </div>
     </div>
     <div class="divider"></div>
     <div class="options">
-      <router-link to="/logout" class="option">Log out</router-link>
-      <router-link to="/change-password" class="option">Change password</router-link>
+      <router-link to="/logout" class="option">Wyloguj się</router-link>
+      
     </div>
   </div>
 </template>
@@ -66,7 +66,7 @@
 }
 
 .title {
-  font-weight: 800;
+  font-size: 1.2rem;
   margin-bottom: 0.2vh;
 }
 

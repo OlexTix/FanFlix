@@ -6,9 +6,9 @@
       </div>
       <div class="wrapper">
         <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/login">Login</RouterLink>
-          <RouterLink to="/sign-up">Sign Up</RouterLink>
+          <RouterLink to="/">Strona główna</RouterLink>
+          <RouterLink to="/login">Zaloguj się</RouterLink>
+          <RouterLink to="/sign-up">Rejestracja</RouterLink>
           <RouterLink to="/admin-panel">Admin Panel</RouterLink>
         </nav>
       </div>
@@ -16,8 +16,8 @@
     <div class="bottom-nav">
       <div class="buttons">
         <div class="buttons-sec" style="display: flex; align-items: center;">
-          <RouterLink to="/cinemas/nazwa-kina">Screenings</RouterLink>
-          <RouterLink to="/login">Offers</RouterLink>
+          <RouterLink to="/cinemas/nazwa-kina">Repertuar</RouterLink>
+          <RouterLink to="/login">Oferty</RouterLink>
           <NavbarLocationInfo />
         </div>
       </div>
@@ -82,12 +82,12 @@ export default {
 }
 
 nav {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
 }
 
 nav a {
   display: inline-flex;
-  padding: 0 1rem;
+  padding: 0 0.7rem;
   /* border-left: 1px solid var(--color-border); */
 }
 
@@ -114,16 +114,19 @@ nav a.router-link-exact-active:hover {
 .buttons {
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0.8rem !important;
+  padding-left: 0.6rem !important;
+  padding-right: 0.6rem !important;
   max-width: 1024px;
-  padding: 0.3rem;
-
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  
 }
 
 .buttons a {
   color: white;
   text-shadow: 1px 1px 6px rgba(64, 54, 54, 1);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-family: Verdana, Tahoma, sans-serif;
 }
 
