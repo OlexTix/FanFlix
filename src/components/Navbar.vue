@@ -7,9 +7,10 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Strona główna</RouterLink>
-          <RouterLink to="/login">Zaloguj się</RouterLink>
-          <RouterLink to="/sign-up">Rejestracja</RouterLink>
-          <RouterLink to="/admin-panel">Admin Panel</RouterLink>
+          <RouterLink v-if="!loggedIn" to="/login">Zaloguj się</RouterLink>
+          <RouterLink v-if="!loggedIn" to="/sign-up">Rejestracja</RouterLink>
+          <RouterLink v-if="isAdmin" to="/admin-panel">Admin Panel</RouterLink>
+          <a v-if="loggedIn" @click="logout" class="logout">Wyloguj</a>
         </nav>
       </div>
     </div>
@@ -26,15 +27,20 @@
   <RouterView />
 </template>
 <script>
-import { RouterLink, RouterView } from 'vue-router'
-import { ref } from 'vue';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { ref, computed, inject } from 'vue';
 import NavbarLocationInfo from './navbar/NavbarLocationInfo.vue';
 
-const checked = ref(true);
 export default {
   name: 'Navbar',
   components: {
     NavbarLocationInfo
+  },
+  data() {
+    return {
+      loggedIn: localStorage.getItem('accessToken'),
+      isAdmin: null
+    };
   },
   computed: {
     screeningsLink() {
@@ -45,9 +51,31 @@ export default {
       } else {
         return '/cinemas/select-cinema/screenings';
       }
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userData');
+      this.$router.push('/');
+      this.loggedIn = null;
+      this.isAdmin = null;
     },
+    updateUserData() {
+      this.loggedIn = localStorage.getItem('accessToken');
+      const userDataJSON = localStorage.getItem('userData');
+      const userData = userDataJSON ? JSON.parse(userDataJSON) : null;
+      this.isAdmin = userData && userData.role === 'admin';
+    }
+  },
+  mounted() {
+    this.emitter.on('updateUserData', this.updateUserData);
+    this.updateUserData(); 
+  },
+  beforeUnmount() {
+    this.emitter.off('updateUserData', this.updateUserData);
   }
-}
+};
 </script>
 
 <style scoped>
@@ -67,6 +95,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between
+}
+
+.logout {
+  cursor: pointer;
 }
 
 .logo-image {
