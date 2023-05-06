@@ -45,7 +45,15 @@ const registerUser = async (req, res) => {
   const { first_name, last_name, email, password, phone, birth_date } =
     req.body;
 
-  // Validate user data
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+  const phoneRegex = /^\d{3}-\d{3}-\d{3}$/;
+
+  if (!emailRegex.test(email) || !phoneRegex.test(phone)) {
+    res.status(400).send({ message: "Invalid email or phone format" });
+    return;
+  }
+
   if (!validateUserData(req.body)) {
     res.status(400).send({ message: "All fields are required" });
     return;
