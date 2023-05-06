@@ -116,7 +116,7 @@ const getScreenings = async (req, res) => {
     ]);
 
     if (cinemaHallRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
+      res.status(404).send({ message: "Cinema or Hall not found" });
       return;
     }
 
@@ -208,7 +208,7 @@ const getScreeningByName = async (req, res) => {
     ]);
 
     if (cinemaHallRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
+      res.status(404).send({ message: "Cinema or Hall not found" });
       return;
     }
 
