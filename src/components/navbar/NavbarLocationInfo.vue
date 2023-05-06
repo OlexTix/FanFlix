@@ -4,34 +4,42 @@
         <fa-icon icon="fa-map-marker-alt" class="location-icon"></fa-icon>
         <p class="cinema-name">{{ selectedCinema }}</p>
       </RouterLink>
-      <RouterLink to="#" class="cinema-info" v-else>
+      <RouterLink to="/cinemas/select-cinema/screenings" class="cinema-info" v-else>
+        <fa-icon icon="fa-hand" class="location-icon"></fa-icon>
         <p class="cinema-name">Wybierz kino</p>
       </RouterLink>
     </div>
   </template>
   
   <script>
-import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue';
-
-export default {
-  name: 'NavbarLocationInfo',
-  setup() {
-    const selectedCinema = ref(null);
-
-    onMounted(() => {
-      const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
-      if (selectedCinemaObj) {
-        selectedCinema.value = `${selectedCinemaObj.city} - ${selectedCinemaObj.name}`
-      }
-    });
-
-    return {
-      selectedCinema
-    }
-  }
-}
-</script>
+  import { RouterLink } from 'vue-router';
+  
+  export default {
+    name: 'NavbarLocationInfo',
+    data() {
+      return {
+        selectedCinema: null,
+      };
+    },
+    mounted() {
+      this.updateSelectedCinema();
+      this.emitter.on('updateSelectedCinema', () => {
+        this.updateSelectedCinema();
+      });
+    },
+    beforeUnmount() {
+      this.emitter.off('updateSelectedCinema');
+    },
+    methods: {
+      updateSelectedCinema() {
+        const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
+        if (selectedCinemaObj) {
+          this.selectedCinema = `${selectedCinemaObj.city} - ${selectedCinemaObj.name}`;
+        }
+      },
+    },
+  };
+  </script>
 
 <style scoped>
 .location-wrapper {
