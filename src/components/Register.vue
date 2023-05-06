@@ -129,8 +129,11 @@ async validate() {
 },
 
 validateEmail() {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (this.email.length === 0) {
-    this.errorMessageemail = "E-mail field is required";
+    this.errorMessageemail = "Pole E-mail jest wymagane";
+  } else if (!regex.test(this.email)) {
+    this.errorMessageemail = "Niepoprawny adres e-mail";
   } else {
     this.errorMessageemail = '';
   }
@@ -138,7 +141,7 @@ validateEmail() {
 
 validateConfirmEmail() {
   if (this.confirmemail !== this.email) {
-    this.errorMessageconfirmemail = "E-mail addresses must match";
+    this.errorMessageconfirmemail = "Adresy e-mail muszą być zgodne";
   } else {
     this.errorMessageconfirmemail = '';
   }
@@ -146,7 +149,7 @@ validateConfirmEmail() {
 
 validateFirstName() {
   if (this.first_name.length === 0) {
-    this.errorMessagefirst_name = "Firstname field is required";
+    this.errorMessagefirst_name = "Pole Imię jest wymagane";
   } else {
     this.errorMessagefirst_name = '';
   }
@@ -154,31 +157,34 @@ validateFirstName() {
 
 validateLastName() {
   if (this.last_name.length === 0) {
-    this.errorMessagelast_name = "Lastname field is required";
+    this.errorMessagelast_name = "Pole Nazwisko jest wymagane";
   } else {
     this.errorMessagelast_name = '';
   }
 },
 
-validatePhone() {
-  if (this.phone.length === 0) {
-    this.errorMessagephone = "Phone number field is required";
-  } else {
-    this.errorMessagephone = '';
-  }
-},
-
 validateBirthDate() {
   if (this.birth_date.length === 0) {
-    this.errorMessagebirth_date = "Birthdate field is required";
+    this.errorMessagebirth_date = "Pole data urodzenia jest wymagane";
   } else {
     this.errorMessagebirth_date = '';
   }
 },
 
+validatePhone() {
+  const regex = /^\d{3}-\d{3}-\d{3}$/;
+  if (this.phone.length === 0) {
+    this.errorMessagephone = "Pole numer telefonu jest wymagane";
+  } else if (!regex.test(this.phone)) {
+    this.errorMessagephone = "Nieprawidłowy format numeru telefonu (xxx-xxx-xxx)";
+  } else {
+    this.errorMessagephone = '';
+  }
+},
+
 validatePassword() {
   if (this.password.length < 8) {
-    this.errorMessagepassword = "Password field is required (at least 8 characters)";
+    this.errorMessagepassword = "Pole Hasło jest wymagane (co najmniej 8 znaków)";
   } else {
     this.errorMessagepassword = '';
   }
@@ -186,7 +192,7 @@ validatePassword() {
 
 validateConfirmPassword() {
   if (this.confirmpassword !== this.password) {
-    this.errorMessageconfirmpassword = "Passwords must match";
+    this.errorMessageconfirmpassword = "Hasła muszą być zgodne";
   } else {
     this.errorMessageconfirmpassword = '';
   }
@@ -197,7 +203,7 @@ async register() {
   if (this.errorMessageemail || this.errorMessageconfirmemail || this.errorMessagefirst_name ||
       this.errorMessagelast_name || this.errorMessagephone || this.errorMessagebirth_date ||
       this.errorMessagepassword || this.errorMessageconfirmpassword) {
-    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Błędy w walidacji', life: 3000 });
+    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Błędy w formularzu. Proszę je poprawić', life: 3000 });
     return;
   }
   try {
