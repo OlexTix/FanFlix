@@ -35,8 +35,8 @@
 
 ## Documentation
 
-<h3> :triangular_flag_on_post: <a href="https://olextix.github.io/FanFlix/" target="_blank"> FanFlix demo </a></h3>
-<h3> :books: <a href="https://olextix.github.io/FanFlix/documentation/" target="_blank"> FanFlix docs page </a></h3>
+<h3> :triangular_flag_on_post: <a href="https://fanflix.fantasticstudio.online/" target="_blank"> FanFlix demo </a></h3>
+<h3> :books: <a href="https://docs.fanflix.fantasticstudio.online/" target="_blank"> FanFlix docs page </a></h3>
 
 ## Key Features
 
