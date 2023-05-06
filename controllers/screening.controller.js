@@ -1,4 +1,5 @@
 require('dotenv').config();
+const moment = require('moment');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const config = require("../config/auth.config");
@@ -169,7 +170,7 @@ const getScreenings = async (req, res) => {
               language: item.language,
               subtitle: item.subtitle,
               date: item.date,
-              time: item.time
+              time: moment(item.time, 'HH:mm:ss').format('HH:mm')
             }
           ]
         });
@@ -191,31 +192,27 @@ const getScreenings = async (req, res) => {
   }
 };
 
-  const getScreeningByName = async (req, res) => {
-    const { name, hallNumber, screeningName } = req.params;
-    const client = await poolDB.connect();
-  
-    try {
-      const checkCinemaHallQuery = `
-          SELECT ch.id_cinema_hall
-          FROM "Cinema_Hall" ch
-          JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
-          WHERE c.name = $1 AND ch.hall_number = $2
-        `;
-      const checkCinemaHallParams = [name, hallNumber];
-      const { rows: cinemaHallRows } = await client.query(
-        checkCinemaHallQuery,
-        checkCinemaHallParams
-      );
-  
-      if (cinemaHallRows.length === 0) {
-        res.status(404).send({ message: "Cinema or Cinema Hall not found" });
-        return;
-      }
+const getScreeningByName = async (req, res) => {
+  const { name, screeningName } = req.params;
+  const client = await poolDB.connect();
 
-      const id_cinema_hall = cinemaHallRows[0].id_cinema_hall;
+  try {
+    const getCinemaHallsQuery = `
+      SELECT ch.id_cinema_hall
+      FROM "Cinema_Hall" ch
+      JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
+      WHERE c.name = $1
+    `;
+    const { rows: cinemaHallRows } = await client.query(getCinemaHallsQuery, [name]);
 
-      const query = `
+    if (cinemaHallRows.length === 0) {
+      res.status(404).send({ message: "Cinema not found" });
+      return;
+    }
+
+    const cinemaHallIds = cinemaHallRows.map(row => row.id_cinema_hall);
+
+    const query = `
       SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, string_agg(g.name, ',') as genres, st.language, st.subtitle, s.date, s.time
       FROM "Screening" s
       JOIN "Cinema_Hall" ch ON ch.id_cinema_hall = s.id_cinema_hall
@@ -225,46 +222,47 @@ const getScreenings = async (req, res) => {
       JOIN "Screening_Type" st ON st.id_screening_type = s.id_screening_type
       LEFT JOIN "Movie_Genre" mg ON mg.id_movie = m.id_movie
       LEFT JOIN "Genre" g ON g.id_genre = mg.id_genre
-      WHERE s.id_cinema_hall = $1 AND m.title = $2
+      WHERE s.id_cinema_hall = ANY($1) AND m.title = $2
       GROUP BY s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, st.language, st.subtitle, s.date, s.time
     `;
-      const queryParams = [id_cinema_hall, screeningName];
-  
-      const { rows: screeningRows } = await client.query(query, queryParams);
-  
-      if (screeningRows.length === 0) {
-        res.status(200).send({ message: "Screening not found" });
-      } else {
-        const screening = screeningRows[0];
-        const outputJson = {
-          id_movie: screening.id_movie,
-          title: screening.title,
-          genres: screening.genres.split(','),
-          first_name: screening.first_name,
-          last_name: screening.last_name,
-          nationality: screening.nationality,
-          duration: screening.duration,
-          description: screening.description,
-          poster_url: screening.poster_url,
-          screenings: [
-            {
-              id_screening: screening.id_screening,
-              language: screening.language,
-              subtitle: screening.subtitle,
-              date: screening.date,
-              time: screening.time
-            }
-          ]
-        };
-        res.status(200).json(outputJson);
-      }
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ message: "Failed to get screening" });
-    } finally {
-      client.release();
+    const queryParams = [cinemaHallIds, screeningName];
+
+    const { rows: screeningRows } = await client.query(query, queryParams);
+
+    if (screeningRows.length === 0) {
+      res.status(200).send({ message: "Screening not found" });
+    } else {
+      const screening = screeningRows[0];
+      const outputJson = {
+        id_movie: screening.id_movie,
+        title: screening.title,
+        genres: screening.genres.split(','),
+        first_name: screening.first_name,
+        last_name: screening.last_name,
+        nationality: screening.nationality,
+        duration: screening.duration,
+        description: screening.description,
+        poster_url: screening.poster_url,
+        screenings: [
+          {
+            id_screening: screening.id_screening,
+            language: screening.language,
+            subtitle: screening.subtitle,
+            date: screening.date,
+            time: moment(screening.time, 'HH:mm:ss').format('HH:mm')
+          }
+        ]
+      };
+
+      res.status(200).json(outputJson);
     }
-  };
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to get screening" });
+  } finally {
+    client.release();
+  }
+};
 
 const updateScreeningsData = async (req, res) => {
   const { id, hallNumber, screeningId } = req.params;
