@@ -1,10 +1,6 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
+require("dotenv").config();
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -58,21 +54,19 @@ const getHalls = async (req, res) => {
   const cinemaName = req.params.name;
   const client = await poolDB.connect();
   const { hall_number, number_of_seats } = req.query;
-  let selectColumns = '*';
+  let selectColumns = "*";
 
   if (Object.keys(req.query).length === 1) {
-    if ('hall_number' in req.query && !hall_number) {
-      selectColumns = 'cinema_hall.hall_number';
-    } else if ('number_of_seats' in req.query && !number_of_seats) {
-      selectColumns = 'cinema_hall.number_of_seats';
+    if ("hall_number" in req.query && !hall_number) {
+      selectColumns = "cinema_hall.hall_number";
+    } else if ("number_of_seats" in req.query && !number_of_seats) {
+      selectColumns = "cinema_hall.number_of_seats";
     }
   }
 
   let query = `SELECT ${selectColumns} FROM "Cinema_Hall" AS cinema_hall INNER JOIN "Cinema" AS cinema ON cinema.id_cinema = cinema_hall.id_cinema WHERE cinema.name = $1`;
   const queryParams = [cinemaName];
-  let queryConditions = '';
-
-
+  let queryConditions = "";
 
   if (hall_number) {
     queryParams.push(hall_number);
@@ -103,8 +97,6 @@ const getHalls = async (req, res) => {
     client.release();
   }
 };
-
-
 
 const getHallByHallNumber = async (req, res) => {
   const cinemaName = req.params.name;
@@ -137,7 +129,6 @@ const getHallByHallNumber = async (req, res) => {
     }
 
     res.status(200).json(hallRows[0]);
-
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ message: "Failed to get hall" });
@@ -145,7 +136,6 @@ const getHallByHallNumber = async (req, res) => {
     client.release();
   }
 };
-  
 
 const updateHallsData = async (req, res) => {
   const cinemaId = parseInt(req.params.id);

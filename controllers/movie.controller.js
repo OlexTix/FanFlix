@@ -1,10 +1,6 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
+require("dotenv").config();
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -116,7 +112,7 @@ const getMovies = async (req, res) => {
     release_date,
     first_name,
     last_name,
-    nationality
+    nationality,
   } = req.query;
   const client = await poolDB.connect();
 
@@ -251,7 +247,14 @@ const getMovieByName = async (req, res) => {
 
 const updateMoviesData = async (req, res) => {
   const movieId = parseInt(req.params.id);
-  const { title, duration, description, poster_url, youtube_link, release_date } = req.body;
+  const {
+    title,
+    duration,
+    description,
+    poster_url,
+    youtube_link,
+    release_date,
+  } = req.body;
 
   let query = 'UPDATE "Movie" SET';
   const queryParams = [];

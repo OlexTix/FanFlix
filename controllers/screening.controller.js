@@ -1,11 +1,7 @@
-require('dotenv').config();
-const moment = require('moment');
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
+require("dotenv").config();
+const moment = require("moment");
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -89,7 +85,7 @@ const addScreening = async (req, res) => {
 };
 
 const buildWhereClauseAndParams = (queryParameters, cinemaHallIds) => {
-  let whereClause = 'WHERE s.id_cinema_hall = ANY($1)';
+  let whereClause = "WHERE s.id_cinema_hall = ANY($1)";
   let queryParams = [cinemaHallIds];
   let counter = 2;
 
@@ -115,16 +111,21 @@ const getScreenings = async (req, res) => {
       JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
       WHERE c.name = $1
     `;
-    const { rows: cinemaHallRows } = await client.query(getCinemaHallsQuery, [name]);
+    const { rows: cinemaHallRows } = await client.query(getCinemaHallsQuery, [
+      name,
+    ]);
 
     if (cinemaHallRows.length === 0) {
       res.status(404).send({ message: "Cinema not found" });
       return;
     }
 
-    const cinemaHallIds = cinemaHallRows.map(row => row.id_cinema_hall);
+    const cinemaHallIds = cinemaHallRows.map((row) => row.id_cinema_hall);
 
-    const { whereClause, queryParams } = buildWhereClauseAndParams(req.query, cinemaHallIds);
+    const { whereClause, queryParams } = buildWhereClauseAndParams(
+      req.query,
+      cinemaHallIds
+    );
 
     const query = `
     SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, st.language, st.subtitle, s.date, s.time, string_agg(g.name, ',') as genres
@@ -144,38 +145,37 @@ const getScreenings = async (req, res) => {
     const inputJson = JSON.parse(screeningRowsString);
 
     const outputJson = inputJson.reduce((accumulator, item) => {
+      const existingMovieIndex = accumulator.findIndex(
+        (movie) => movie.id_movie === item.id_movie
+      );
 
-      const existingMovieIndex = accumulator.findIndex(movie => movie.id_movie === item.id_movie);
-    
       if (existingMovieIndex !== -1) {
-    
         accumulator[existingMovieIndex].screenings.push({
           id_screening: item.id_screening,
           language: item.language,
           subtitle: item.subtitle,
           date: item.date,
-          time: item.time
+          time: item.time,
         });
       } else {
-    
         accumulator.push({
           id_movie: item.id_movie,
           title: item.title,
           poster_url: item.poster_url,
           duration: item.duration,
-          genres: item.genres.split(','),
+          genres: item.genres.split(","),
           screenings: [
             {
               id_screening: item.id_screening,
               language: item.language,
               subtitle: item.subtitle,
               date: item.date,
-              time: moment(item.time, 'HH:mm:ss').format('HH:mm')
-            }
-          ]
+              time: moment(item.time, "HH:mm:ss").format("HH:mm"),
+            },
+          ],
         });
       }
-    
+
       return accumulator;
     }, []);
 
@@ -203,14 +203,16 @@ const getScreeningByName = async (req, res) => {
       JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
       WHERE c.name = $1
     `;
-    const { rows: cinemaHallRows } = await client.query(getCinemaHallsQuery, [name]);
+    const { rows: cinemaHallRows } = await client.query(getCinemaHallsQuery, [
+      name,
+    ]);
 
     if (cinemaHallRows.length === 0) {
       res.status(404).send({ message: "Cinema not found" });
       return;
     }
 
-    const cinemaHallIds = cinemaHallRows.map(row => row.id_cinema_hall);
+    const cinemaHallIds = cinemaHallRows.map((row) => row.id_cinema_hall);
 
     const query = `
       SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, string_agg(g.name, ',') as genres, st.language, st.subtitle, s.date, s.time
@@ -236,7 +238,7 @@ const getScreeningByName = async (req, res) => {
       const outputJson = {
         id_movie: screening.id_movie,
         title: screening.title,
-        genres: screening.genres.split(','),
+        genres: screening.genres.split(","),
         first_name: screening.first_name,
         last_name: screening.last_name,
         nationality: screening.nationality,
@@ -249,9 +251,9 @@ const getScreeningByName = async (req, res) => {
             language: screening.language,
             subtitle: screening.subtitle,
             date: screening.date,
-            time: moment(screening.time, 'HH:mm:ss').format('HH:mm')
-          }
-        ]
+            time: moment(screening.time, "HH:mm:ss").format("HH:mm"),
+          },
+        ],
       };
 
       res.status(200).json(outputJson);

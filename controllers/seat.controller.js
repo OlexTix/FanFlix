@@ -1,10 +1,6 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
+require("dotenv").config();
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -71,17 +67,14 @@ const getSeats = async (req, res) => {
   const hallNumber = parseInt(req.params.hallNumber);
   const client = await poolDB.connect();
 
-  const {
-    row,
-    seat_number,
-  } = req.query;
-  let selectColumns = 'seat.row, seat.seat_number';
+  const { row, seat_number } = req.query;
+  let selectColumns = "seat.row, seat.seat_number";
 
   if (Object.keys(req.query).length === 1) {
-    if ('row' in req.query && !row) {
-      selectColumns = 'seat.row';
-    } else if ('seat_number' in req.query && !seat_number) {
-      selectColumns = 'seat.seat_number';
+    if ("row" in req.query && !row) {
+      selectColumns = "seat.row";
+    } else if ("seat_number" in req.query && !seat_number) {
+      selectColumns = "seat.seat_number";
     }
   }
 
@@ -90,7 +83,7 @@ const getSeats = async (req, res) => {
                INNER JOIN "Cinema" AS cinema ON cinema_hall.id_cinema = cinema.id_cinema
                WHERE cinema_hall.hall_number = $1 AND cinema.name = $2`;
   const queryParams = [hallNumber, cinemaName];
-  let queryConditions = '';
+  let queryConditions = "";
 
   if (row) {
     queryParams.push(row);

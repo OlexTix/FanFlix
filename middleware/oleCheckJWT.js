@@ -1,8 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
-const Pool = require('pg').Pool
+const Pool = require("pg").Pool;
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
 const DATABASE_HOST_NAME = process.env.DATABASE_HOST_NAME;
@@ -17,48 +17,54 @@ const connectionString = DATABASE_LINK;
 
 const poolDB = new Pool({
   connectionString,
-  schema: 'public'
+  schema: "public",
 });
-
 
 const verifyToken = async (req, res, next) => {
   let token = req.headers["x-access-token"];
-  
 
   if (!token) {
-      return res.status(403).send({ message: "No token provided!" });
+    return res.status(403).send({ message: "No token provided!" });
   }
 
   try {
-      const decoded = jwt.verify(token, config.secret, { expiresIn: config.tokenExpiration });
-      const client = await poolDB.connect();
-      // Find user with decoded ID
-      const {
-          rows: [user],
-      } = await client.query('SELECT * FROM "User" WHERE id_user=$1', [decoded.id]);
+    const decoded = jwt.verify(token, config.secret, {
+      expiresIn: config.tokenExpiration,
+    });
+    const client = await poolDB.connect();
+    // Find user with decoded ID
+    const {
+      rows: [user],
+    } = await client.query('SELECT * FROM "User" WHERE id_user=$1', [
+      decoded.id,
+    ]);
 
-      if (!user) {
-          return res.status(401).send({ message: "Unauthorized: no such user" });
-      }
+    if (!user) {
+      return res.status(401).send({ message: "Unauthorized: no such user" });
+    }
 
-      // Store decoded JWT payload to be accessible to other middleware
-      req.userId = decoded.id;
-      req.role = decoded.role;
+    // Store decoded JWT payload to be accessible to other middleware
+    req.userId = decoded.id;
+    req.role = decoded.role;
 
-      if (req.path === '/api/auth/expiration') {
-        client.release();
-        return res.status(200).send({ message: "Authorized" });  
-      }
-      next();
-
+    if (req.path === "/api/auth/expiration") {
       client.release();
-  } catch (err) {
-      if (err instanceof jwt.TokenExpiredError) {
-          return res.status(401).send({ message: "Unauthorized! Access token was expired!" + err.message });
-      }
-      console.error(err.message);
+      return res.status(200).send({ message: "Authorized" });
+    }
+    next();
 
-      res.status(401).send({ message: "Unauthorized: error" });
+    client.release();
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
+      return res
+        .status(401)
+        .send({
+          message: "Unauthorized! Access token was expired!" + err.message,
+        });
+    }
+    console.error(err.message);
+
+    res.status(401).send({ message: "Unauthorized: error" });
   }
 };
 
@@ -67,7 +73,10 @@ const isAdmin = async (req, res, next) => {
   const client = await poolDB.connect();
 
   try {
-    const { rows } = await client.query('SELECT role FROM "User" WHERE id_user = $1', [userId]);
+    const { rows } = await client.query(
+      'SELECT role FROM "User" WHERE id_user = $1',
+      [userId]
+    );
     const userRole = rows[0].role;
     if (userRole !== "admin") {
       throw new Error("User is not an admin");
@@ -82,7 +91,7 @@ const isAdmin = async (req, res, next) => {
 };
 
 const oleCheckJWT = {
-    verifyToken,
-    isAdmin,
+  verifyToken,
+  isAdmin,
 };
 module.exports = oleCheckJWT;

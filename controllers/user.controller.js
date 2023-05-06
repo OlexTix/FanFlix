@@ -1,10 +1,7 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
+require("dotenv").config();
 var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -26,7 +23,9 @@ const getUsers = async (req, res) => {
   const client = await poolDB.connect();
 
   try {
-    const { rows } = await client.query('SELECT id_user, first_name, last_name, email, phone, birth_date, role, registration_date, is_active FROM "User" ORDER BY "id_user" ASC');
+    const { rows } = await client.query(
+      'SELECT id_user, first_name, last_name, email, phone, birth_date, role, registration_date, is_active FROM "User" ORDER BY "id_user" ASC'
+    );
     res.status(200).json(rows);
   } catch (err) {
     console.error(err);
@@ -43,10 +42,13 @@ const getUserById = async (req, res) => {
   try {
     const {
       rows: [user],
-    } = await client.query('SELECT id_user, first_name, last_name, email, phone, birth_date, role, registration_date, is_active FROM "User" WHERE "id_user" = $1', [id]);
+    } = await client.query(
+      'SELECT id_user, first_name, last_name, email, phone, birth_date, role, registration_date, is_active FROM "User" WHERE "id_user" = $1',
+      [id]
+    );
 
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     } else {
       res.status(200).json(user);
     }
@@ -65,23 +67,34 @@ const updateUserPass = async (req, res) => {
   // Verify that the old password is correct
   try {
     const client = await poolDB.connect();
-    const { rows } = await client.query('SELECT password_hash, role FROM "User" WHERE id_user=$1', [userId]);
+    const { rows } = await client.query(
+      'SELECT password_hash, role FROM "User" WHERE id_user=$1',
+      [userId]
+    );
     const User = rows[0];
 
     if (!User) {
-        return res.status(401).send({ message: "Unauthorized: Wrong old password" });
+      return res
+        .status(401)
+        .send({ message: "Unauthorized: Wrong old password" });
     }
 
-    const isPasswordValid = await bcrypt.compare(oldPassword, User.password_hash);
+    const isPasswordValid = await bcrypt.compare(
+      oldPassword,
+      User.password_hash
+    );
     if (!isPasswordValid) {
-        return res.status(401).send({ message: "Invalid old password" });
+      return res.status(401).send({ message: "Invalid old password" });
     }
 
     // Update the User's password
     const hashedNewPassword = await bcrypt.hash(newPassword, 8);
-    await client.query('UPDATE "User" SET password_hash=$1 WHERE id_user=$2', [hashedNewPassword, userId]);
+    await client.query('UPDATE "User" SET password_hash=$1 WHERE id_user=$2', [
+      hashedNewPassword,
+      userId,
+    ]);
 
-    res.status(200).send({ message: "Password updated successfully"});
+    res.status(200).send({ message: "Password updated successfully" });
 
     client.release();
   } catch (error) {
@@ -96,7 +109,10 @@ const deleteUser = async (req, res) => {
 
   try {
     // Check if user exists
-    const { rowCount } = await client.query('SELECT * FROM "User" WHERE id_user = $1', [userId]);
+    const { rowCount } = await client.query(
+      'SELECT * FROM "User" WHERE id_user = $1',
+      [userId]
+    );
 
     if (rowCount === 0) {
       res.status(404).send({ message: "User not found" });
@@ -115,10 +131,9 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 module.exports = {
   getUsers,
   getUserById,
   updateUserPass,
   deleteUser,
-}
+};

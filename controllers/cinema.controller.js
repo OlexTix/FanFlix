@@ -1,10 +1,6 @@
-require('dotenv').config();
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-const config = require("../config/auth.config");
-const { oleCheckJWT } = require("../middleware");
+require("dotenv").config();
 
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 
 // Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
@@ -25,21 +21,21 @@ const poolDB = new Pool({
 const getCinemasList = async (req, res) => {
   const client = await poolDB.connect();
   const { name, street, city } = req.query;
-  let selectColumns = '*';
+  let selectColumns = "*";
 
   if (Object.keys(req.query).length === 1) {
-    if ('name' in req.query && !name) {
-      selectColumns = 'cinema.name';
-    } else if ('street' in req.query && !street) {
-      selectColumns = 'address.street';
-    } else if ('city' in req.query && !city) {
-      selectColumns = 'address.city';
-    } 
+    if ("name" in req.query && !name) {
+      selectColumns = "cinema.name";
+    } else if ("street" in req.query && !street) {
+      selectColumns = "address.street";
+    } else if ("city" in req.query && !city) {
+      selectColumns = "address.city";
+    }
   }
 
   let query = `SELECT ${selectColumns} FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address`;
   const queryParams = [];
-  let queryConditions = '';
+  let queryConditions = "";
 
   if (name) {
     queryParams.push(name);
@@ -48,16 +44,20 @@ const getCinemasList = async (req, res) => {
 
   if (street) {
     queryParams.push(street);
-    queryConditions += (queryConditions ? ' AND' : '') + ` address.street = $${queryParams.length}`;
+    queryConditions +=
+      (queryConditions ? " AND" : "") +
+      ` address.street = $${queryParams.length}`;
   }
 
   if (city) {
     queryParams.push(city);
-    queryConditions += (queryConditions ? ' AND' : '') + ` address.city = $${queryParams.length}`;
+    queryConditions +=
+      (queryConditions ? " AND" : "") +
+      ` address.city = $${queryParams.length}`;
   }
 
   if (queryConditions) {
-    query += ' WHERE' + queryConditions;
+    query += " WHERE" + queryConditions;
   }
 
   try {
@@ -100,24 +100,39 @@ const getCinemasListByName = async (req, res) => {
 };
 
 const addCinema = async (req, res) => {
-  const { name, street, building_number, apartment_number, postal_code, city, country, phone } = req.body;
+  const {
+    name,
+    street,
+    building_number,
+    apartment_number,
+    postal_code,
+    city,
+    country,
+    phone,
+  } = req.body;
   const client = await poolDB.connect();
 
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
 
     // Insert new address
-    const { rows: addressRows } = await client.query('INSERT INTO "Address" (street, building_number, apartment_number, postal_code, city, country) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_address', [street, building_number, apartment_number, postal_code, city, country]);
+    const { rows: addressRows } = await client.query(
+      'INSERT INTO "Address" (street, building_number, apartment_number, postal_code, city, country) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_address',
+      [street, building_number, apartment_number, postal_code, city, country]
+    );
     const addressId = addressRows[0].id_address;
 
     // Insert new cinema associated with the address
-    const { rowCount } = await client.query('INSERT INTO "Cinema" (id_address, name, phone) VALUES ($1, $2, $3)', [addressId, name, phone]);
+    const { rowCount } = await client.query(
+      'INSERT INTO "Cinema" (id_address, name, phone) VALUES ($1, $2, $3)',
+      [addressId, name, phone]
+    );
 
-    await client.query('COMMIT');
+    await client.query("COMMIT");
 
     res.status(201).send({ message: "New cinema added successfully" });
   } catch (err) {
-    await client.query('ROLLBACK');
+    await client.query("ROLLBACK");
 
     console.error(err.message);
     res.status(500).send({ message: "Failed to add new cinema" });
