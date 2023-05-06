@@ -111,7 +111,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    color: white;
+    color: var(--color-text);
   }
   
   .title {
