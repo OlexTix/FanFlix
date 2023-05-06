@@ -1,10 +1,10 @@
 <template>
-    <div class="container">
-      <h2 class="title">John Wick 4</h2>
+    <div class="container" v-if="movie">
+      <h2 class="title">{{ movie.title }}</h2>
       <div class="video-wrapper">
         <iframe
           class="video"
-          src="https://www.youtube.com/embed/jFsWkFnZfXk"
+          :src="'https://www.youtube.com/embed/' + extractVideoId(movie.youtube_link)"
           frameborder="0"
           allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -13,70 +13,97 @@
       <div class="info-container">
         <div class="info-item">
           <img class="info-svg" src="https://www.svgrepo.com/show/490607/calendar-event.svg" />
-          <p>Data premiery: 24 marca 2023</p>
+          <p>Data premiery: {{ formatDate(movie.release_date) }}</p>
         </div>
         <div class="info-item">
           <img class="info-svg" src="https://www.svgrepo.com/show/513817/clock.svg" />
-          <p>Czas trwania: 99 minut</p>
+          <p>Czas trwania: {{ movie.duration }} min</p>
+        </div>
+        <div class="info-item">
+          <img class="info-svg" src="https://www.svgrepo.com/show/52607/director-chair-frontal-view.svg" />
+          <p>Reżyser: {{ movie.first_name }} {{ movie.last_name }}</p>
+        </div>
+      </div>
+      <div class="info-container-genre">
+        <div class="info-item">
+          <img class="info-svg-2" src="../assets/skin-mask.svg"/>
+          <p>Gatunek: 
+            <span v-for="(genre, index) in movie.genres" :key="index">
+              {{ genre }}<span v-if="index < movie.genres.length - 1">, </span>
+            </span>
+          </p>
         </div>
       </div>
       <div class="bottom-container" :style="styleObject">
-        <div class="description">
-            Keanu Reeves powraca, by stanąć do decydującej walki z błyskotliwym i
-          bezlitosnym Billem Skarsgardem, który pokazał już swoje mroczne oblicze
-          w przerażającym „TO”. O wolność na ubitej ziemi Nowego Jorku, Paryża,
-          Tokio i Berlina. Ceny idą w górę, więc także stawka za głowę
-          legendarnego zabójcy, Johna Wicka przebiła już sufit. Stając do
-          ostatecznego pojedynku, który może dać mu upragnioną wolność i
-          zasłużoną emeryturę, John wie, że może liczyć tylko na siebie. Dla
-          niego, to nic nowego. To co zmieniło się tym razem, to fakt, że
-          przeciwko sobie ma całą międzynarodową organizację najlepszych płatnych
-          zabójców, a jej nowy szef Markiz de Gramond jest równie wyrafinowany, co
-          bezlitosny. Zanim John stanie z nim oko w oko, będzie musiał odwiedzić
-          kilka kontynentów mierząc się z całą plejadą twardzieli, którzy wiedzą
-          wszystko o zabijaniu. Tuż przed wielkim finałem tej morderczej symfonii,
-          John Wick trafi na trop swojej dalekiej rodziny, której członkowie mogą
-          mieć decydujący wpływ na wynik całej rozgrywki.
-        </div>
+        <div class="description"> {{ movie.description }} </div>
         <div class="movie-image">
-          <img src="https://cdn.gracza.pl/galeria/mdb/f/3448000.jpg" alt="Zdjęcie filmu" />
+          <img :src=movie.poster_url alt="Zdjęcie filmu" />
         </div>
       </div>
     </div>
+    <div v-else>Loading...</div>
   </template>
 
-<script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+<script>
+import { computed } from 'vue';
 
-const windowWidth = ref(window.innerWidth)
+export default {
+  data() {
+    return {
+      windowWidth: window.innerWidth,
+      movie: null,
+    };
+  },
+  computed: {
+    movieTitle() {
+      return this.$route.params.nazwaFilmu;
+    },
+    styleObject() {
+      const baseStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+      };
 
-const updateWindowWidth = () => {
-  windowWidth.value = window.innerWidth
-}
+      if (this.windowWidth <= 800) {
+        baseStyle.flexWrap = 'wrap';
+      } else {
+        baseStyle.flexWrap = 'nowrap';
+      }
 
-onMounted(() => {
-  window.addEventListener('resize', updateWindowWidth)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateWindowWidth)
-})
-
-const styleObject = computed(() => {
-  const baseStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-  }
-
-  if (windowWidth.value <= 800) {
-    baseStyle.flexWrap = 'wrap'
-  } else {
-    baseStyle.flexWrap = 'nowrap'
-  }
-
-  return baseStyle
-})
+      return baseStyle;
+    },
+  },
+  methods: {
+    updateWindowWidth() {
+      this.windowWidth = window.innerWidth;
+    },
+    async fetchMovieData() {
+      const response = await this.$http.get(`/api/movies?title=${this.movieTitle}`);
+      this.movie = response.data[0];
+      console.log('Otrzymany film:', this.movie);
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
+    extractVideoId(url) {
+      const videoIdPattern = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/i;
+      const match = url.match(videoIdPattern);
+      return match ? match[1] : null;
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.updateWindowWidth);
+    this.fetchMovieData();
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateWindowWidth);
+  },
+};
 </script>
   
   <style scoped>
@@ -112,17 +139,33 @@ const styleObject = computed(() => {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    padding: 55px 0 60px;
+    padding-top: 55px;
+  }
+
+  .info-container-genre {
+    display: flex;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    justify-content: center;
   }
   
   .info-item {
+    margin: 5px;
     display: flex;
     align-items: center;
   }
   
   .info-svg {
     width: 30px;
-    margin-right: 10px;
+    margin-right: 15px;
+    filter: var(--color-logo);
+  }
+
+  .info-svg-2 {
+    width: 50px;
+    margin-right: 15px;
+    filter: var(--color-logo);
   }
   
   .bottom-container {

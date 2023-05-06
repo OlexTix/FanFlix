@@ -60,8 +60,8 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminLogsView.vue')
     },
     {
-      path: '/movie',
-      name: 'movie',
+      path: '/movies/:nazwaFilmu',
+      name: 'movies',
       component: () => import('../views/MovieView.vue')
     },
     {

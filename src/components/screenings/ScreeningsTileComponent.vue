@@ -1,10 +1,14 @@
 <template>
     <div class="repertoire-tile">
       <div class="poster-container">
-        <img :src="movie.poster_url" alt="Film poster" class="poster" />
+        <RouterLink :to="`/movies/${movie.title}`">
+          <img :src="movie.poster_url" alt="Film poster" class="poster" />
+        </RouterLink>
       </div>
       <div class="info-container">
-        <h1 class="film-title">{{ movie.title }}</h1>
+        <RouterLink :to="`/movies/${movie.title}`">
+          <h1 class="film-title">{{ movie.title }}</h1>
+        </RouterLink>
         <div class="film-genres">
           <div v-for="(genre, index) in movie.genres" :key="index">
             <span>{{ genre }}</span>
@@ -21,6 +25,7 @@
   </template>
   
   <script>
+  import { RouterLink } from 'vue-router';
   import ScreeningsType from '../screenings/ScreeningsTypeComponent.vue';
   import Spacer from '../screenings/ScreeningsSpacerComponent.vue';
 
@@ -34,7 +39,8 @@
     },
     components: {
       ScreeningsType,
-      Spacer
+      Spacer,
+      RouterLink,
   },
   };
   </script>
