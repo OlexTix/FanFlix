@@ -1,28 +1,52 @@
 <template>
-    <div style="margin-left: auto;">
-        <RouterLink to="#" id="cinemainfo">
-            <fa-icon icon="fa-map-marker-alt" style="margin-right: 10px; font-size: 25;"></fa-icon>
-            <p style="font-weight: 700; font-size: 1rem;">Złotno - Kino Tomi</p>
-        </RouterLink>
+    <div class="location-wrapper">
+      <RouterLink to="#" class="cinema-info">
+        <fa-icon icon="fa-map-marker-alt" class="location-icon"></fa-icon>
+        <p class="cinema-name">{{ selectedCinema }}</p>
+      </RouterLink>
     </div>
-</template>
-
-<script>
+  </template>
+  
+  <script>
 import { RouterLink } from 'vue-router'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
-const checked = ref(true);
 export default {
-    name: 'NavbarLocationInfo',
-    data: () => ({
-        //
-    }),
+  name: 'NavbarLocationInfo',
+  setup() {
+    const selectedCinema = ref("");
+
+    onMounted(() => {
+      const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
+      if (selectedCinemaObj) {
+        selectedCinema.value = `${selectedCinemaObj.city} - ${selectedCinemaObj.name}`
+      }
+    });
+
+    return {
+      selectedCinema
+    }
+  }
 }
 </script>
 
-<style>
-#cinemainfo {
-    display: flex;
-    color: white;
+<style scoped>
+.location-wrapper {
+  margin-left: auto;
+}
+
+.cinema-info {
+  display: flex;
+  color: white;
+}
+
+.location-icon {
+  margin-right: 10px;
+  font-size: 25px;
+}
+
+.cinema-name {
+  font-weight: 700;
+  font-size: 1rem;
 }
 </style>

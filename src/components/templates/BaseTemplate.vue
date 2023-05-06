@@ -1,11 +1,12 @@
 <template>
   <div class="base-template-container">
     <div class="base-template" :style="styleObject">
-      <slot></slot> <!-- Allows you to insert other components -->
+      <slot class="base-template-content"></slot>
     </div>
-    <Footer />
+    <Footer class="footer"/>
   </div>
 </template>
+
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import Footer from '../../components/Footer.vue'
@@ -35,7 +36,7 @@ const styleObject = computed(() => {
   const baseStyle = {
     paddingLeft: props.padding,
     paddingRight: props.padding,
-    transition: 'padding-left 0.5s ease-in-out, padding-right 0.5s ease-in-out',
+    transition: 'padding 0.3s ease',
   }
 
   if (windowWidth.value <= 500) {
@@ -46,30 +47,30 @@ const styleObject = computed(() => {
   return baseStyle
 })
 </script>
-<style>
+
+<style scoped>
 .base-template-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .base-template {
   width: 100%;
-  max-width: 1024px;
   background-color: var(--color-background-pres);
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
-.base-template {
-  -webkit-transition: padding-left 0.5s ease-in-out, padding-right 0.5s ease-in-out;
-  -moz-transition: padding-left 0.5s ease-in-out, padding-right 0.5s ease-in-out;
-  -o-transition: padding-left 0.5s ease-in-out, padding-right 0.5s ease-in-out;
-  transition: padding-left 0.5s ease-in-out, padding-right 0.5s ease-in-out;
-}
-
-Footer {
+.footer {
   width: 100%;
-  max-width: 1024px;
+}
+
+.base-template-content {
+  flex-grow: 1;
 }
 </style>

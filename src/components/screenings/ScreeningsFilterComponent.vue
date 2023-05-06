@@ -2,10 +2,10 @@
   <div class="rep-container">
     <Toast />
     <h2 class="rep-title">REPERTUAR</h2>
-    <Dropdown v-model="selectedCinema" :options="cinemas" optionLabel="name" placeholder="Select a Cinema" class="w-full md:w-14rem rep-dropdown-custom" />
+    <Dropdown v-model="selectedCinema" :options="cinemas" optionLabel="name" placeholder="Select a Cinema" class="rep-dropdown-custom" />
     <div class="rep-days-container">
-      <header class="rep-current-day" @click="onDayClick(0)">{{ getCurrentDay() }}</header>
-      <header class="rep-weekday" v-for="(day, index) in days" @click="onDayClick(index+1)">{{ day }}</header>
+      <header :class="{ 'rep-current-day': selectedDayIndex === 0 }" @click="onDayClick(0)">{{ getDateWithOffset(0) }}</header>
+      <header v-for="(day, index) in days" :key="index" :class="{ 'rep-current-day': selectedDayIndex === index + 1 }" @click="onDayClick(index + 1)">{{ getDateWithOffset(index + 1) }}</header>
     </div>
     <h2 class="rep-date">{{ getDate() }}</h2>
   </div>
@@ -24,6 +24,7 @@ export default {
       selectedDate: null,
       cinemas: [],
       days: [],
+      selectedDayIndex: 0,
     };
   },
   computed: {
@@ -33,7 +34,7 @@ export default {
   },
   async created() {
     this.days = this.buildDaysArray(this.currentDayIndex);
-    this.fetchCinemas();
+    await this.fetchCinemas();
     this.onDayClick(0);
     this.emitSelectedData();
   },
@@ -54,10 +55,17 @@ export default {
     },
     getDate() {
       const date = new Date();
+      date.setDate(date.getDate() + this.selectedDayIndex);
       const day = date.getDate();
-      const month = date.getMonth() + 1;
+      const month = String(date.getMonth() + 1).padStart(2, '0');
       const year = date.getFullYear();
       return `${this.getWeekday(date.getDay())} ${day}.${month}.${year}`;
+    },
+    getDateWithOffset(offset) {
+      const date = new Date();
+      date.setDate(date.getDate() + offset);
+      const weekdays = ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'];
+      return weekdays[date.getDay()];
     },
     buildDaysArray(currentDayIndex) {
       const days = ['Nd','Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'];
@@ -79,9 +87,11 @@ export default {
     },
     onDayClick(dayIndex) {
       const selectedDate = new Date();
+      this.selectedDayIndex = dayIndex;
       selectedDate.setDate(selectedDate.getDate() + dayIndex);
       this.selectedDate = this.formatDate(selectedDate);
       this.emitSelectedData();
+      this.updateRouteWithDate(this.selectedDate);
     },
     emitSelectedData() {
       if (this.selectedCinema && this.selectedDate) {
@@ -91,25 +101,80 @@ export default {
         });
       }
     },
-    showToast(severity, summary, detail) {
-      this.toast.add({
-        severity,
-        summary,
-        detail,
-        life: 3000,
-      });
+    selectCinemaFromRoute() {
+      const nazwaKina = this.$route.params.nazwaKina;
+      const dateParam = this.$route.query.date;
+
+      if (nazwaKina && nazwaKina !== 'select-cinema') {
+        const foundCinema = this.cinemas.find(cinema => cinema.name === nazwaKina);
+        if (foundCinema) {
+          this.selectedCinema = foundCinema;
+        } else {
+          console.warn('Nie znaleziono kina o nazwie', nazwaKina);
+          this.$toast.add({ severity: 'warn', summary: 'Warning', detail: `Nie znaleziono kina o nazwie ${nazwaKina}.`, life: 3000 });
+          this.selectedCinema = null;
+        }
+        this.emitSelectedData();
+      }
+
+      if (dateParam) {
+        const selectedDate = new Date(dateParam);
+        this.selectedDate = this.formatDate(selectedDate);
+        this.emitSelectedData();
+      }
     },
+    updateRoute() {
+      if (this.selectedCinema && this.selectedDate) {
+        this.$router.push({ 
+          name: 'screenings', 
+          params: { nazwaKina: this.selectedCinema.name },
+          query: { date: this.selectedDate }
+        });
+      }
+    },
+    updateRouteWithDate(date) {
+      if (this.selectedCinema) {
+        this.$router.push({
+          name: 'screenings',
+          params: { nazwaKina: this.selectedCinema.name },
+          query: { date }
+        });
+      }
+    },
+    updateLocalStorage(selectedCinema) {
+    if (selectedCinema) {
+      localStorage.setItem("selectedCinema", JSON.stringify(selectedCinema));
+    } else {
+      localStorage.removeItem('selectedCinema');
+    }
+  },
   },
   watch: {
     selectedCinema(newValue, oldValue) {
       console.log('Zmiana wybranego kina z', oldValue, 'na', newValue);
       this.emitSelectedData();
+      this.updateRoute();
+      this.updateLocalStorage(newValue);
+    },
+    '$route.params.nazwaKina': {
+    async handler(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        if (this.cinemas.length === 0) {
+          await this.fetchCinemas();
+        }
+        this.selectCinemaFromRoute();
+      }
+    },
+    immediate: true,
     },
   },
 };
 </script>
   
-  <style>
+  <style scoped>
+  .rep-dropdown-custom :deep(.p-dropdown-label) {
+    padding: 6px;
+  }
   .rep-container {
     display: flex;
     flex-direction: column;
