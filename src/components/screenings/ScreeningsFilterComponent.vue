@@ -142,12 +142,15 @@ export default {
       }
     },
     updateLocalStorage(selectedCinema) {
-    if (selectedCinema) {
-      localStorage.setItem("selectedCinema", JSON.stringify(selectedCinema));
-    } else {
-      localStorage.removeItem('selectedCinema');
-    }
-  },
+      if (selectedCinema) {
+        localStorage.setItem("selectedCinema", JSON.stringify(selectedCinema));
+      } else {
+        localStorage.removeItem('selectedCinema');
+      }
+    },
+    updateOtherComponent() {
+      this.emitter.emit('updateSelectedCinema');
+    },
   },
   watch: {
     selectedCinema(newValue, oldValue) {
@@ -155,6 +158,7 @@ export default {
       this.emitSelectedData();
       this.updateRoute();
       this.updateLocalStorage(newValue);
+      this.updateOtherComponent();
     },
     '$route.params.nazwaKina': {
     async handler(newValue, oldValue) {

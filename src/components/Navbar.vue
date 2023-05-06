@@ -39,8 +39,12 @@ export default {
   computed: {
     screeningsLink() {
       const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
-      const selectedCinema = selectedCinemaObj.name;
-      return selectedCinema ? `/cinemas/${selectedCinema}/screenings` : '/cinemas/select-cinema/screenings';
+      if (selectedCinemaObj && selectedCinemaObj.name) {
+        const selectedCinema = selectedCinemaObj.name;
+        return `/cinemas/${selectedCinema}/screenings`;
+      } else {
+        return '/cinemas/select-cinema/screenings';
+      }
     },
   }
 }
@@ -85,12 +89,12 @@ export default {
 }
 
 nav {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
 }
 
 nav a {
   display: inline-flex;
-  padding: 0 1rem;
+  padding: 0 0.7rem;
   /* border-left: 1px solid var(--color-border); */
 }
 
@@ -106,12 +110,10 @@ nav a.router-link-exact-active:hover {
   border: 0;
 } */
 .bottom-nav {
-
   background-color: rgba(0, 168, 119, 1);
   background-image: linear-gradient(180deg, rgba(0, 168, 119, 1) 0%, rgba(0, 125, 89, 1) 100%);
   width: 100%;
   height: 3.1rem;
-
 }
 
 .buttons {
@@ -119,14 +121,18 @@ nav a.router-link-exact-active:hover {
   margin-right: auto;
   padding-left: 0.8rem !important;
   max-width: 1024px;
-  padding: 0.3rem;
+  padding-left: 0.6rem !important;
+  padding-right: 0.6rem !important;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 
 }
 
 .buttons a {
   color: white;
   text-shadow: 1px 1px 6px rgba(64, 54, 54, 1);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-family: Verdana, Tahoma, sans-serif;
 }
 
