@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminCinemaView.vue')
     },
     {
+      path: '/admin-panel/movies',
+      name: 'movies-admin',
+      component: () => import('../views/admin-views/AdminMoviesView.vue')
+    },
+    {
       path: '/admin-panel/employees',
       name: 'employees-admin',
       component: () => import('../views/admin-views/AdminEmployeesView.vue')

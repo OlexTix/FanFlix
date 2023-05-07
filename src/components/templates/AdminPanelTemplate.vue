@@ -75,6 +75,12 @@
 							<span>Kina</span>
 						</RouterLink>
 					</li>
+					<li>
+						<RouterLink to="/admin-panel/movies">
+							<img src="../../assets/admin-assets/movies.svg" alt="Movies" class="logo">
+							<span>Filmy</span>
+						</RouterLink>
+					</li>
           			<li>
 						<RouterLink to="/admin-panel/employees">
 							<img src="../../assets/admin-assets/employees.svg" alt="Employees" class="logo">
