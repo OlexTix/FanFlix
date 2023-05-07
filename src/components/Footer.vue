@@ -25,7 +25,7 @@
             <a href="#"><fa-icon icon="fa-solid fa-comments" /></a>
             <a href="#"><fa-icon icon="fa-solid fa-hand-holding-heart" /></a>  
         </div>
-        <span class="copyright-footer">&copy; {{currentYear}} Fanflix. Wszelkie prawia zastrzeżone.</span>
+        <span class="copyright-footer">&copy; {{currentYear}} Fanflix. Wszelkie prawa zastrzeżone.</span>
       </div>    
     </footer>
 </template>
