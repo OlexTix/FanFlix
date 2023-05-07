@@ -104,6 +104,7 @@ const addMovie = async (req, res) => {
 
 const getMovies = async (req, res) => {
   const {
+    id,
     title,
     duration,
     description,
@@ -137,6 +138,11 @@ const getMovies = async (req, res) => {
 
   const queryParams = [];
   let queryConditions = "";
+
+  if (id) {
+    queryParams.push(id);
+    queryConditions += ` AND m.id_movie = $${queryParams.length}`;
+  }
 
   if (title) {
     queryParams.push(title);
