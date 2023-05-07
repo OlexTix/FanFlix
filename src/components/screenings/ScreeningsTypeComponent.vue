@@ -1,31 +1,39 @@
 <template>
-    <div class="screenings-type">
-      <div class="time-container">
-        <div class="time-box">
-          <span class="time">{{ time }}</span>
-        </div>
-        <p class="type">{{ type }}</p>
+  <div class="screenings-type">
+    <RouterLink :to="`/wizard/tickets?screeningID=${screeningID}`" class="time-container">
+      <div class="time-box">
+        <span class="time">{{ time }}</span>
       </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ScreeningsTypeComponent',
-    props: {
-      time: {
-        type: String,
-        required: true,
-      },
-      type: {
-        type: String,
-        required: true,
-      },
+      <p class="type">{{ type }}</p>
+    </RouterLink>
+  </div>
+</template>
+
+<script>
+import { RouterLink } from 'vue-router';
+export default {
+  name: 'ScreeningsTypeComponent',
+  components: {
+    RouterLink,
+  },
+  props: {
+    time: {
+      type: String,
+      required: true,
     },
-  };
-  </script>
+    type: {
+      type: String,
+      required: true,
+    },
+    screeningID: {
+      type: Number,
+      required: true,
+    },
+  },
+};
+</script>
   
-  <style>
+  <style scoped>
   .screenings-type {
     display: flex;
   }
@@ -67,6 +75,7 @@
   }
   
   .type {
+    color: rgb(179, 179, 179);
     margin-top: 5px;
     font-size: 12px;
     font-weight: 200;

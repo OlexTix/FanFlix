@@ -12,15 +12,15 @@
       </div>
       <div class="info-container">
         <div class="info-item">
-          <img class="info-svg" src="https://www.svgrepo.com/show/490607/calendar-event.svg" />
+          <img class="info-svg" src="../assets/calendar.svg" />
           <p>Data premiery: {{ formatDate(movie.release_date) }}</p>
         </div>
         <div class="info-item">
-          <img class="info-svg" src="https://www.svgrepo.com/show/513817/clock.svg" />
+          <img class="info-svg" src="../assets/clock.svg" />
           <p>Czas trwania: {{ movie.duration }} min</p>
         </div>
         <div class="info-item">
-          <img class="info-svg" src="https://www.svgrepo.com/show/52607/director-chair-frontal-view.svg" />
+          <img class="info-svg" src="../assets/director-chair.svg" />
           <p>Reżyser: {{ movie.first_name }} {{ movie.last_name }}</p>
         </div>
       </div>

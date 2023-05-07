@@ -17,7 +17,12 @@
         </div>
         <p class="film-duration">{{ movie.duration }} min</p>
         <div class="film-screenings">
-          <ScreeningsType v-for="item in movie.screenings" :key="item.time" :time="item.time" :type="item.language" />
+          <ScreeningsType 
+            v-for="item in movie.screenings" 
+            :key="item.time" 
+            :time="item.time" 
+            :type="item.language" 
+            :screeningID="item.id_screening" />
         </div>
       </div>
     </div>
