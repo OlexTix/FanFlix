@@ -21,6 +21,7 @@ require("./routes/cinemaHall.routes")(app);
 require("./routes/seat.routes")(app);
 require("./routes/movie.routes")(app);
 require("./routes/screening.routes")(app);
+require("./routes/screenings.routes")(app);
 require("./routes/ticketTypes.routes")(app);
 require("./routes/availableSeats.routes")(app);
 require("./routes/checkout.routes")(app);
