@@ -13,7 +13,6 @@ module.exports = function (app) {
   // Get ticket types
   app.get(
     "/api/cinemas/:name/screenings/:screeningName/ticketTypes",
-    oleCheckJWT.verifyToken,
     ticketTypes.getTicketTypes
   );
 
