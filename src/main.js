@@ -16,6 +16,9 @@ app.use(router);
 
 app.config.globalProperties.$http = apiService;
 app.config.globalProperties.emitter = emitter;
+app.config.compilerOptions = {
+    isCustomElement: tag => tag.startsWith('stripe-'),
+  };
 
 registerComponents(app);
 

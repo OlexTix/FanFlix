@@ -3,15 +3,15 @@
       <div class="footer-columns">
         <div class="fan-footer">
             <img src="/images/nfanflix3.svg" alt="Vue logo" class="logo-footer"><br>
-            <span class="left-text-footer">Cinema Management System</span>
+            <span class="left-text-footer">System Zarządzania Kinami</span>
         </div>
         <div class="fan-footer">
             <span class="center-text-footer">
-                <h3>Information</h3>
+                <h3>Informacje</h3>
                 <ul>
-                    <li><a href="#">Terms and Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">FAQs and contact</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                    <li><a href="#">Polityka prywatności</a></li>
+                    <li><a href="#">Pytania i Kontakt</a></li>
                 </ul>
             </span>
         </div>
@@ -25,7 +25,7 @@
             <a href="#"><fa-icon icon="fa-solid fa-comments" /></a>
             <a href="#"><fa-icon icon="fa-solid fa-hand-holding-heart" /></a>  
         </div>
-        <span class="copyright-footer">&copy; {{currentYear}} Fanflix. All rights reserved.</span>
+        <span class="copyright-footer">&copy; {{currentYear}} Fanflix. Wszelkie prawa zastrzeżone.</span>
       </div>    
     </footer>
 </template>

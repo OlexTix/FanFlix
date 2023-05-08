@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminCinemaView.vue')
     },
     {
+      path: '/admin-panel/movies',
+      name: 'movies-admin',
+      component: () => import('../views/admin-views/AdminMoviesView.vue')
+    },
+    {
       path: '/admin-panel/employees',
       name: 'employees-admin',
       component: () => import('../views/admin-views/AdminEmployeesView.vue')
@@ -60,14 +65,19 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminLogsView.vue')
     },
     {
+      path: '/admin-panel/users/edit-user/:id_user',
+      name: 'edit-user',
+      component: () => import('../views/admin-views/AdminEditUserView.vue')
+    },
+    {
       path: '/movies/:nazwaFilmu',
       name: 'movies',
       component: () => import('../views/MovieView.vue')
     },
     {
-      path: '/wizard',
-      name: 'wizard',
-      component: () => import('../views/WizardView.vue')
+      path: '/wizard/tickets',
+      name: 'wizard-tickets',
+      component: () => import('../views/wizard-views/WizardTicketsView.vue')
     }
   ]
 })
