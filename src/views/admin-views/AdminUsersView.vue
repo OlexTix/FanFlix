@@ -31,6 +31,7 @@
                     <td>{{ user.registration_date }}</td>
                     <td>{{ user.is_active }}</td>
                     <td>
+                        <Button class="edit-button" @click="editUser(user.id_user)">Edytuj</Button>
                         <button class="delete-button" @click="deleteUser(user.id_user)">Usuń</button>
                     </td>
                 </tr>
@@ -62,6 +63,9 @@ export default {
         }
     },
     methods: {
+        editUser(id_user) {
+      this.$router.push({ name: "edit-user", params: { id_user: id_user } });
+    },
         async deleteUser(userId) {
             try {
                 await axiosInstance.delete(`/api/users/${userId}`);
@@ -108,6 +112,24 @@ th {
   .delete-button:hover {
     background-image: linear-gradient(to bottom, #420505, #550404);
     border-color: #4a0707;
+  }
+
+  .edit-button {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #00a877, #007d59);
+    border-color: #007d59;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .edit-button:hover {
+    background-image: linear-gradient(to bottom, #008660, #005a41);
+    border-color: #005f44;
   }
 
 .header {

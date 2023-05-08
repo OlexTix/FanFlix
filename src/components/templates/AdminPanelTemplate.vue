@@ -42,7 +42,7 @@
 					<span>Witaj, 'admin-user'</span>
 					<img src="../../assets/admin-assets/user_account.svg" alt="User" class="logo">
 				</a>
-				<a href="#">
+				<a v-if="loggedIn" @click="logout">
 					<span>Wyloguj się</span>
 					<img src="../../assets/admin-assets/logout.svg" alt="Logout" class="logo">
 				</a>
@@ -425,10 +425,23 @@ export default {
       userCount: 0,
       totalVisits: 0,
       employeeCount: 0,
+	  loggedIn: localStorage.getItem('accessToken'),
+      isAdmin: null
     };
   },
+  
   mounted() {
     
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userData');
+      this.$toast.add({ severity: 'info', summary: 'Wylogowano pomyślnie :)', detail: "", life: 3000 });
+      this.$router.push('/');
+      this.loggedIn = null;
+      this.isAdmin = null;
+    },
   },
 };
 </script>
