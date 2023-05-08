@@ -28,7 +28,12 @@
         <img src="../../assets/payments/card-kaufland.png" class="card" />
       </div>
   
-      <Button class="next-button" >Dalej</Button>
+      <Button 
+        :class="{ 'next-button-disabled': totalPrice === 0 }"
+        class="next-button" 
+        @click="handleButtonClick">
+          Dalej
+      </Button>
     </div>
   </template>
   
@@ -69,6 +74,19 @@
       },
       formatPrice(value) {
         return Number(value).toFixed(2);
+      },
+      handleButtonClick() {
+        if (this.totalPrice === 0) {
+          this.$toast.add({
+            severity: 'info',
+            summary: '',
+            detail: 'Wybierz przynajmniej jeden bilet, aby kontynuować.',
+            life: 3000,
+          });
+        } else {
+          this.$emit('selected-tickets', this.tickets);
+          console.log('Wybrane bilety:', this.tickets);
+        }
       },
     }
   };
@@ -140,12 +158,6 @@
     margin: 0 10px;
   }
 
-.spacer {
-  border-top: 3px solid #343434;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
 .summary-row {
   font-size: 24px;
   font-weight:800;
@@ -201,6 +213,19 @@
   background-image: linear-gradient(to bottom, #008660, #005a41);
   border-color: #005f44;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.next-button-disabled {
+  background-image: linear-gradient(to bottom, #bbbbbb, #999999);
+  border-color: #999999;
+  cursor: not-allowed;
+}
+
+.next-button-disabled:hover {
+  background-image: linear-gradient(to bottom, #bbbbbb, #999999);
+  border-color: #999999;
+  box-shadow: none;
+  transform: none;
 }
 
 
