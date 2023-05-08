@@ -50,7 +50,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .repertoire-tile {
     display: flex;
   }

@@ -6,9 +6,9 @@
         <div v-for="(ticket, index) in tickets" :key="index" class="ticket-row">
           <div class="ticket-label ticket-column">{{ ticket.label }}</div>
           <div class="ticket-price ticket-column">{{ formatPrice(ticket.price) }} zł</div>
-          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketCount(index)" />
-          <div class="ticket-count ticket-column">{{ ticket.count }}</div>
           <img src="../../assets/minus-icon.svg" class="icon ticket-column" @click="decrementTicketCount(index)" />
+          <div class="ticket-count ticket-column">{{ ticket.count }}</div>
+          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketCount(index)" />
         </div>
       </div>
 
@@ -40,9 +40,9 @@
     data() {
       return {
         tickets: [
-          { label: "Dorosły", price: 28.9, count: 4 },
-          { label: "Uczeń", price: 24.9, count: 1 },
-          { label: "Emeryt", price: 24.9, count: 3 },
+          { label: "Dorosły", price: 28.9, count: 0 },
+          { label: "Uczeń", price: 24.9, count: 0 },
+          { label: "Emeryt", price: 24.9, count: 0 },
         ],
       };
     },

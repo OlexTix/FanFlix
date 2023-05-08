@@ -3,7 +3,7 @@
     <BaseTemplate>
       <WizardStepsStrip class="wizard-steps" :step="1"/>
       <Divider class="divider-1" />
-      <WizardMoviePreview :poster_url="`https://www.cinema-city.pl/xmedia-cw/repo/feats/posters/5474D2R-md.jpg`" />
+      <WizardMoviePreview v-if="screening" :screeningData="screening" />
       <Divider class="divider-2" />
       <WizardTickets/>
     </BaseTemplate>
@@ -29,11 +29,20 @@
     data() {
       return {
         movies: [],
+        screening: null
       };
     },
     methods: {
-      
-    },
+    async fetchScreeningData() {
+      const screeningID = this.$route.query.screeningID;
+      const response = await this.$http.get(`/api/screenings?id=${screeningID}`);
+      this.screening = response.data[0];
+      console.log('Otrzymany seans:', this.screening);
+    }
+  },
+  mounted() {
+    this.fetchScreeningData();
+  },
   };
   </script>
 

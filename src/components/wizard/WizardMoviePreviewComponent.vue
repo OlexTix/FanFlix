@@ -1,36 +1,41 @@
 <template>
-    <div class="container">
-      <img class="image" :src="poster_url" alt="Movie Image" />
+    <div v-if="movie" class="container" >
+      <img class="image" :src="movie.poster_url" alt="Movie Image" />
       <div class="content">
-        <h1 class="title">JOHN WICK: CHAPTER 4</h1>
-        <p class="date">Poniedziałek 27 marca godz. 10:10</p>
+        <h1 class="title">{{ movie.title }}</h1>
+        <p class="date">{{ formatDate(screeningData.date) }}</p>
+        <p class="date">godzina {{ formatTime(screeningData.time) }}</p>
         <div class="info-container">
           <div class="left-info">
-            <p class="city">Łódź</p>
-            <p class="screen">Ekran 10</p>
-            <p class="format">Film 2D</p>
+            <p class="left-info-item">{{ screeningData.city }}</p>
+            <p class="left-info-item">{{ screeningData.name }}</p>
+            <p class="left-info-item">Sala nr {{ screeningData.hall_number }}</p>
+            <p class="left-info-item">{{ screeningData.language }}</p>
           </div>
             <div class="right-info">
               <div class="info-item">
                 <img class="icon" src="../../assets/calendar.svg" alt="Icon" />
                 <div>
                   <span>Data premiery:</span>
-                  <span>24 marca 2023</span>
+                  <span>{{ formatDate2(movie.release_date) }}</span>
                 </div>
               </div>
               <div class="info-item">
                 <img class="icon" src="../../assets/clock.svg" alt="Icon" />
                 <div>
                   <span>Czas trwania:</span>
-                  <span>99 minut</span>
+                  <span>{{ movie.duration }} minut</span>
                 </div>
               </div>
             </div>
         </div>
         <div class="description-container">
-          <p class="description">Keanu Reeves powraca, by stanąć do decydującej walki z błyskotliwym i bezlitosnym Billem Skarsgardem, który pokazał już swoje mroczne oblicze w przerażającym „TO”. O wolność na ubitej ziemi Nowego Jorku, Paryża, Tokio i Berlina. Ceny idą w górę, więc także stawka za głowę legendarnego zabójcy, Johna Wicka przebiła już sufit...</p>
-          <button class="go-to-movie">Przejdź do filmu</button>
+          <p class="description">{{ movie.description }}</p>
+          <RouterLink :to="`/movies/${movie.title}`" class="go-to-movie">Przejdź do filmu</RouterLink>
         </div>
+    </div>
+    <div v-if="!movie" class="loader-container">
+      <span>Wczytywanie danych...</span>
     </div>
   </div>
 </template>
@@ -38,11 +43,39 @@
   <script>
   export default {
     name: 'WizardMoviePreviewComponent',
-    props: {
-    poster_url: {
-      type: String,
-      required: true,
+    data() {
+      return {
+        movie: null,
+      };
     },
+    props: {
+        screeningData: {
+        type: Object,
+        required: true,
+      },
+    },
+    methods: {
+    async fetchMovieData() {
+      const screeningID = this.$route.query.screeningID;
+      const response = await this.$http.get(`/api/movies?id=${this.screeningData.id_movie}`);
+      this.movie = response.data[0];
+      console.log('Otrzymany film:', this.movie);
+    },
+    formatDate(date) {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(date).toLocaleDateString('pl-PL', options);
+    },
+    formatDate2(date) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(date).toLocaleDateString('pl-PL', options);
+    },
+    formatTime(time) {
+      const [hours, minutes] = time.split(':');
+      return `${hours}:${minutes}`;
+    },
+  },
+  mounted() {
+    this.fetchMovieData();
   },
   };
   </script>
@@ -76,6 +109,7 @@
   }
   
   .info-container {
+    padding: 0 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -88,10 +122,8 @@
     flex-direction: column;
   }
   
-  .city,
-  .screen,
-  .format {
-    font-size: 18px;
+  .left-info-item {
+    font-size: 14px;
   }
   
   .right-info .info-item {
@@ -100,6 +132,7 @@
   }
 
   .info-item {
+    font-size: 14px;
     margin-bottom: 10px;
   }
 
@@ -111,8 +144,8 @@
   }
   
   .icon {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     margin-right: 15px;
     filter: var(--color-logo);
   }
@@ -157,14 +190,8 @@
       align-items: flex-start;
     }
 
-    .city,
-    .screen,
-    .format {
+    .left-info-item {
       margin-right: 10px;
-    }
-
-    .break {
-      display: inline;
     }
 
     .image {
