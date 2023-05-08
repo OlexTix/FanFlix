@@ -27,6 +27,7 @@ require("./routes/availableSeats.routes")(app);
 require("./routes/checkout.routes")(app);
 require("./routes/panel/panel.cinema.routes")(app);
 require("./routes/panel/panel.halls.routes")(app);
+require("./routes/hallLayout.routes")(app);
 
 
 const PORT = process.env.PORT || 3000;
