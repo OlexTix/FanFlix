@@ -2,7 +2,7 @@
     <AdminPanelTemplate>
         <p>Movies</p>
         <p v-if="errorMessage">{{ errorMessage }}</p>
-        <table>
+        <!-- <table>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -33,7 +33,42 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
+
+        <div class="card">
+        <DataView :value="moviesAdmin" paginator :rows="5">
+            <template #list="movie">
+                <div class="col-12">
+                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto" :src="movie.poster_url" :alt="Poster" />
+                        <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                <div class="text-2xl font-bold text-900">{{ movie.title }}</div>
+                                <div class="flex align-items-center gap-3">
+                                    <span class="flex align-items-center gap-2">
+                                        <i class="pi pi-caret-right"></i>
+                                        <span class="font-semibold">Id: {{ movie.id_movie }}</span>
+                                    </span>
+                                    <span class="flex align-items-center gap-2">
+                                        <i class="pi pi-star"></i>
+                                        <span class="font-semibold">Gatunek: {{ movie.genres }}</span>
+                                    </span>
+                                    <!-- <Tag :value="slotProps.data.inventoryStatus" :severity="getSeverity(slotProps.data)"></Tag> -->
+                                </div>
+                            </div>
+                            <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                <span class="text-1xl">Czas: {{ movie.duration }}</span>
+                                <div class="button-template">
+                                   <Button icon="pi pi-pencil" rounded></Button>
+                                <Button icon="pi pi-trash" rounded></Button> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </DataView>
+    </div>
 
     </AdminPanelTemplate>
 </template>
@@ -41,8 +76,15 @@
 <script>
 import axios from 'axios';
 import axiosInstance from '../../service/apiService.js';
-
+import { ref, onMounted } from 'vue';
 import AdminPanelTemplate from '../../components/templates/AdminPanelTemplate.vue';
+
+onMounted(() => {
+  apiService.axios.create().then((data) => (movie.value = data));
+});
+
+const moviesAdmin = ref();
+
 export default {
     components: {
         AdminPanelTemplate
@@ -77,7 +119,7 @@ export default {
 }
 </script>
 <style>
-table {
+/* table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
@@ -128,5 +170,5 @@ th {
 .header .button-container {
     display: flex;
     align-items: center;
-}
+} */
 </style>
