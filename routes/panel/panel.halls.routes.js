@@ -1,5 +1,5 @@
-const { oleCheckJWT } = require("../middleware");
-const hall = require("../controllers/cinemaHall.controller");
+const { oleCheckJWT } = require("../../middleware");
+const hall = require("../../controllers/panel/panel.halls.controller");
 
 const cors = require("cors");
 

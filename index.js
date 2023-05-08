@@ -25,9 +25,9 @@ require("./routes/screenings.routes")(app);
 require("./routes/ticketTypes.routes")(app);
 require("./routes/availableSeats.routes")(app);
 require("./routes/checkout.routes")(app);
-require("./routes/panel.cinema.routes")(app);
-require("./routes/panel.halls.routes")(app);
-require("./routes/panel.seats.routes")(app);
+require("./routes/panel/panel.cinema.routes")(app);
+require("./routes/panel/panel.halls.routes")(app);
+
 
 const PORT = process.env.PORT || 3000;
 
