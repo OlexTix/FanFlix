@@ -102,7 +102,7 @@ const getScreenings = async (req, res) => {
       query += ` WHERE ${queryConditions.slice(5)}`;
     }
   
-    query += ` GROUP BY s.id_screening`;
+    query += ` GROUP BY s.id_screening, s.id_movie, ch.id_cinema_hall, ch.hall_number, st.id_screening_type, st.language, st.subtitle, s.date, s.time`;
   
     try {
       const { rows: movieRows } = await client.query(query, queryParams);
