@@ -42,7 +42,7 @@
 					<span>Witaj, 'admin-user'</span>
 					<img src="../../assets/admin-assets/user_account.svg" alt="User" class="logo">
 				</a>
-				<a v-if="loggedIn" @click="logout">
+				<a href="#" @click="logout">
 					<span>Wyloguj się</span>
 					<img src="../../assets/admin-assets/logout.svg" alt="Logout" class="logo">
 				</a>
@@ -426,7 +426,7 @@ export default {
       totalVisits: 0,
       employeeCount: 0,
 	  loggedIn: localStorage.getItem('accessToken'),
-      isAdmin: null
+      isAdmin: true
     };
   },
   
