@@ -29,6 +29,8 @@ const getScreenings = async (req, res) => {
       id_screening_type,
       language,
       subtitle,
+      cinema_name,
+      cinema_city,
       date,
       time
     } = req.query;
@@ -43,11 +45,15 @@ const getScreenings = async (req, res) => {
         st.id_screening_type, 
         st.language, 
         st.subtitle,
+        c.name,
+        a.city,
         s.date,
         s.time
       FROM "Screening" AS s
       INNER JOIN "Cinema_Hall" AS ch ON s.id_cinema_hall = ch.id_cinema_hall
       INNER JOIN "Screening_Type" AS st ON s.id_screening_type = st.id_screening_type
+      INNER JOIN "Cinema" AS c ON ch.id_cinema = c.id_cinema
+      INNER JOIN "Address" AS a ON c.id_address = a.id_address
     `;
   
     const queryParams = [];
@@ -87,6 +93,16 @@ const getScreenings = async (req, res) => {
       queryParams.push(subtitle);
       queryConditions += ` AND st.subtitle = $${queryParams.length}`;
     }
+
+    if (cinema_name) {
+      queryParams.push(cinema_name);
+      queryConditions += ` AND c.name = $${queryParams.length}`;
+    }
+
+    if (cinema_city) {
+      queryParams.push(cinema_city);
+      queryConditions += ` AND a.city = $${queryParams.length}`;
+    }
   
     if (date) {
       queryParams.push(date);
@@ -102,7 +118,7 @@ const getScreenings = async (req, res) => {
       query += ` WHERE ${queryConditions.slice(5)}`;
     }
   
-    query += ` GROUP BY s.id_screening, s.id_movie, ch.id_cinema_hall, ch.hall_number, st.id_screening_type, st.language, st.subtitle, s.date, s.time`;
+    query += ` GROUP BY s.id_screening, s.id_movie, ch.id_cinema_hall, ch.hall_number, st.id_screening_type, st.language, st.subtitle, s.date, s.time, c.name, a.city`;
   
     try {
       const { rows: movieRows } = await client.query(query, queryParams);
