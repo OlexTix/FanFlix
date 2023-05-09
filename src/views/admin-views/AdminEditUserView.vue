@@ -8,7 +8,7 @@
             <div class="field-row">
               <div class="field" style="margin-right: 1vh;">
                 <label for="email" class="input-label">E-MAIL</label>
-                <InputText v-model="user.email" id="emailinput" :class="{ 'p-invalid': errorMessage }" />
+                <InputText v-model="user.email" :class="{ 'p-invalid': errorMessage }" />
                 <small class="p-error">{{ errorMessageemail }}</small>
               </div>
             </div>
@@ -97,11 +97,14 @@ import Calendar from 'primevue/calendar';
   }
 
   #edit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
   background-color: #1e1e1e;
   border-radius: 20px;
   box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
-  margin-top: 2vh;
-  margin-bottom: 2vh;
   padding: 5vh;
   justify-content: center;
   align-items: center;
