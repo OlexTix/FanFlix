@@ -42,6 +42,7 @@ services:
       DATABASE_PORT: ${DATABASE_PORT}
       API_SECRET: ${API_SECRET}
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION} 
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
       NODE_ENV: production
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
