@@ -8,7 +8,7 @@
       <Divider class="divider-2" />
       <WizardTickets v-if="step === 1" @selected-tickets="onSelectedTickets" />
       <WizardSits v-if="step === 2" :hallID="screening.id_cinema_hall" :ticketsCount="ticketsCount" @selected-seats="onSelectedSeats" />
-      <WizardMentzen v-if="step === 3" />
+      <WizardMentzen v-if="step === 3" :tickets="selectedTickets" />
     </div>
   </BaseTemplate>
 </template>
@@ -53,14 +53,12 @@
     },
     onSelectedTickets(tickets) {
       this.selectedTickets = tickets;
-      this.ticketsCount = this.selectedTickets = tickets.reduce((total, ticket) => total + ticket.count, 0);
+      this.ticketsCount = tickets.reduce((total, ticket) => total + ticket.quantity, 0);
       this.step = 2;
-      // Tutaj możemy wykonać dodatkowe czynności związane z wybranymi biletami, np. przejście do następnego kroku
     },
     onSelectedSeats(seats) {
       this.selectedSeats = seats;
       this.step = 3;
-      // Tutaj możemy wykonać dodatkowe czynności związane z wybranymi biletami, np. przejście do następnego kroku
     },
   },
   mounted() {

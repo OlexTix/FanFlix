@@ -1,42 +1,22 @@
 <template>
-    <div class="justify-content-center" id="edit">
+    <div class="justify-content-center" id="reset">
       <div class="content-container">
         <div class="form-container">
-          <h2 class="title">Edytuj użytkownika</h2>
+          <h2 class="title">Zresetuj hasło użytkownika</h2>
           <hr class="divider" />
           <div class="card">
-            <div class="field-row">
-              <div class="field" style="margin-right: 1vh;">
-                <label for="email" class="input-label">E-MAIL</label>
-                <InputText v-model="user.email" :class="{ 'p-invalid': errorMessage }" />
-                <small class="p-error">{{ errorMessageemail }}</small>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field" style="margin-right: 1vh;">
-                <label for="first_name" class="input-label">IMIĘ</label>
-                <InputText v-model="user.first_name" :class="{ 'p-invalid': errorMessage }" />
-                <small class="p-error">{{ errorMessagefirst_name }}</small>
-              </div>
-              <div class="field">
-                <label for="last_name" class="input-label">NAZWISKO</label>
-                <InputText v-model="user.last_name" :class="{ 'p-invalid': errorMessage }" />
-                <small class="p-error">{{ errorMessagelast_name }}</small>
-              </div>
-            </div>
             <div class="field">
-              <label for="phone" class="input-label">NUMER TELEFONU</label>
-              <InputText v-model="user.phone" :class="{ 'p-invalid': errorMessage }" />
+              <label for="password" class="input-label">STARE HASŁO</label>
+              <InputText v-model="oldPassword" required :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagephone }}</small>
             </div>
             <div class="field">
-              <label for="birth_date" class="input-label">DATA URODZENIA</label>
-              <Calendar name="birth_date" v-model="user.birth_date" dateFormat="yy-mm-dd"
-                :class="{ 'p-invalid': errorMessage }" />
-              <small class="p-error">{{ errorMessagebirth_date }}</small>
+              <label for="password" class="input-label">NOWE HASŁO</label>
+              <InputText v-model="newPassword" required :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessagephone }}</small>
             </div>
             <div class="card flex justify-content-center">
-              <Button label="ZAPISZ ZMIANY" type="submit" severity="primary" rounded id="submitbutton"
+              <Button label="ZMIEŃ HASŁO" type="submit" severity="primary" rounded id="submitbutton"
                 @click="updateUser" />
                 <Button label="POWRÓT DO LISTY UŻYTKOWNIKÓW" type="submit" severity="primary" rounded id="submitbutton"
                 @click="goBackToList" />
@@ -51,20 +31,37 @@
 import axiosInstance from '../../service/apiService'
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import Calendar from 'primevue/calendar';
   export default {
-    name: 'AdminEditUserView',
+    name: 'AdminResetUserPasswordView',
   components: {
     Button,
-    Calendar,
     Checkbox
   },
     
-    data() {
-      return {
-        user: {},
+  data() {
+    return {
+      oldPassword: "",
+      newPassword: "",
+      errorMessage: "",
+    };
+  },
+  methods: {
+    async updateUserPass() {
+      try {
+        const response = await axios.post("/api/updateUserPass", {
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword,
+        });
+        console.log(response.data.message);
+      } catch (error) {
+        console.error(error);
+        this.errorMessage=error;
       }
     },
+    goBackToList() {
+        this.$router.push('/admin-panel/users')
+      }
+  },
     beforeRouteEnter(to, from, next) {
     const id_user = to.params.id_user;
     axiosInstance.get(`/api/users/${id_user}`).then((response) => {
@@ -74,19 +71,7 @@ import Calendar from 'primevue/calendar';
     });
   },
    
-    methods: {
-        async updateUser() {
-      try {
-        await axiosInstance.put(`/api/users/${this.user.id_user}`, this.user);
-        this.$router.push({ name: 'admin-panel/users' });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-      goBackToList() {
-        this.$router.push('/admin-panel/users')
-      }
-    }
+  
   }
   </script>
   
@@ -96,7 +81,7 @@ import Calendar from 'primevue/calendar';
     margin-bottom: 0.5rem;
   }
 
-  #edit {
+  #reset {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -134,12 +119,6 @@ import Calendar from 'primevue/calendar';
   border-color: #005f44;
 }
 
-.field-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .content-container {
   display: flex;
   flex-direction: column;
@@ -166,10 +145,6 @@ import Calendar from 'primevue/calendar';
   font-weight: bold;
   font-size: 14px;
   margin-bottom: 5px;
-}
-
-.field-checkbox {
-  color: white;
 }
 
 .title {

@@ -3,12 +3,12 @@
       <div class="title">Wybierz bilety:</div>
 
       <div class="tickets-container">
-        <div v-for="(ticket, index) in tickets" :key="index" class="ticket-row">
-          <div class="ticket-label ticket-column">{{ ticket.label }}</div>
+        <div v-if="tickets" v-for="(ticket, index) in tickets" :key="index" class="ticket-row">
+          <div class="ticket-label ticket-column">{{ ticket.title }}</div>
           <div class="ticket-price ticket-column">{{ formatPrice(ticket.price) }} zł</div>
-          <img src="../../assets/minus-icon.svg" class="icon ticket-column" @click="decrementTicketCount(index)" />
-          <div class="ticket-count ticket-column">{{ ticket.count }}</div>
-          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketCount(index)" />
+          <img src="../../assets/minus-icon.svg" class="icon ticket-column" @click="decrementTicketQuantity(index)" />
+          <div class="ticket-count ticket-column">{{ ticket.quantity }}</div>
+          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketQuantity(index)" />
         </div>
       </div>
 
@@ -44,11 +44,7 @@
     name: "WizardTicketComponent",
     data() {
       return {
-        tickets: [
-          { label: "Dorosły", price: 28.9, count: 0 },
-          { label: "Uczeń", price: 24.9, count: 0 },
-          { label: "Emeryt", price: 24.9, count: 0 },
-        ],
+        tickets: null,
       };
     },
     components: {
@@ -57,23 +53,26 @@
     },
     computed: {
       totalPrice() {
-        return this.tickets.reduce(
-          (total, ticket) => total + ticket.price * ticket.count,
-          0
-        );
+        if (this.tickets) {
+          return this.tickets.reduce(
+            (total, ticket) => total + ticket.price * ticket.quantity,
+            0
+          );
+        }
+        return 0;
       },
     },
     methods: {
-      incrementTicketCount(index) {
-        this.tickets[index].count++;
+      incrementTicketQuantity(index) {
+        this.tickets[index].quantity++;
       },
-      decrementTicketCount(index) {
-        if (this.tickets[index].count > 0) {
-          this.tickets[index].count--;
+      decrementTicketQuantity(index) {
+        if (this.tickets[index].quantity > 0) {
+          this.tickets[index].quantity--;
         }
       },
       formatPrice(value) {
-        return Number(value).toFixed(2);
+        return (Number(value) / 100).toFixed(2);
       },
       handleButtonClick() {
         if (this.totalPrice === 0) {
@@ -88,6 +87,21 @@
           console.log('Wybrane bilety:', this.tickets);
         }
       },
+      async fetchTicketsData() {
+        try {
+          const response = await this.$http.get(`/api/ticketTypes`);
+          this.tickets = response.data.map((ticket) => ({
+            ...ticket,
+            quantity: 0,
+          }));
+          console.log('Otrzymana lista biletów:', this.tickets);
+        } catch (error) {
+          console.error('Nie udało się pobrać danych o biletach:', error);
+        }
+      },
+    },
+    mounted(){
+      this.fetchTicketsData();
     }
   };
   </script>
