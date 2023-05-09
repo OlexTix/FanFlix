@@ -1,58 +1,87 @@
 <template>
-    <div class="container">
-      <h2 class="summary-title">Podsumowanie:</h2>
-  
-      <div class="summary-line">
-        <p class="summary-item">Uczeń x2</p>
-        <p class="summary-item summary-price">49.80zł</p>
-      </div>
-  
-      <Divider />
-  
-      <h2 class="payment-methods-title">Metody płatności:</h2>
-  
-      <div class="payment-cards-container">
-        <img src="../../assets/payments/card-biedronka.png" class="payment-card" />
-        <img src="../../assets/payments/card-kaufland.png" class="payment-card" />
-      </div>
-      
-      <div class="payment-methods">
-    <h2 class="payment-methods-title">Metody płatności:</h2>
-    <stripe-pricing-table
-      pricing-table-id="prctbl_1N5X95CXQDPyzexLr9Ywf4ZJ"
-      publishable-key="pk_test_51N5X1YCXQDPyzexL9wKsClOPubD0UpbnyeWJh3ouxJyiIrrJOXtXjaGIwmsPbUlBvzHd8G8mwf5OLLULDhmHV3Rc00jpjjnov7"
-    ></stripe-pricing-table>
-      </div>
-  
-      <Divider />
-  
-      <h2 class="confirmation-title">Potwierdzenie zamówienia:</h2>
-  
-      <p class="confirmation-text">
-        Na podany adres email zostanie wysłane potwierdzenie zakupu wraz z numerem biletu. Numer biletu należy podać w kasie kina.
-      </p>
-  
-      <div class="email-input">
-        <label for="email">Adres e-mail</label>
-        <input type="email" id="email" />
-      </div>
-  
-      <div class="acceptance">
-        <input type="checkbox" id="acceptance" />
-        <label for="acceptance" class="acceptance-text">*Akceptuję Regulamin i Politykę prywatności.</label>
-      </div>
-  
-      <button class="confirm-button">Potwierdź zamówienie</button>
+  <div class="container">
+    <h2 class="summary-title">Podsumowanie:</h2>
+
+    <div class="summary-line" v-for="(ticket, index) in filteredTickets" :key="index">
+      <p class="summary-item">{{ ticket.title }} x {{ ticket.quantity }}</p>
+      <p class="summary-item summary-price">{{ ((ticket.price * ticket.quantity) / 100).toFixed(2) }}zł</p>
     </div>
-  </template>
+
+
+    <Divider />
+
+    <p class="confirmation-text">
+      Zostaniesz przekierowany na stronę płatnosci. Po zapłacaniu na podany e-mail zostanie wysłany numer biletu, który należy podać w kasie kina.
+    </p>
+
+    <div class="acceptance">
+      <Checkbox  v-model="accepted" :binary="true" />
+      <label for="acceptance" class="acceptance-text">*Akceptuję Regulamin i Politykę prywatności.</label>
+    </div>
+
+    <Button 
+        :class="{ 'confirm-payment-button-disabled': accepted !== true  }"
+        class="confirm-payment-button" 
+        @click="handleButtonClick">
+        Zapłać
+      </Button>
+  </div>
+</template>
   
   <script>
+  import Checkbox from 'primevue/checkbox';
+  import Button from "primevue/button";
   import Divider from '../../components/Divider.vue';
   
   export default {
     name: 'OrderSummaryComponent',
     components: {
       Divider,
+      Button,
+      Checkbox
+    },
+    data() {
+      return {
+        accepted: false,
+        isLoading: false,
+        filteredTickets: [],
+      };
+    },
+    props:{
+      tickets: {
+        type: Array,
+        required: true,
+      },
+    },
+    methods: {
+      async redirectToStripe(ticketArray) {
+        var ticketData = ticketArray.map(ticket => {
+          return {
+            id_ticket: ticket.id_ticket_type,
+            quantity: ticket.quantity
+          };
+        });
+        ticketData = encodeURIComponent(JSON.stringify(ticketData));
+        const response = await this.$http.post(`/api/checkout?ticketData=${ticketData}`);
+        window.location.href = response.data.url;
+      },
+      async handleButtonClick() {
+        if (this.accepted !== true) {
+            this.$toast.add({
+            severity: 'info',
+            summary: '',
+            detail: 'Zaakceptuj regulamin i politykę prywatności',
+            life: 3000,
+            });
+        } else {
+          await this.redirectToStripe(this.filteredTickets);
+          console.log('Wybrane miejsca:', this.selectedSeats);
+        }
+      },
+    },
+    mounted() {
+      this.filteredTickets = this.tickets.filter(ticket => ticket.quantity > 0);
+      console.log("wybrane bilety:",this.tickets);
     },
   };
   </script>
@@ -69,7 +98,7 @@
   .confirmation-title {
     font-weight: bold;
     font-size: 24px;
-    margin-bottom: 100px;
+    margin-bottom: 30px;
   }
   
   .summary-line {
@@ -79,6 +108,7 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 30px;
+    padding: 0 30px;
   }
   
   .payment-cards-container {
@@ -105,8 +135,9 @@
   }
   
   .confirmation-text {
+    padding: 10px;
     font-weight: thin;
-    font-size: 20px;
+    font-size: 16px;
   }
   
   .email-input {
@@ -115,6 +146,7 @@
   }
   
   .acceptance {
+    padding: 5px 30px;
     display: flex;
     align-items: center;
   }
@@ -123,20 +155,39 @@
     margin-left: 5px;
   }
   
-  .confirm-button {
-    background-color: #00a877;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-  }
+.confirm-payment-button {
+  width: 250px;
+  height: 40px;
+  border-radius: 6px;
+  background-image: linear-gradient(to bottom, #00a877, #007d59);
+  border-color: #007d59;
+  font-weight: 500;
+  font-size: 18px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 20px 50px 150px auto;
+  transition: all 0.3s ease;
+}
 
-  .confirm-button:hover {
-  background-color: #008660;
+.confirm-payment-button:hover {
+  background-image: linear-gradient(to bottom, #008660, #005a41);
+  border-color: #005f44;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.confirm-payment-button-disabled {
+  background-image: linear-gradient(to bottom, #bbbbbb, #999999);
+  border-color: #999999;
+  cursor: not-allowed;
+}
+
+.confirm-payment-button-disabled:hover {
+  background-image: linear-gradient(to bottom, #bbbbbb, #999999);
+  border-color: #999999;
+  box-shadow: none;
+  transform: none;
+}
+
 </style>

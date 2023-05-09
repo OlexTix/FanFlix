@@ -78,6 +78,11 @@ const router = createRouter({
       path: '/wizard/tickets',
       name: 'wizard-tickets',
       component: () => import('../views/wizard-views/WizardTicketsView.vue')
+    },
+    {
+      path: '/checkout/success',
+      name: 'checkout-success',
+      component: () => import('../views/ThankYouView.vue')
     }
   ]
 })
