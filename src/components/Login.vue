@@ -61,6 +61,7 @@
               this.errorMessage='';
 
               this.$router.push('/');
+              this.$toast.add({ severity: 'success', summary: 'Pomyślnie zalogowano :D', detail: "", life: 3000 });
 
             } catch (error) {
                 console.error('Błąd logowania:', error);
