@@ -12,14 +12,7 @@ module.exports = function (app) {
 
   // Get ticket types
   app.get(
-    "/api/cinemas/:name/screenings/:screeningName/ticketTypes",
+    "/api/ticketTypes",
     ticketTypes.getTicketTypes
-  );
-
-  // Save selected ticket types and their quantities
-  app.post(
-    "/api/cinemas/:name/screenings/:screeningName/saveTicketSelection",
-    oleCheckJWT.verifyToken,
-    ticketTypes.saveSelectedTicketTypes
   );
 };

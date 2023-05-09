@@ -11,15 +11,17 @@ module.exports = function (app) {
     })
   );
 
-  app.post("/api/panel/cinemas", oleCheckJWT.verifyToken, panel.addCinema);
-
-  app.get("/api/panel/cinemas", oleCheckJWT.verifyToken, panel.getCinemas);
-
   app.get(
-    "/api/panel/cinemas/:id",
-    oleCheckJWT.verifyToken,
-    panel.getCinemaById
+    "/api/panel/cinemas", 
+    oleCheckJWT.verifyToken, 
+    panel.getCinemas
   );
+
+  app.post(
+    "/api/panel/cinemas", 
+    oleCheckJWT.verifyToken, 
+    panel.addCinema);
+
   app.put(
     "/api/panel/cinemas/:id",
     oleCheckJWT.verifyToken,

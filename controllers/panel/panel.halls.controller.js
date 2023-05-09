@@ -19,44 +19,45 @@ const poolDB = new Pool({
 });
 
 const getHalls = async (req, res) => {
-  const cinemaId = req.params.id;
+  const { id_cinema, name, id_cinema_hall, hall_number, number_of_seats } = req.query;
   const client = await poolDB.connect();
-  const { hall_number, number_of_seats } = req.query;
-  let selectColumns = "*";
 
-  if (Object.keys(req.query).length === 1) {
-    if ("id_cinema_hall" in req.query && !id_cinema_hall) {
-      selectColumns = "cinema_hall.id_cinema_hall";
-    } else if ("number_of_seats" in req.query && !number_of_seats) {
-      selectColumns = "cinema_hall.number_of_seats";
-    }
+  let query = `SELECT "Cinema_Hall".id_cinema_hall, "Cinema_Hall".hall_number, "Cinema_Hall".number_of_seats, "Cinema".id_cinema, "Cinema".name FROM "Cinema_Hall" JOIN "Cinema" ON "Cinema_Hall".id_cinema = "Cinema".id_cinema WHERE 1=1`;
+
+  const queryParams = [];
+
+  if (id_cinema) {
+    queryParams.push(id_cinema);
+    query += ` AND "Cinema".id_cinema = $${queryParams.length}`;
   }
 
-  let query = `SELECT ${selectColumns} FROM "Cinema_Hall" AS cinema_hall WHERE cinema_hall.id_cinema = $1`;
-  const queryParams = [cinemaId];
-  let queryConditions = "";
+  if (name) {
+    queryParams.push(name);
+    query += ` AND "Cinema".name = $${queryParams.length}`;
+  }
+
+  if (id_cinema_hall) {
+    queryParams.push(id_cinema_hall);
+    query += ` AND "Cinema_Hall".id_cinema_hall = $${queryParams.length}`;
+  }
 
   if (hall_number) {
     queryParams.push(hall_number);
-    queryConditions += ` AND cinema_hall.hall_number = $${queryParams.length}`;
+    query += ` AND "Cinema_Hall".hall_number = $${queryParams.length}`;
   }
 
   if (number_of_seats) {
     queryParams.push(number_of_seats);
-    queryConditions += `AND cinema_hall.number_of_seats = $${queryParams.length}`;
-  }
-
-  if (queryConditions) {
-    query += queryConditions;
+    query += ` AND "Cinema_Hall".number_of_seats = $${queryParams.length}`;
   }
 
   try {
-    const { rows: hallRows } = await client.query(query, queryParams);
+    const { rows } = await client.query(query, queryParams);
 
-    if (hallRows.length === 0) {
+    if (rows.length === 0) {
       res.status(404).send({ message: "Halls not found" });
     } else {
-      res.status(200).json(hallRows);
+      res.status(200).json(rows);
     }
   } catch (err) {
     console.error(err.message);
@@ -66,16 +67,16 @@ const getHalls = async (req, res) => {
   }
 };
 
-const getHallById = async (req, res) => {
-  const cinemaId = req.params.id;
-  const hallId = parseInt(req.params.hallId);
+
+const addHall = async (req, res) => {
+  const { cinema_name, hall_number, number_of_seats } = req.body;
   const client = await poolDB.connect();
 
   try {
-    // Check if cinema exists
+
     const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
+      'SELECT * FROM "Cinema" WHERE name = $1',
+      [cinema_name]
     );
 
     if (cinemaRows.length === 0) {
@@ -83,44 +84,8 @@ const getHallById = async (req, res) => {
       return;
     }
 
-    // Get hall by id associated with cinema
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
-    );
+    const cinemaId = cinemaRows[0].id_cinema;
 
-    if (hallRows.length === 0) {
-      res.status(404).send({ message: "Hall not found" });
-      return;
-    }
-
-    res.status(200).json(hallRows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to get hall" });
-  } finally {
-    client.release();
-  }
-};
-
-const addHall = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
-  const { hall_number, number_of_seats } = req.body;
-  const client = await poolDB.connect();
-
-  try {
-    // Check if cinema exists
-    const { rows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-
-    if (rows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
-    }
-
-    // Insert new hall associated with cinema
     const { rowCount } = await client.query(
       'INSERT INTO "Cinema_Hall" (id_cinema, hall_number, number_of_seats) VALUES ($1, $2, $3)',
       [cinemaId, hall_number, number_of_seats]
@@ -136,13 +101,26 @@ const addHall = async (req, res) => {
 };
 
 const updateHallsData = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
   const hallId = parseInt(req.params.hallId);
   const { hall_number, number_of_seats } = req.body;
   const client = await poolDB.connect();
 
   try {
-    // Check if cinema exists
+    // Check if hall exists and retrieve current data
+    const { rows: hallRows } = await client.query(
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema_hall = $1',
+      [hallId]
+    );
+
+    if (hallRows.length === 0) {
+      res.status(404).send({ message: "Hall not found" });
+      return;
+    }
+
+    const currentHallData = hallRows[0];
+    const cinemaId = currentHallData.id_cinema;
+
+
     const { rows: cinemaRows } = await client.query(
       'SELECT * FROM "Cinema" WHERE id_cinema = $1',
       [cinemaId]
@@ -153,28 +131,15 @@ const updateHallsData = async (req, res) => {
       return;
     }
 
-    // Check if hall exists and retrieve current data
-    const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
-    );
-
-    if (hallRows.length === 0) {
-      res.status(404).send({ message: "Hall not found" });
-      return;
-    }
-
-    const currentHallData = hallRows[0];
-
-    // Update hall data if provided in request body
+  
     const newHallData = {
       hall_number: hall_number || currentHallData.hall_number,
       number_of_seats: number_of_seats || currentHallData.number_of_seats,
     };
 
     const { rowCount } = await client.query(
-      'UPDATE "Cinema_Hall" SET hall_number = $1, number_of_seats = $2 WHERE id_cinema = $3 AND id_cinema_hall = $4',
-      [newHallData.hall_number, newHallData.number_of_seats, cinemaId, hallId]
+      'UPDATE "Cinema_Hall" SET hall_number = $1, number_of_seats = $2 WHERE id_cinema_hall = $3',
+      [newHallData.hall_number, newHallData.number_of_seats, hallId]
     );
 
     if (rowCount === 0) {
@@ -192,25 +157,14 @@ const updateHallsData = async (req, res) => {
 };
 
 const deleteHall = async (req, res) => {
-  const cinemaId = parseInt(req.params.id);
   const hallId = parseInt(req.params.hallId);
   const client = await poolDB.connect();
 
   try {
-    // Check if cinema exists
-    const { rows: cinemaRows } = await client.query(
-      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
-      [cinemaId]
-    );
-    if (cinemaRows.length === 0) {
-      res.status(404).send({ message: "Cinema not found" });
-      return;
-    }
 
-    // Check if hall exists
     const { rows: hallRows } = await client.query(
-      'SELECT * FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
+      'SELECT * FROM "Cinema_Hall" WHERE id_cinema_hall = $1',
+      [hallId]
     );
 
     if (hallRows.length === 0) {
@@ -218,18 +172,27 @@ const deleteHall = async (req, res) => {
       return;
     }
 
-    // Start transaction
+    const cinemaId = hallRows[0].id_cinema;
+
+    const { rows: cinemaRows } = await client.query(
+      'SELECT * FROM "Cinema" WHERE id_cinema = $1',
+      [cinemaId]
+    );
+
+    if (cinemaRows.length === 0) {
+      res.status(404).send({ message: "Cinema not found" });
+      return;
+    }
+    
     await client.query("BEGIN");
 
-    // Delete associated seats
     await client.query('DELETE FROM "Seat" WHERE id_cinema_hall = $1', [
       hallId,
     ]);
 
-    // Delete hall
-    const { rowCount } = await client.query(
-      'DELETE FROM "Cinema_Hall" WHERE id_cinema = $1 AND id_cinema_hall = $2',
-      [cinemaId, hallId]
+     const { rowCount } = await client.query(
+      'DELETE FROM "Cinema_Hall" WHERE id_cinema_hall = $1',
+      [hallId]
     );
 
     if (rowCount === 0) {
@@ -254,7 +217,6 @@ const deleteHall = async (req, res) => {
 
 module.exports = {
   getHalls,
-  getHallById,
   addHall,
   updateHallsData,
   deleteHall,

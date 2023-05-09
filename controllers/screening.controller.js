@@ -128,7 +128,7 @@ const getScreenings = async (req, res) => {
     );
 
     const query = `
-    SELECT s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, st.language, st.subtitle, s.date, s.time, string_agg(g.name, ',') as genres
+    SELECT s.id_screening, s.id_cinema_hall, m.id_movie, m.title, m.poster_url, m.duration, st.language, st.subtitle, s.date, s.time, string_agg(g.name, ',') as genres
     FROM "Screening" s
     JOIN "Cinema_Hall" ch ON ch.id_cinema_hall = s.id_cinema_hall
     JOIN "Cinema" c ON c.id_cinema = ch.id_cinema

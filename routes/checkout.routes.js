@@ -10,10 +10,6 @@ module.exports = function (app) {
     })
   );
 
-  app.post(
-    "/api/cinemas/:name/screenings/:screeningName/checkout",
-    oleCheckJWT.verifyToken,
-    checkout.processCheckout
-  );
+  app.post("/api/checkout", checkout.processCheckout);
 
 };

@@ -27,18 +27,6 @@ const getTicketTypes = async (req, res) => {
   }
 };
 
-const saveSelectedTicketTypes = (req, res) => {
-  try {
-    req.session.selected_ticket_types = req.body.selected_ticket_types;
-    req.session.selected_ticket_types_quantity = req.body.selected_ticket_types_quantity;
-    res.status(200).json({ message: "Selected ticket types and quantity saved" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
 module.exports = {
-  getTicketTypes,
-  saveSelectedTicketTypes,
+  getTicketTypes
 };

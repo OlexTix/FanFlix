@@ -17,65 +17,59 @@ const connectionString = DATABASE_LINK;
 const poolDB = new Pool({
   connectionString,
 });
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const processCheckout = async (req, res) => {
-  const { name, screeningName } = req.params;
-  const { payment_details } = req.body;
-  const { userId } = req;
-  const selected_seats = req.session.selected_seats;
-
-  if (!name || !screeningName || !userId || !selected_seats || !payment_details) {
-    return res.status(400).json({ error: "Missing required information" });
-  }
-
-  try {
-    // Check if cinema exists
-    const cinemaResult = await poolDB.query(
-      `SELECT * FROM "Cinema" WHERE name = $1`,
-      [name]
-    );
-
-    if (cinemaResult.rowCount === 0) {
-      return res.status(404).json({ error: "Cinema not found" });
+    const ticketData = req.query.ticketData;
+  
+    if (!ticketData) {
+      return res.status(400).json({ error: "ticketData parameter must be provided" });
     }
-
-    // Check if screening exists
-    const screeningResult = await poolDB.query(
-      `SELECT * FROM "Screening" WHERE name = $1 AND id_cinema = $2`,
-      [screeningName, cinemaResult.rows[0].id_cinema]
-    );
-
-    if (screeningResult.rowCount === 0) {
-      return res.status(404).json({ error: "Screening not found" });
+  
+    let ticketArray;
+    try {
+      ticketArray = JSON.parse(ticketData);
+    } catch (err) {
+      return res.status(400).json({ error: "Invalid ticketData parameter" });
     }
-
-    await pool.query("BEGIN");
-
-    // Insert payment details
-    const paymentResult = await poolDB.query(
-      `INSERT INTO "User_Payment" (id_user, payment_details) VALUES ($1, $2) RETURNING id_payment`,
-      [user_id, payment_details]
-    );
-
-    const payment_id = paymentResult.rows[0].id_payment;
-
-    // Insert tickets
-    const ticketInsertPromises = selected_seats.map((seat) =>
-      poolDB.query(
-        `INSERT INTO "Ticket" (id_user, id_screening, id_seat, id_ticket_type, id_payment) VALUES ($1, $2, $3, $4, $5)`,
-        [user_id, screeningResult.rows[0].id_screening, seat.id_seat, seat.ticket_type_id, payment_id]
-      )
-    );
-
-    await Promise.all(ticketInsertPromises);
-
-    await poolDB.query("COMMIT");
-
-    res.status(201).json({ message: "Tickets successfully purchased" });
-  } catch (err) {
-    await poolDB.query("ROLLBACK");
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
+  
+    var tickets = null;
+  
+    try {
+      const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
+      tickets = rows;
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  
+    const lineItems = ticketArray.flatMap((ticket) => {
+      const ticketId = parseInt(ticket.id_ticket);
+      const quantity = parseInt(ticket.quantity);
+  
+      if (isNaN(quantity) || isNaN(ticketId)) {
+        return [];
+      }
+  
+      const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
+  
+      return filteredTickets.map((item) => {
+        return {
+          price: item.stripePriceId,
+          quantity: quantity,
+        };
+      });
+    });
+  
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: lineItems,
+      success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://fanflix.fantasticstudio.online/`,
+    });
+  
+    return res.send({ url: session.url });
 };
 
 module.exports = {

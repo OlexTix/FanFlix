@@ -63,33 +63,23 @@ const addCinema = async (req, res) => {
 const getCinemas = async (req, res) => {
   const client = await poolDB.connect();
   try {
-    const { rows } = await client.query(
-      'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address'
-    );
-    res.status(200).json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
-  } finally {
-    client.release();
-  }
-};
+    const queryParams = [];
+    let query = 'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
 
-const getCinemaById = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const client = await poolDB.connect();
-
-  try {
-    const { rows } = await client.query(
-      'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address WHERE cinema.id_cinema = $1',
-      [id]
-    );
-
-    if (rows.length === 0) {
-      res.status(404).json({ message: "Cinema not found" });
-    } else {
-      res.status(200).json(rows[0]);
+    const conditions = [];
+    for (const key in req.query) {
+      if (req.query.hasOwnProperty(key)) {
+        conditions.push(`"${key}" = $${queryParams.length + 1}`);
+        queryParams.push(req.query[key]);
+      }
     }
+
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    const { rows } = await client.query(query, queryParams);
+    res.status(200).json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message });
@@ -213,7 +203,6 @@ const deleteCinema = async (req, res) => {
 module.exports = {
   addCinema,
   getCinemas,
-  getCinemaById,
   updateCinemasData,
   deleteCinema,
 };

@@ -11,20 +11,26 @@ module.exports = function (app) {
     })
   );
 
+  app.get(
+    "/api/panel/halls",
+    oleCheckJWT.verifyToken,
+    oleCheckJWT.isAdmin,
+    hall.getHalls
+  );
   app.post(
-    "/api/cinemas/:id/halls",
+    "/api/panel/halls",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
     hall.addHall
   );
   app.put(
-    "/api/cinemas/:id/halls/:hallId",
+    "/api/panel/halls/:hallId",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
     hall.updateHallsData
   );
   app.delete(
-    "/api/cinemas/:id/halls/:hallId",
+    "/api/panel/halls/:hallId",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
     hall.deleteHall
