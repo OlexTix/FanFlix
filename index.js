@@ -26,6 +26,7 @@ require("./routes/ticketTypes.routes")(app);
 require("./routes/ticketTypes2.routes")(app);
 require("./routes/availableSeats.routes")(app);
 require("./routes/checkout.routes")(app);
+require("./routes/checkout2.routes")(app);
 require("./routes/panel/panel.cinema.routes")(app);
 require("./routes/panel/panel.halls.routes")(app);
 require("./routes/hallLayout.routes")(app);
