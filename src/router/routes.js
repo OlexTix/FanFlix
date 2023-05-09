@@ -70,6 +70,11 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminEditUserView.vue')
     },
     {
+      path: '/admin-panel/users/reset-password/:id_user',
+      name: 'reset-password',
+      component: () => import('../views/admin-views/AdminResetUserPasswordView.vue')
+    },
+    {
       path: '/movies/:nazwaFilmu',
       name: 'movies',
       component: () => import('../views/MovieView.vue')

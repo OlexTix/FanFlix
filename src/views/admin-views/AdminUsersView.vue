@@ -33,6 +33,7 @@
                     <td>
                         <Button class="edit-button" @click="editUser(user.id_user)">Edytuj</Button>
                         <button class="delete-button" @click="deleteUser(user.id_user)">Usuń</button>
+                        <button class="password-button" @click="changeUserPassword(user.id_user)">Zmień hasło</button>
                     </td>
                 </tr>
             </tbody>
@@ -66,14 +67,20 @@ export default {
         editUser(id_user) {
       this.$router.push({ name: "edit-user", params: { id_user: id_user } });
     },
+    changeUserPassword(id_user) {
+      this.$router.push({ name: "reset-password", params: { id_user: id_user } });
+    },
         async deleteUser(userId) {
             try {
                 await axiosInstance.delete(`/api/users/${userId}`);
                 const response = await axiosInstance.get('/api/users');
                 this.users = response.data;
+                this.$toast.add({ severity: 'info', summary: 'Pomyślnie usunięto użytkownika', detail: "", life: 3000 });
             } catch (error) {
                 console.error(error);
+                this.$toast.add({ severity: 'error', summary: 'Błąd przy usuwaniu użytkownika', detail: "", life: 3000 });
             }
+
         },
     },
 };
@@ -130,6 +137,24 @@ th {
   .edit-button:hover {
     background-image: linear-gradient(to bottom, #008660, #005a41);
     border-color: #005f44;
+  }
+
+  .password-button {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #a89200, #5b4801);
+    border-color: #65560a;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .password-button:hover {
+    background-image: linear-gradient(to bottom, #423905, #554304);
+    border-color: #4a3b07;
   }
 
 .header {
