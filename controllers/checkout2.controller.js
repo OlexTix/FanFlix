@@ -21,38 +21,54 @@ const poolDB = new Pool({
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const processCheckout = async (req, res) => {
-    const quantity = parseInt(req.query.quantity);
-    const ticketId = parseInt(req.query.id_ticket);
-    var tickets = null;
-
-    if (isNaN(quantity) || isNaN(ticketId)) {
-        return res.status(400).json({ error: "Both id_ticket and quantity parameters must be provided" });
+    const ticketData = req.query.ticketData;
+  
+    if (!ticketData) {
+      return res.status(400).json({ error: "ticketData parameter must be provided" });
     }
-
+  
+    let ticketArray;
     try {
-        const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
-        tickets = rows;
+      ticketArray = JSON.parse(ticketData);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Internal server error" });
+      return res.status(400).json({ error: "Invalid ticketData parameter" });
     }
-
-    const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
-
-    const lineItems = filteredTickets.map((item) => {
+  
+    var tickets = null;
+  
+    try {
+      const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
+      tickets = rows;
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  
+    const lineItems = ticketArray.flatMap((ticket) => {
+      const ticketId = parseInt(ticket.id_ticket);
+      const quantity = parseInt(ticket.quantity);
+  
+      if (isNaN(quantity) || isNaN(ticketId)) {
+        return [];
+      }
+  
+      const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
+  
+      return filteredTickets.map((item) => {
         return {
-            price: item.stripePriceId,
-            quantity: quantity,
+          price: item.stripePriceId,
+          quantity: quantity,
         };
+      });
     });
-
+  
     const session = await stripe.checkout.sessions.create({
-        mode: "payment",
-        line_items: lineItems,
-        success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `https://fanflix.fantasticstudio.online/`,
+      mode: "payment",
+      line_items: lineItems,
+      success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://fanflix.fantasticstudio.online/`,
     });
-
+  
     return res.send({ url: session.url });
 };
 
