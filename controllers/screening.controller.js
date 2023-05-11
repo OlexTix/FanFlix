@@ -148,34 +148,33 @@ const getScreenings = async (req, res) => {
       const existingMovieIndex = accumulator.findIndex(
         (movie) => movie.id_movie === item.id_movie
       );
-  
+    
+      const genres = item.genres ? item.genres.split(",") : [];
+    
+      const screening = {
+        id_screening: item.id_screening,
+        language: item.language,
+        subtitle: item.subtitle,
+        date: item.date,
+        time: moment(item.time, "HH:mm:ss").format("HH:mm"),
+      };
+    
       if (existingMovieIndex !== -1) {
-        accumulator[existingMovieIndex].screenings.push({
-          id_screening: item.id_screening,
-          language: item.language,
-          subtitle: item.subtitle,
-          date: item.date,
-          time: moment(item.time, "HH:mm:ss").format("HH:mm"), 
-        });
+        accumulator[existingMovieIndex].screenings.push(screening);
+        accumulator[existingMovieIndex].screenings.sort((a, b) => 
+          moment(a.time, "HH:mm").isAfter(moment(b.time, "HH:mm")) ? 1 : -1
+        );
       } else {
         accumulator.push({
           id_movie: item.id_movie,
           title: item.title,
           poster_url: item.poster_url,
           duration: item.duration,
-          genres: item.genres.split(","),
-          screenings: [
-            {
-              id_screening: item.id_screening,
-              language: item.language,
-              subtitle: item.subtitle,
-              date: item.date,
-              time: moment(item.time, "HH:mm:ss").format("HH:mm"), 
-            },
-          ],
+          genres: genres,
+          screenings: [screening],
         });
       }
-  
+    
       return accumulator;
     }, []);
 
