@@ -19,16 +19,51 @@ const poolDB = new Pool({
 });
 
 const getAllProducts = async (req, res) => {
-    try {
-      // Get all Stripe products
-      const stripeProducts = await stripeGetRequest('/v1/products');
-  
-      res.status(200).send(stripeProducts);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ message: "Failed to fetch products" });
-    }
-  };
+  const client = await poolDB.connect();
+
+  try {
+    // Get all products from the database
+    const localProductsRes = await client.query('SELECT * FROM "Ticket_Type"');
+    const localProducts = localProductsRes.rows;
+
+    // Get all Stripe products
+    const stripeProductsRes = await stripeGetRequest('/v1/products');
+    const stripeProducts = stripeProductsRes.data;
+
+    // Filter and transform products
+    const filteredProducts = stripeProducts
+      .map(stripeProduct => {
+        // Find corresponding local product
+        const localProduct = localProducts.find(
+          product =>
+            product.title === stripeProduct.name 
+        );
+
+        if (localProduct) {
+          // If a matching local product is found, return the required fields
+          return {
+            id: stripeProduct.id,
+            id_ticket_type: localProduct.id_ticket_type,
+            stripePriceId: localProduct.stripePriceId,
+            title: localProduct.title,
+            price: localProduct.price,
+            description: localProduct.description,
+            image: localProduct.image,
+            
+            
+          };
+        }
+      })
+      .filter(Boolean); // Removes any undefined values from the array (i.e., products without a matching local product)
+
+    res.status(200).send(filteredProducts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to fetch products" });
+  } finally {
+    client.release();
+  }
+};
 
 const addTicket = async (req, res) => {
   const client = await poolDB.connect();
