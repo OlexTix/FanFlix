@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const { check, validationResult } = require('express-validator');
 const Pool = require("pg").Pool;
 
 // Read variables from .env file
@@ -17,6 +17,55 @@ const connectionString = DATABASE_LINK;
 const poolDB = new Pool({
   connectionString,
 });
+
+const getCinemas = async (req, res) => {
+  const client = await poolDB.connect();
+
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    let sanitizedQuery = [];
+    let query = 'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
+
+    const conditions = [];
+    for (const key in req.query) {
+      if (req.query.hasOwnProperty(key) && key !== "sortBy" && key !== "order" && key !== "limit" && key !== "offset") {
+        conditions.push(`"${key}" = $${sanitizedQuery.length + 1}`);
+        sanitizedQuery.push(check(req.query[key]).escape());
+      }
+    }
+
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    if (req.query.sortBy && req.query.order) {
+      query += ` ORDER BY "${req.query.sortBy}" ${req.query.order}`;
+    }
+
+    if (req.query.limit) {
+      query += ` LIMIT $${sanitizedQuery.length + 1}`;
+      sanitizedQuery.push(parseInt(req.query.limit));
+    }
+
+    if (req.query.offset) {
+      query += ` OFFSET $${sanitizedQuery.length + 1}`;
+      sanitizedQuery.push(parseInt(req.query.offset));
+    }
+
+    const { rows } = await client.query(query, sanitizedQuery);
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  } finally {
+    client.release();
+  }
+};
 
 const addCinema = async (req, res) => {
   const {
@@ -55,34 +104,6 @@ const addCinema = async (req, res) => {
 
     console.error(err.message);
     res.status(500).send({ message: "Failed to add new cinema" });
-  } finally {
-    client.release();
-  }
-};
-
-const getCinemas = async (req, res) => {
-  const client = await poolDB.connect();
-  try {
-    const queryParams = [];
-    let query = 'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
-
-    const conditions = [];
-    for (const key in req.query) {
-      if (req.query.hasOwnProperty(key)) {
-        conditions.push(`"${key}" = $${queryParams.length + 1}`);
-        queryParams.push(req.query[key]);
-      }
-    }
-
-    if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
-    }
-
-    const { rows } = await client.query(query, queryParams);
-    res.status(200).json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
   } finally {
     client.release();
   }
