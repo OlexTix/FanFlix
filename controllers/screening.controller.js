@@ -20,7 +20,7 @@ const poolDB = new Pool({
 });
 
 const buildWhereClauseAndParams = (queryParameters, cinemaHallIds) => {
-  let whereClause = "WHERE s.id_cinema_hall = ANY($1)";
+  let whereClause = "WHERE s.id_cinema_hall = ANY($1) AND s.archived = false";
   let queryParams = [cinemaHallIds];
   let counter = 2;
 
@@ -83,9 +83,9 @@ const getScreenings = async (req, res) => {
       const existingMovieIndex = accumulator.findIndex(
         (movie) => movie.id_movie === item.id_movie
       );
-    
+
       const genres = item.genres ? item.genres.split(",") : [];
-    
+
       const screening = {
         id_screening: item.id_screening,
         language: item.language,
@@ -93,10 +93,10 @@ const getScreenings = async (req, res) => {
         date: item.date,
         time: moment(item.time, "HH:mm:ss").format("HH:mm"),
       };
-    
+
       if (existingMovieIndex !== -1) {
         accumulator[existingMovieIndex].screenings.push(screening);
-        accumulator[existingMovieIndex].screenings.sort((a, b) => 
+        accumulator[existingMovieIndex].screenings.sort((a, b) =>
           moment(a.time, "HH:mm").isAfter(moment(b.time, "HH:mm")) ? 1 : -1
         );
       } else {
@@ -109,7 +109,7 @@ const getScreenings = async (req, res) => {
           screenings: [screening],
         });
       }
-    
+
       return accumulator;
     }, []);
 
@@ -158,7 +158,7 @@ const getScreeningByName = async (req, res) => {
       JOIN "Screening_Type" st ON st.id_screening_type = s.id_screening_type
       LEFT JOIN "Movie_Genre" mg ON mg.id_movie = m.id_movie
       LEFT JOIN "Genre" g ON g.id_genre = mg.id_genre
-      WHERE s.id_cinema_hall = ANY($1) AND m.title = $2
+      WHERE s.id_cinema_hall = ANY($1) AND s.archived = false AND m.title = $2
       GROUP BY s.id_screening, m.id_movie, m.title, m.poster_url, m.duration, m.description, d.first_name, d.last_name, d.nationality, st.language, st.subtitle, s.date, s.time
     `;
     const queryParams = [cinemaHallIds, screeningName];

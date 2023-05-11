@@ -1,5 +1,5 @@
 const { oleCheckJWT } = require("../../middleware");
-const screening = require("../../controllers/panel/panel.screening.controller");
+const tickets = require("../../controllers/panel/panel.tickets.controller");
 
 const cors = require("cors");
 
@@ -10,30 +10,34 @@ module.exports = function (app) {
       allowedHeaders: "x-access-token, Origin, Content-Type, Accept",
     })
   );
+
+
+
   app.get(
-    "/api/panel/screenings",
+    "/api/panel/tickets",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
-    screening.getScreenings
+    tickets.getAllProducts
   );
 
   app.post(
-    "/api/panel/screenings",
+    "/api/panel/tickets",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
-    screening.addScreening
+    tickets.addTicket
   );
-
+  
   app.put(
-    "/api/panel/screenings/:screeningId",
+    "/api/panel/tickets/:id_ticket",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
-    screening.updateScreeningsData
+    tickets.modifyProduct
   );
+  
   app.delete(
-    "/api/panel/screenings/:screeningId",
+    "/api/panel/tickets/:id_ticket",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
-    screening.deleteScreening
+    tickets.deleteProduct
   );
 };

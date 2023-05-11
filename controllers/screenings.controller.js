@@ -115,7 +115,7 @@ const getScreenings = async (req, res) => {
     }
 
     if (queryConditions) {
-      query += ` WHERE ${queryConditions.slice(5)}`;
+      query += ` WHERE ${queryConditions.slice(5)} AND s.archived = false`;
     }
   
     query += ` GROUP BY s.id_screening, s.id_movie, ch.id_cinema_hall, ch.hall_number, st.id_screening_type, st.language, st.subtitle, s.date, s.time, c.name, a.city`;

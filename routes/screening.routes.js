@@ -11,7 +11,9 @@ module.exports = function (app) {
     })
   );
 
-  app.get("/api/cinemas/:name/screenings", screening.getScreenings);
+  app.get(
+    "/api/cinemas/:name/screenings", 
+    screening.getScreenings);
   app.get(
     "/api/cinemas/:name/screenings/:screeningName",
     screening.getScreeningByName
