@@ -10,7 +10,7 @@ module.exports = function (app) {
       allowedHeaders: "x-access-token, Origin, Content-Type, Accept",
     })
   );
-
+  app.get("/api/panel/movies", movie.getMovies);
   app.post("/api/panel/movies", oleCheckJWT.verifyToken, movie.addMovie);
   app.put(
     "/api/panel/movies/:id",

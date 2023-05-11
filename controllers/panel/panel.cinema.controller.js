@@ -21,21 +21,18 @@ const poolDB = new Pool({
 const getCinemas = async (req, res) => {
   const client = await poolDB.connect();
 
-  // Check for validation errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
-    let sanitizedQuery = [];
+    let queryParams = [];
     let query = 'SELECT cinema.id_cinema, cinema.name, address.id_address, address.street, address.building_number, address.apartment_number, address.postal_code, address.city, address.country, cinema.phone FROM "Cinema" AS cinema INNER JOIN "Address" AS address ON cinema.id_address = address.id_address';
 
     const conditions = [];
     for (const key in req.query) {
       if (req.query.hasOwnProperty(key) && key !== "sortBy" && key !== "order" && key !== "limit" && key !== "offset") {
-        conditions.push(`"${key}" = $${sanitizedQuery.length + 1}`);
-        sanitizedQuery.push(check(req.query[key]).escape());
+        if (typeof req.query[key] !== 'string' || req.query[key].length > 255) {
+          return res.status(400).send({ message: "Invalid query parameters" });
+        }
+        conditions.push(`"${key}" = $${queryParams.length + 1}`);
+        queryParams.push(req.query[key].replace(/[^a-zA-Z0-9_ -]/g, ''));
       }
     }
 
@@ -44,20 +41,30 @@ const getCinemas = async (req, res) => {
     }
 
     if (req.query.sortBy && req.query.order) {
-      query += ` ORDER BY "${req.query.sortBy}" ${req.query.order}`;
+      if (["asc", "desc"].includes(req.query.order.toLowerCase())) {
+        query += ` ORDER BY "${req.query.sortBy}" ${req.query.order}`;
+      } else {
+        return res.status(400).send({ message: "Invalid sort order" });
+      }
     }
 
     if (req.query.limit) {
-      query += ` LIMIT $${sanitizedQuery.length + 1}`;
-      sanitizedQuery.push(parseInt(req.query.limit));
+      if (!Number.isInteger(parseInt(req.query.limit))) {
+        return res.status(400).send({ message: "Limit must be an integer" });
+      }
+      query += ` LIMIT $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.limit));
     }
 
     if (req.query.offset) {
-      query += ` OFFSET $${sanitizedQuery.length + 1}`;
-      sanitizedQuery.push(parseInt(req.query.offset));
+      if (!Number.isInteger(parseInt(req.query.offset))) {
+        return res.status(400).send({ message: "Offset must be an integer" });
+      }
+      query += ` OFFSET $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.offset));
     }
 
-    const { rows } = await client.query(query, sanitizedQuery);
+    const { rows } = await client.query(query, queryParams);
     res.status(200).json(rows);
   } catch (err) {
     console.error(err);

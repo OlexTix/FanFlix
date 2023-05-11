@@ -18,6 +18,85 @@ const poolDB = new Pool({
   connectionString,
 });
 
+const getMovies = async (req, res) => {
+    const client = await poolDB.connect();
+  
+    let query = `
+      SELECT 
+        m.id_movie, 
+        m.title, 
+        array_agg(g.name) AS genres, 
+        d.first_name, 
+        d.last_name, 
+        d.nationality, 
+        m.duration, 
+        m.description, 
+        m.poster_url, 
+        m.youtube_link, 
+        m.release_date
+      FROM "Movie" AS m
+      INNER JOIN "Director" AS d ON m.id_director = d.id_director
+      LEFT JOIN "Movie_Genre" AS mg ON m.id_movie = mg.id_movie
+      LEFT JOIN "Genre" AS g ON mg.id_genre = g.id_genre
+    `;
+  
+    const queryParams = [];
+    const conditions = [];
+    for (const key in req.query) {
+      if (req.query.hasOwnProperty(key) && key !== "sortBy" && key !== "order" && key !== "limit" && key !== "offset") {
+        if (typeof req.query[key] !== 'string' || req.query[key].length > 255) {
+          return res.status(400).send({ message: "Invalid query parameters" });
+        }
+        conditions.push(`"${key}" = $${queryParams.length + 1}`);
+        queryParams.push(req.query[key].replace(/[^a-zA-Z0-9_ -]/g, ''));
+      }
+    }
+  
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+  
+    if (req.query.sortBy && req.query.order) {
+      if (["asc", "desc"].includes(req.query.order.toLowerCase())) {
+        query += ` ORDER BY "${req.query.sortBy}" ${req.query.order}`;
+      } else {
+        return res.status(400).send({ message: "Invalid sort order" });
+      }
+    }
+  
+    if (req.query.limit) {
+      if (!Number.isInteger(parseInt(req.query.limit))) {
+        return res.status(400).send({ message: "Limit must be an integer" });
+      }
+      query += ` LIMIT $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.limit));
+    }
+  
+    if (req.query.offset) {
+      if (!Number.isInteger(parseInt(req.query.offset))) {
+        return res.status(400).send({ message: "Offset must be an integer" });
+      }
+      query += ` OFFSET $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.offset));
+    }
+  
+    query += ` GROUP BY m.id_movie, d.id_director`;
+  
+    try {
+      const { rows: movieRows } = await client.query(query, queryParams);
+  
+      if (movieRows.length === 0) {
+        res.status(404).send({ message: "Movies not found" });
+      } else {
+        res.status(200).json(movieRows);
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send({ message: "Failed to get movies list" });
+    } finally {
+      client.release();
+    }
+  };
 const addMovie = async (req, res) => {
     const client = await poolDB.connect();
     const {
@@ -190,6 +269,7 @@ const addMovie = async (req, res) => {
   };
 
 module.exports = {
+    getMovies,
     addMovie,
     updateMoviesData,
     deleteMovie,
