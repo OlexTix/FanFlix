@@ -27,10 +27,14 @@ const processCheckout = async (req, res) => {
     return res.status(400).json({ error: "ticketData parameter must be provided" });
   }
 
+  console.log('ticketData:', ticketData);
+  
   let ticketArray;
   try {
     ticketArray = JSON.parse(ticketData);
+    console.log('ticketArray:', ticketArray); 
   } catch (err) {
+    console.error('Error parsing ticketData:', err);
     return res.status(400).json({ error: "Invalid ticketData parameter" });
   }
 
@@ -117,7 +121,7 @@ const insertTickets = async (ticketArray, seats, screeningID) => {
       const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity) VALUES (${screeningID}, ${id_seat}, ${ticketId}, 1)`;
       try {
         await poolDB.query(insertQuery);
-        
+
       } catch (err) {
         console.error(err);
         throw new Error('Failed to insert ticket');
