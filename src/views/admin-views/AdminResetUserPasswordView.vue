@@ -7,17 +7,17 @@
           <div class="card">
             <div class="field">
               <label for="password" class="input-label">STARE HASŁO</label>
-              <InputText v-model="oldPassword" required :class="{ 'p-invalid': errorMessage }" />
+              <InputText type="password" v-model="oldPassword" required :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagephone }}</small>
             </div>
             <div class="field">
               <label for="password" class="input-label">NOWE HASŁO</label>
-              <InputText v-model="newPassword" required :class="{ 'p-invalid': errorMessage }" />
+              <InputText type="password" v-model="newPassword" required :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagephone }}</small>
             </div>
             <div class="card flex justify-content-center">
               <Button label="ZMIEŃ HASŁO" type="submit" severity="primary" rounded id="submitbutton"
-                @click="updateUser" />
+                @click="updateUserPass" />
                 <Button label="POWRÓT DO LISTY UŻYTKOWNIKÓW" type="submit" severity="primary" rounded id="submitbutton"
                 @click="goBackToList" />
               <small class="p-error">{{ errorMessage }}</small>
@@ -28,51 +28,62 @@
     </div>
   </template>
   <script>
-import axiosInstance from '../../service/apiService'
-import Button from 'primevue/button';
-import Checkbox from 'primevue/checkbox';
+  import axiosInstance from '../../service/apiService';
+  import Button from 'primevue/button';
+  
+  
   export default {
     name: 'AdminResetUserPasswordView',
-  components: {
-    Button,
-    Checkbox
-  },
-    
-  data() {
-    return {
-      oldPassword: "",
-      newPassword: "",
-      errorMessage: "",
-    };
-  },
-  methods: {
-    async updateUserPass() {
-      try {
-        const response = await axios.post("/api/updateUserPass", {
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
-        });
-        console.log(response.data.message);
-      } catch (error) {
-        console.error(error);
-        this.errorMessage=error;
-      }
+    components: {
+      Button,
     },
-    goBackToList() {
-        this.$router.push('/admin-panel/users')
-      }
-  },
+    data() {
+      return {
+        user: null,
+        oldPassword: "",
+        newPassword: "",
+        errorMessage: "",
+        id_user: null,
+      };
+    },
+    methods: {
+      async updateUserPass() {
+        try {
+          const response = await axiosInstance.put(`/api/users/${this.id_user}`, {
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword,
+          });
+          console.log(response.data.message);
+          this.$toast.add({
+                    severity: 'success',
+                    summary: 'Pomyślnie zmieniono hasło użytkownika',
+                    detail: '',
+                    life: 3000
+                });
+        } catch (error) {
+          console.error(error);
+          this.errorMessage = error;
+          this.$toast.add({
+                    severity: 'error',
+                    summary: 'Błąd zmiany hasła',
+                    detail: '',
+                    life: 3000
+                });
+        }
+      },
+      goBackToList() {
+        this.$router.push('/admin-panel/users');
+      },
+    },
     beforeRouteEnter(to, from, next) {
-    const id_user = to.params.id_user;
-    axiosInstance.get(`/api/users/${id_user}`).then((response) => {
       next((vm) => {
-        vm.user = response.data;
+        vm.id_user = to.params.id_user;
+        axiosInstance.get(`/api/users/${vm.id_user}`).then((response) => {
+          vm.user = response.data;
+        });
       });
-    });
-  },
-   
-  
-  }
+    },
+  };
   </script>
   
   <style scoped>

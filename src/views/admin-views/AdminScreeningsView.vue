@@ -1,28 +1,24 @@
 <template>
     <AdminPanelTemplate>
         <p v-if="errorMessage">{{ errorMessage }}</p>
-        <div class="users-table">
+        <div class="screenings-table">
             <div class="table-tab">
-                <h1 class="table-title">USERS</h1>
+                <h1 class="table-title">SCREENINGS</h1>
             </div>
-            <DataTable :value="users" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
+            <DataTable :value="screenings" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
                 removableSort class="custom-datatable">
-                <Column field="id_user" class="custom-header" sortable header="ID"></Column>
-                <Column field="first_name" class="custom-header" sortable header="Imię"></Column>
-                <Column field="last_name" class="custom-header" sortable header="Nazwisko"></Column>
-                <Column field="email" class="custom-header" sortable header="Email"></Column>
-                <Column field="role" class="custom-header" sortable header="Rola"></Column>
-                <Column field="phone" class="custom-header" sortable header="Numer telefonu"></Column>
-                <Column field="birth_date" class="custom-header" sortable header="Data urodzenia"></Column>
-                <Column field="last_login" class="custom-header" sortable header="Ostatnie logowanie"></Column>
-                <Column field="registration_date" class="custom-header" sortable header="Data rejestracji"></Column>
-                <Column field="is_active" class="custom-header" sortable header="Konto aktywowane?"></Column>
+                <Column field="id_screening" class="custom-header" sortable header="ID"></Column>
+                <Column field="id_movie" class="custom-header" sortable header="Film"></Column>
+                <Column field="id_cinema_hall" class="custom-header" sortable header="Sala kinowa"></Column>
+                <Column field="id_screening_type" class="custom-header" sortable header="Typ"></Column>
+                <Column field="language" class="custom-header" sortable header="Język"></Column>
+                <Column field="subtitle" class="custom-header" sortable header="Nazwa"></Column>
+                <Column field="city" class="custom-header" sortable header="Miejscowość"></Column>
+                <Column field="date" class="custom-header" sortable header="Data"></Column>
+                <Column field="time" class="custom-header" sortable header="Czas"></Column>
                 <Column class="custom-header">
                     <template #body="rowData">
                         <div class="action-buttons">
-                            <Button icon="pi pi-pencil" @click="editUser(rowData.data.id_user)" />
-                            <Button icon="pi pi-trash" @click="deleteUser(rowData.data.id_user)" />
-                            <Button icon="pi pi-lock" @click="changeUserPassword(rowData.data.id_user)" />
                         </div>
                     </template>
                 </Column>
@@ -50,47 +46,19 @@ export default {
     },
     data() {
         return {
-            users: [],
+            screenings: [],
             errorMessage: ''
         };
     },
     async created() {
         try {
-            const response = await axiosInstance.get('/api/users');
-            this.users = response.data;
+            const response = await axiosInstance.get('/api/screenings');
+            this.screenings = response.data;
         } catch (error) {
             console.error(error);
         }
     },
-    methods: {
-        editUser(id_user) {
-            this.$router.push({ name: 'edit-user', params: { id_user: id_user } });
-        },
-        changeUserPassword(id_user) {
-            this.$router.push({ name: 'reset-password', params: { id_user: id_user } });
-        },
-        async deleteUser(userId) {
-            try {
-                await axiosInstance.delete(`/api/users/${userId}`);
-                const response = await axiosInstance.get('/api/users');
-                this.users = response.data;
-                this.$toast.add({
-                    severity: 'info',
-                    summary: 'Pomyślnie usunięto użytkownika',
-                    detail: '',
-                    life: 3000
-                });
-            } catch (error) {
-                console.error(error);
-                this.$toast.add({
-                    severity: 'error',
-                    summary: 'Błąd przy usuwaniu użytkownika',
-                    detail: '',
-                    life: 3000
-                });
-            }
-        }
-    }
+   
 };
 </script>
 <style>
@@ -124,7 +92,7 @@ export default {
     justify-content: center;
 }
 
-.users-table {
+.screenings-table {
     box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
 }
 
@@ -143,7 +111,7 @@ export default {
 }
 
 .table-title {
-    font-weight: 400;
+    font-weight: 700;
     text-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);

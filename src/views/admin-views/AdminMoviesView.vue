@@ -5,7 +5,7 @@
             <div class="table-tab">
                 <h1 class="table-title">MOVIES</h1>
             </div>
-            <DataTable :value="movies" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
+            <DataTable :value="movies" paginator  :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
                 removableSort class="custom-datatable">
                 <Column field="id_movie" class="custom-header" sortable header="ID"></Column>
                 <Column field="title" class="custom-header" sortable header="Tytuł"></Column>
@@ -17,6 +17,11 @@
                 <Column field="youtube_link" class="custom-header" sortable header="Link YouTube"></Column>
                 <Column field="release_date" class="custom-header" sortable header="Data premiery"></Column>
                 <Column class="custom-header">
+                    <template #header>
+            <div class="header-content">
+              <Button class="add-button" @click="addMovie">DODAJ FILM</Button>
+            </div>
+          </template>
                     <template #body="rowData">
                         <div class="action-buttons">
                             <Button icon="pi pi-trash" @click="deleteMovie(rowData.data.id_movie)" />
@@ -60,6 +65,9 @@ export default {
         }
     },
     methods: {
+        async addMovie() {
+            this.$router.push({ name: 'add-movie' });
+        },
         async deleteMovie(movieId) {
             try {
                 await axiosInstance.delete(`/api/movies/${movieId}`);
@@ -103,6 +111,30 @@ export default {
     justify-content: center;
 }
 
+
+.add-button {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #00a877, #007d59);
+    border-color: #007d59;
+    font-weight: 500;
+    width: 150px;
+    font-size: 15px;
+    margin-left: 2vh;
+    color: #ffffff;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .add-button:hover {
+    background-image: linear-gradient(to bottom, #008660, #005a41);
+    border-color: #005f44;
+  }
+
+
+
 .movies-table {
     box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
 }
@@ -122,7 +154,7 @@ export default {
 }
 
 .table-title {
-    font-weight: 700;
+    font-weight: 400;
     text-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
