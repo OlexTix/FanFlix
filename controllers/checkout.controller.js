@@ -27,14 +27,10 @@ const processCheckout = async (req, res) => {
     return res.status(400).json({ error: "ticketData parameter must be provided" });
   }
 
-  console.log('ticketData:', ticketData);
-  
   let ticketArray;
   try {
     ticketArray = JSON.parse(ticketData);
-    console.log('ticketArray:', ticketArray); 
   } catch (err) {
-    console.error('Error parsing ticketData:', err);
     return res.status(400).json({ error: "Invalid ticketData parameter" });
   }
 
@@ -48,7 +44,7 @@ const processCheckout = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 
-  const lineItems = ticketArray.flatMap((ticket) => {
+  const lineItems = ticketArray.tickets.flatMap((ticket) => {
     const ticketId = parseInt(ticket.id);
     const quantity = parseInt(ticket.quantity);
 
@@ -72,7 +68,7 @@ const processCheckout = async (req, res) => {
     success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `https://fanflix.fantasticstudio.online/`,
     metadata: {
-      ticketData: JSON.stringify(ticketArray),
+      ticketData: JSON.stringify(ticketArray.tickets),
       seats: JSON.stringify(req.query.seats),
       screeningID: req.query.screeningID,
     },
