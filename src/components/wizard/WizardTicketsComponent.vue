@@ -3,12 +3,12 @@
       <div class="title">Wybierz bilety:</div>
 
       <div class="tickets-container">
-        <div v-if="tickets" v-for="(ticket, index) in tickets" :key="index" class="ticket-row">
+        <div v-if="ticketsModel" v-for="(ticket, index) in ticketsModel" :key="index" class="ticket-row">
           <div class="ticket-label ticket-column">{{ ticket.title }}</div>
           <div class="ticket-price ticket-column">{{ formatPrice(ticket.price) }} zł</div>
-          <img src="../../assets/minus-icon.svg" class="icon ticket-column" @click="decrementTicketQuantity(index)" />
-          <div class="ticket-count ticket-column">{{ ticket.quantity }}</div>
-          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketQuantity(index)" />
+          <img src="../../assets/minus-icon.svg" class="icon ticket-column" @click="decrementTicketQuantity(ticket.id_ticket_type)" />
+          <div class="ticket-count ticket-column">{{ getTicketQuantity(ticket.id_ticket_type) }}</div>
+          <img src="../../assets/plus-icon.svg" class="icon ticket-column" @click="incrementTicketQuantity(ticket.id_ticket_type)" />
         </div>
       </div>
 
@@ -44,7 +44,11 @@
     name: "WizardTicketComponent",
     data() {
       return {
-        tickets: null,
+        ticketsModel: null,
+        isLoading: true,
+        selectedScreeningData: {
+          tickets: [],
+        },
       };
     },
     components: {
@@ -53,26 +57,65 @@
     },
     computed: {
       totalPrice() {
-        if (this.tickets) {
-          return this.tickets.reduce(
-            (total, ticket) => total + ticket.price * ticket.quantity,
-            0
-          );
+        if (this.selectedScreeningData.tickets) {
+          return this.selectedScreeningData.tickets.reduce((total, ticket) => {
+            const ticketModel = this.ticketsModel.find((t) => t.id_ticket_type === ticket.id);
+            return total + (ticketModel ? ticketModel.price : 0) * ticket.quantity;
+          }, 0);
         }
         return 0;
       },
     },
     methods: {
-      incrementTicketQuantity(index) {
-        this.tickets[index].quantity++;
+      incrementTicketQuantity(id) {
+        let ticket = this.selectedScreeningData.tickets.find((ticket) => ticket.id === id);
+        if (ticket) {
+          ticket.quantity++;
+        } else {
+          this.selectedScreeningData.tickets.push({
+            id,
+            quantity: 1,
+          });
+          ticket = this.selectedScreeningData.tickets.find((ticket) => ticket.id === id);
+        }
+        this.updateSelectedScreeningData({
+          step: 2,
+          tickets: this.selectedScreeningData.tickets,
+          seats: undefined
+        });
       },
-      decrementTicketQuantity(index) {
-        if (this.tickets[index].quantity > 0) {
-          this.tickets[index].quantity--;
+      decrementTicketQuantity(id) {
+        const ticket = this.selectedScreeningData.tickets.find((ticket) => ticket.id === id);
+        if (ticket && ticket.quantity > 0) {
+          ticket.quantity--;
+          if (ticket.quantity === 0) {
+            const index = this.selectedScreeningData.tickets.findIndex((ticket) => ticket.id === id);
+            this.selectedScreeningData.tickets.splice(index, 1);
+          }
+          this.updateSelectedScreeningData({
+            step: 2,
+            tickets: this.selectedScreeningData.tickets,
+            seats: undefined
+          });
         }
       },
       formatPrice(value) {
         return (Number(value) / 100).toFixed(2);
+      },
+      updateSelectedScreeningData(newData) {
+        this.selectedScreeningData = JSON.parse(localStorage.getItem('selectedScreeningData')) || {};
+        const newSelectedScreeningData = {
+          ...this.selectedScreeningData,
+          ...newData
+        };
+
+        if (newSelectedScreeningData.seats === undefined) {
+          delete newSelectedScreeningData.seats;
+        }
+
+        const newSelectedScreeningDataJSON = JSON.stringify(newSelectedScreeningData);
+        localStorage.setItem('selectedScreeningData', newSelectedScreeningDataJSON);
+        this.selectedScreeningData = newSelectedScreeningData;
       },
       handleButtonClick() {
         if (this.totalPrice === 0) {
@@ -83,20 +126,44 @@
             life: 3000,
           });
         } else {
-          this.$emit('selected-tickets', this.tickets);
-          console.log('Wybrane bilety:', this.tickets);
+          console.log('Wybrane bilety:', this.selectedScreeningData.tickets);
+          this.$router.push('/wizard/seats');
         }
+      },
+      getTicketQuantity(id) {
+        const ticket = this.selectedScreeningData.tickets.find((ticket) => ticket.id === id);
+        return ticket ? ticket.quantity : 0;
       },
       async fetchTicketsData() {
         try {
           const response = await this.$http.get(`/api/ticketTypes`);
-          this.tickets = response.data.map((ticket) => ({
-            ...ticket,
-            quantity: 0,
-          }));
-          console.log('Otrzymana lista biletów:', this.tickets);
+          this.ticketsModel = response.data;
         } catch (error) {
           console.error('Nie udało się pobrać danych o biletach:', error);
+          return;
+        }
+
+        try {
+          this.selectedScreeningData = JSON.parse(localStorage.getItem('selectedScreeningData')) || { tickets: [] };
+        } catch (error) {
+          console.warn('Nie udało się przetworzyć danych z localStorage:', error);
+          return;
+        }
+
+        try {
+          this.selectedScreeningData.tickets = this.ticketsModel.map((ticket) => {
+            const matchingTicket = this.selectedScreeningData.tickets ?
+              this.selectedScreeningData.tickets.find(t => t.id === ticket.id_ticket_type) : null;
+
+            return {
+              id: ticket.id_ticket_type,
+              quantity: matchingTicket ? matchingTicket.quantity : 0,
+            };
+          });
+
+          console.log('Otrzymana lista biletów:', this.selectedScreeningData.tickets);
+        } catch (error) {
+          console.error('Nie udało się przetworzyć modelu biletów:', error);
         }
       },
     },

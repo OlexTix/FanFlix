@@ -1,98 +1,54 @@
 <template>
     <AdminPanelTemplate>
-        <p>Movies</p>
         <p v-if="errorMessage">{{ errorMessage }}</p>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tytuł</th>
-                    <th>Gatunki</th>
-                    <th>Reżyser- imię</th>
-                    <th>Reżyser- nazwisko</th>
-                    <th>Czas trwania</th>
-                    <th>Narodowość</th>
-                    <th>Link YouTube</th>
-                    <th>Data premiery</th>
-                    <th>Czynności</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="movie in movies" :key="movie.id">
-                    <td>{{ movie.id_movie }}</td>
-                    <td>{{ movie.title }}</td>
-                    <td>{{ movie.genres }}</td>
-                    <td>{{ movie.first_name }}</td>
-                    <td>{{ movie.last_name }}</td>
-                    <td>{{ movie.duration }}</td>
-                    <td>{{ movie.nationality }}</td>
-                    <td>{{ movie.youtube_link }}</td>
-                    <td>{{ movie.release_date }}</td>
-                    <td>
-                        <button class="delete-button" @click="deleteMovie(movie.id_movie)">Usuń</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table> -->
-
-        <div class="card">
-        <DataView :value="moviesAdmin" paginator :rows="5">
-            <template #list="movie">
-                <div class="col-12">
-                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto" :src="movie.poster_url" :alt="Poster" />
-                        <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                                <div class="text-2xl font-bold text-900">{{ movie.title }}</div>
-                                <div class="flex align-items-center gap-3">
-                                    <span class="flex align-items-center gap-2">
-                                        <i class="pi pi-caret-right"></i>
-                                        <span class="font-semibold">Id: {{ movie.id_movie }}</span>
-                                    </span>
-                                    <span class="flex align-items-center gap-2">
-                                        <i class="pi pi-star"></i>
-                                        <span class="font-semibold">Gatunek: {{ movie.genres }}</span>
-                                    </span>
-                                    <!-- <Tag :value="slotProps.data.inventoryStatus" :severity="getSeverity(slotProps.data)"></Tag> -->
-                                </div>
-                            </div>
-                            <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                                <span class="text-1xl">Czas: {{ movie.duration }}</span>
-                                <div class="button-template">
-                                   <Button icon="pi pi-pencil" rounded></Button>
-                                <Button icon="pi pi-trash" rounded></Button> 
-                                </div>
-                            </div>
+        <div class="movies-table">
+            <div class="table-tab">
+                <h1 class="table-title">MOVIES</h1>
+            </div>
+            <DataTable :value="movies" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
+                removableSort class="custom-datatable">
+                <Column field="id_movie" class="custom-header" sortable header="ID"></Column>
+                <Column field="title" class="custom-header" sortable header="Tytuł"></Column>
+                <Column field="genres" class="custom-header" sortable header="Gatunki"></Column>
+                <Column field="first_name" class="custom-header" sortable header="Reżyser - imię"></Column>
+                <Column field="last_name" class="custom-header" sortable header="Reżyser - nazwisko"></Column>
+                <Column field="duration" class="custom-header" sortable header="Czas trwania"></Column>
+                <Column field="nationality" class="custom-header" sortable header="Narodowość"></Column>
+                <Column field="youtube_link" class="custom-header" sortable header="Link YouTube"></Column>
+                <Column field="release_date" class="custom-header" sortable header="Data premiery"></Column>
+                <Column class="custom-header">
+                    <template #body="rowData">
+                        <div class="action-buttons">
+                            <Button icon="pi pi-trash" @click="deleteMovie(rowData.data.id_movie)" />
                         </div>
-                    </div>
-                </div>
-            </template>
-        </DataView>
-    </div>
-
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
     </AdminPanelTemplate>
 </template>
-
+  
 <script>
-import axios from 'axios';
 import axiosInstance from '../../service/apiService.js';
-import { ref, onMounted } from 'vue';
 import AdminPanelTemplate from '../../components/templates/AdminPanelTemplate.vue';
-
-onMounted(() => {
-  apiService.axios.create().then((data) => (movie.value = data));
-});
-
-const moviesAdmin = ref();
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Button from 'primevue/button';
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
 
 export default {
     components: {
-        AdminPanelTemplate
+        AdminPanelTemplate,
+        DataTable,
+        Column,
+        Button
     },
     data() {
         return {
             movies: [],
-            errorMessage: '',
+            errorMessage: ''
         };
     },
     async created() {
@@ -114,61 +70,127 @@ export default {
             }
         },
     },
-
-
-}
+};
 </script>
 <style>
-/* table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
+.custom-datatable {
+    background-color: #2C2B2B;
+    border: 3px solid #007d59;
 }
 
-td,
-th {
-    padding: 0.5rem;
-    text-align: left;
-    border: 1px solid #ddd;
+.custom-datatable thead {
+    background-color: #2C2B2B;
 }
 
-th {
-    font-weight: bold;
+.custom-datatable .p-paginator {
+    background-color: #333333;
+}
+
+
+.custom-header {
+    color: #2C2B2B;
+}
+
+.table-tab {
+    height: 40px;
+    border-radius: 5px 5px 0px 0px;
+    background-image: linear-gradient(to bottom, #00a877, #007d59);
+    border-color: #007d59;
+    font-size: 18px;
+    color: #000000;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.movies-table {
+    box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    background-color: #333;
+    color: #fff;
+}
+
+.p-button {
+    background-color: transparent;
+    border: none;
+}
+
+.p-datatable .p-datatable-thead>tr>th>span {
+    font-weight: 800;
+}
+
+.table-title {
+    font-weight: 700;
+    text-align: center;
+    vertical-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.custom-header {
+    background-color: #2C2B2B;
+    color: white;
+    font-weight: 300;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
 }
 
 .delete-button {
     border-radius: 6px;
     background-image: linear-gradient(to bottom, #a80000, #5b0101);
     border-color: #650a0a;
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 15px;
+    margin-right: 1.2vh;
     color: #ffffff;
-    margin-top: 20px;
     display: flex;
     justify-content: center;
     cursor: pointer;
-  }
+}
 
-  .delete-button:hover {
+.delete-button:hover {
     background-image: linear-gradient(to bottom, #420505, #550404);
     border-color: #4a0707;
-  }
-
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 2rem;
+.edit-button {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #00a877, #007d59);
+    border-color: #007d59;
+    font-weight: 600;
+    font-size: 15px;
+    color: #ffffff;
+    margin-right: 1.2vh;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
 }
 
-.header .button-container {
+.edit-button:hover {
+    background-image: linear-gradient(to bottom, #008660, #005a41);
+    border-color: #005f44;
+}
+
+.password-button {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #a89200, #5b4801);
+    border-color: #65560a;
+    font-weight: 600;
+    font-size: 15px;
+    color: #ffffff;
+    margin-right: 1.2vh;
     display: flex;
-    align-items: center;
-} */
+    justify-content: center;
+    cursor: pointer;
+}
+
+.password-button:hover {
+    background-image: linear-gradient(to bottom, #423905, #554304);
+    border-color: #4a3b07;
+}
 </style>

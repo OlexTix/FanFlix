@@ -8,7 +8,7 @@
       <Divider class="divider-2" />
       <WizardTickets v-if="step === 1" @selected-tickets="onSelectedTickets" />
       <WizardSits v-if="step === 2" :hallID="screening.id_cinema_hall" :ticketsCount="ticketsCount" @selected-seats="onSelectedSeats" />
-      <WizardMentzen v-if="step === 3" :tickets="selectedTickets" />
+      <WizardMentzen v-if="step === 3" :selected-screening-data.tickets="selectedTickets" />
     </div>
   </BaseTemplate>
 </template>

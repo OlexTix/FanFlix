@@ -2,13 +2,22 @@
   <div class="container">
     <h2 class="summary-title">Podsumowanie:</h2>
 
-    <div class="summary-line" v-for="(ticket, index) in filteredTickets" :key="index">
-      <p class="summary-item">{{ ticket.title }} x {{ ticket.quantity }}</p>
-      <p class="summary-item summary-price">{{ ((ticket.price * ticket.quantity) / 100).toFixed(2) }}zł</p>
+    <div 
+      v-if="selectedScreeningData" 
+      v-for="(ticket, index) in selectedScreeningData.tickets" 
+      :key="index" 
+      class="summary-line"
+      v-show="ticket.quantity > 0">
+      <p class="summary-item">{{ getTicketTitle(ticket.id) }} x {{ ticket.quantity }}</p>
+      <p class="summary-item summary-price">{{ ((getTicketPrice(ticket.id) * ticket.quantity) / 100).toFixed(2) }}zł</p>
     </div>
 
-
     <Divider />
+
+    <div class="summary-row">
+      <div class="summary-label">Suma</div>
+      <div v-if="selectedScreeningData" class="summary-total">{{ formatPrice(totalPrice()) }} zł</div>
+    </div>
 
     <p class="confirmation-text">
       Zostaniesz przekierowany na stronę płatnosci. Po zapłacaniu na podany e-mail zostanie wysłany numer biletu, który należy podać w kasie kina.
@@ -42,18 +51,25 @@
     },
     data() {
       return {
+        selectedScreeningData: null,
+        ticketsModel: null,
         accepted: false,
-        isLoading: false,
-        filteredTickets: [],
+        isLoading: false
       };
     },
-    props:{
-      tickets: {
-        type: Array,
-        required: true,
-      },
-    },
     methods: {
+      totalPrice() {
+        return this.selectedScreeningData.tickets.reduce((sum, ticket) => sum + this.getTicketPrice(ticket.id) * ticket.quantity, 0);
+      },
+      getTicketTitle(id) {
+        return this.ticketsModel?.find(ticket => ticket.id_ticket_type === id)?.title ?? '';
+      },
+      getTicketPrice(id) {
+        return this.ticketsModel?.find(ticket => ticket.id_ticket_type === id)?.price ?? 0;
+      },
+      formatPrice(price) {
+        return (price / 100).toFixed(2);
+      },
       async redirectToStripe(ticketArray) {
         var ticketData = ticketArray.map(ticket => {
           return {
@@ -74,14 +90,57 @@
             life: 3000,
             });
         } else {
-          await this.redirectToStripe(this.filteredTickets);
+          await this.redirectToStripe(this.selectedScreeningData.tickets.filter(ticket => ticket.quantity > 0));
           console.log('Wybrane miejsca:', this.selectedSeats);
+        }
+      },
+      updateSelectedScreeningData(newData) {
+        this.selectedScreeningData = JSON.parse(localStorage.getItem('selectedScreeningData')) || {};
+        const newSelectedScreeningData = {
+            ...this.selectedScreeningData,
+            ...newData
+        };
+        const newSelectedScreeningDataJSON = JSON.stringify(newSelectedScreeningData);
+        localStorage.setItem('selectedScreeningData', newSelectedScreeningDataJSON);
+        this.selectedScreeningData = newSelectedScreeningData;
+      },
+      async fetchTicketsData() {
+        try {
+          const response = await this.$http.get(`/api/ticketTypes`);
+          this.ticketsModel = response.data;
+        } catch (error) {
+          console.error('Nie udało się pobrać danych o biletach:', error);
+          return;
+        }
+
+        try {
+          this.selectedScreeningData = JSON.parse(localStorage.getItem('selectedScreeningData')) || { tickets: [] };
+        } catch (error) {
+          console.warn('Nie udało się przetworzyć danych z localStorage:', error);
+          return;
+        }
+
+        try {
+          this.selectedScreeningData.tickets = this.ticketsModel.map((ticket) => {
+            const matchingTicket = this.selectedScreeningData.tickets ?
+              this.selectedScreeningData.tickets.find(t => t.id === ticket.id_ticket_type) : null;
+
+            return {
+              id: ticket.id_ticket_type,
+              quantity: matchingTicket ? matchingTicket.quantity : 0,
+            };
+          });
+
+          console.log('Otrzymana lista biletów:', this.selectedScreeningData.tickets);
+        } catch (error) {
+          console.error('Nie udało się przetworzyć modelu biletów:', error);
         }
       },
     },
     mounted() {
-      this.filteredTickets = this.tickets.filter(ticket => ticket.quantity > 0);
-      console.log("wybrane bilety:",this.tickets);
+      this.updateSelectedScreeningData();
+      this.fetchTicketsData();
+      console.log("wybrane bilety:",this.selectedScreeningData.tickets);
     },
   };
   </script>
@@ -189,5 +248,17 @@
   box-shadow: none;
   transform: none;
 }
+
+.summary-row {
+    margin-top: 20px;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .summary-total,
+  .summary-label{
+    font-size: 24px;
+  }
 
 </style>

@@ -1,14 +1,33 @@
 <template>
   <div class="container">
-    <button class="text-button" :class="{ active: step === 1 }">BILETY</button>
-    <img src="../../assets/wizzard-arrows.svg" alt="First Icon" class="icon" />
-    <button class="text-button" :class="{ active: step === 2 }">MIEJSCA</button>
-    <img src="../../assets/wizzard-arrows.svg" alt="Second Icon" class="icon" />
-    <button class="text-button" :class="{ active: step === 3 }">PŁATNOŚĆ</button>
+    <RouterLink 
+      class="text-button" 
+      :class="{ active: step === 1, disabled: 1 > step }" 
+      :to="1 <= step ? '/wizard/tickets?step=1' : '#'">BILETY
+    </RouterLink>
+    <img 
+      src="../../assets/wizzard-arrows.svg" 
+      alt="First Icon" 
+      class="icon" />
+    <RouterLink 
+      class="text-button" 
+      :class="{ active: step === 2, disabled: 2 > step }" 
+      :to="2 <= step ? '/wizard/seats?step=2' : '#'">MIEJSCA
+    </RouterLink>
+    <img 
+      src="../../assets/wizzard-arrows.svg" 
+      alt="Second Icon" 
+      class="icon" />
+    <RouterLink 
+      class="text-button" 
+      :class="{ active: step === 3, disabled: 3 > step }" 
+      :to="3 <= step ? '/wizard/payments?step=3' : '#'">PŁATNOŚĆ
+    </RouterLink>
   </div>
 </template>
 
 <script>
+import { RouterLink} from 'vue-router';
 export default {
   name: 'WizardStepsStripComponent',
   props: {
@@ -40,11 +59,16 @@ export default {
 }
 
 .text-button.active {
-  color: #f00; /* Adjust the active color as needed */
+  color: #01835d;
 }
 
 .icon {
   height: 20px;
   padding: 0 5px;
+}
+
+.text-button.disabled {
+  cursor: not-allowed;
+  color: #888;
 }
 </style>

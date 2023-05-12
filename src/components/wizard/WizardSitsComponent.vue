@@ -47,21 +47,13 @@
   
   export default {
     name: "SeatSelectionComponent",
-    props: {
-      hallID: {
-        type: Number,
-        required: true,
-      },
-      ticketsCount:{
-        type: Number,
-        required: true,
-      }
-  },
     components: {
       Button,
     },
     data() {
       return {
+        ticketsCount: null,
+        selectedScreeningData: null,
         selectedSeats: [],
         salaKinowa: null,
         legendStatuses: [
@@ -82,6 +74,10 @@
       }
   
       this.selectedSeats = this.getSelectedSeats();
+      this.updateSelectedScreeningData({
+        seats: this.selectedSeats,
+        step: 3
+      })
     },
     seatImage(rowIndex, seatIndex) {
       const seat = this.salaKinowa[rowIndex][seatIndex];
@@ -116,20 +112,55 @@
             summary: '',
             detail: 'Wybierz miejsca dla wszystkich kupionych biletów.',
             life: 3000,
-            });
+          });
         } else {
-            this.$emit('selected-seats', this.selectedSeats);
             console.log('Wybrane miejsca:', this.selectedSeats);
+            this.$router.push('/wizard/payments');
         }
     },
     async fetchCinemaHall() {
-      const response = await this.$http.get(`/api/halls/layout?id_cinema_hall=${this.hallID}`);
+      const response = await this.$http.get(`/api/halls/layout?id_cinema_hall=${this.selectedScreeningData.hallID}`);
       this.salaKinowa = response.data.cinemaHall;
       console.log('Otrzymana sala:', this.salaKinowa);
     },
+    updateSelectedScreeningData(newData) {
+      this.selectedScreeningData = JSON.parse(localStorage.getItem('selectedScreeningData')) || {};
+      const newSelectedScreeningData = {
+          ...this.selectedScreeningData,
+          ...newData
+      };
+      const newSelectedScreeningDataJSON = JSON.stringify(newSelectedScreeningData);
+      localStorage.setItem('selectedScreeningData', newSelectedScreeningDataJSON);
+      this.selectedScreeningData = newSelectedScreeningData;
+    },
+    updateSelectedTicketsQuantity() {
+        if (this.selectedScreeningData?.tickets) {
+            this.ticketsCount = this.selectedScreeningData.tickets.reduce((total, ticket) => total + ticket.quantity, 0);
+        } else {
+          console.error('Błąd: Nie znaleziono danych o biletach.');
+          this.$router.push('/');
+        }
+    },
+    updateSelectedSeats(){
+      if (this.selectedScreeningData?.seats) {
+        this.selectedSeats = this.selectedScreeningData.seats;
+        this.selectedSeats.forEach(seat => {
+            const rowIndex = seat.charCodeAt(0) - 65;
+            const seatIndex = parseInt(seat.substring(1)) - 1;
+            if (this.salaKinowa[rowIndex][seatIndex] === 2) {
+                this.salaKinowa[rowIndex].splice(seatIndex, 1, 3);
+            }
+        });
+      } else {
+        console.log('Nie zanaleziono wybranych wcześniej miejsc.');
+      }
+    }
   },
-  mounted() {
-    this.fetchCinemaHall();
+  async mounted() {
+    this.updateSelectedScreeningData();
+    this.updateSelectedTicketsQuantity();
+    await this.fetchCinemaHall();
+    this.updateSelectedSeats();
   }
 };
 </script>
