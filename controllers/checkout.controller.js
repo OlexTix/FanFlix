@@ -21,7 +21,10 @@ const poolDB = new Pool({
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const processCheckout = async (req, res) => {
+  console.log('1. Request received');
+
   const ticketData = req.query.ticketData;
+  console.log('2. ticketData:', ticketData);
 
   if (!ticketData) {
     return res.status(400).json({ error: "ticketData parameter must be provided" });
@@ -33,6 +36,7 @@ const processCheckout = async (req, res) => {
   } catch (err) {
     return res.status(400).json({ error: "Invalid ticketData parameter" });
   }
+  console.log('3. ticketArray:', ticketArray);
 
   var tickets = null;
 
@@ -43,16 +47,19 @@ const processCheckout = async (req, res) => {
     console.error(err);
     return res.status(500).json({ error: "Internal server error" });
   }
+  console.log('4. tickets:', tickets);
 
   const lineItems = ticketArray.tickets.flatMap((ticket) => {
     const ticketId = parseInt(ticket.id);
     const quantity = parseInt(ticket.quantity);
+    console.log('5. ticketId:', ticketId, 'quantity:', quantity);
 
     if (isNaN(quantity) || isNaN(ticketId) || quantity <= 0) {
       return [];
     }
 
     const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
+    console.log('6. filteredTickets:', filteredTickets);
 
     return filteredTickets.map((item) => {
       return {
@@ -61,6 +68,7 @@ const processCheckout = async (req, res) => {
       };
     });
   });
+  console.log('7. lineItems:', lineItems);
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
@@ -73,6 +81,7 @@ const processCheckout = async (req, res) => {
       screeningID: req.query.screeningID,
     },
   });
+  console.log('8. session created:', session);
 
   return res.send({ url: session.url });
 };
