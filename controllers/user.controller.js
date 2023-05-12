@@ -105,6 +105,13 @@ const updateUserPass = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const userId = req.params.id;
+  const currentUserId = req.userId; 
+
+  if (userId == currentUserId) {
+    res.status(403).send({ message: "You can't delete yourself" });
+    return;
+  }
+
   const client = await poolDB.connect();
 
   try {

@@ -26,18 +26,4 @@ module.exports = function (app) {
     oleCheckJWT.isAdmin,
     tickets.addTicket
   );
-  
-  app.put(
-    "/api/panel/tickets/:id_ticket",
-    oleCheckJWT.verifyToken,
-    oleCheckJWT.isAdmin,
-    tickets.modifyProduct
-  );
-  
-  app.delete(
-    "/api/panel/tickets/:id_ticket",
-    oleCheckJWT.verifyToken,
-    oleCheckJWT.isAdmin,
-    tickets.deleteProduct
-  );
 };

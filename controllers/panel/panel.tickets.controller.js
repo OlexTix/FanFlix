@@ -54,7 +54,7 @@ const getAllProducts = async (req, res) => {
           };
         }
       })
-      .filter(Boolean); // Removes any undefined values from the array (i.e., products without a matching local product)
+      .filter(Boolean); 
 
     res.status(200).send(filteredProducts);
   } catch (err) {
@@ -78,7 +78,7 @@ const addTicket = async (req, res) => {
 
     // Create Stripe Price
     const stripePrice = await stripePostRequest('/v1/prices', {
-      unit_amount: price * 100,  // Convert PLN to smallest unit
+      unit_amount: price * 100,  
       currency: 'pln',
       product: stripeProduct.id,
     });
@@ -101,36 +101,6 @@ const addTicket = async (req, res) => {
     client.release();
   }
 };
-
-const modifyProduct = async (req, res) => {
-    const { id_ticket } = req.params;
-    const updates = req.body;
-    
-    try {
-      // Update Stripe Product
-      const updatedProduct = await stripePostRequest(`/v1/products/${id_ticket}`, updates);
-  
-      res.status(200).send(updatedProduct);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ message: "Failed to update product" });
-    }
-  };
-  
-  const deleteProduct = async (req, res) => {
-    const { id_ticket } = req.params;
-  
-    try {
-      // Delete Stripe Product
-      const deletedProduct = await stripeDeleteRequest(`/v1/products/${id_ticket}`);
-  
-      res.status(200).send(deletedProduct);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ message: "Failed to delete product" });
-    }
-  };
-
 
 
 function stripeGetRequest(path) {
@@ -201,7 +171,6 @@ function stripePostRequest(path, data) {
           try {
             const parsedData = JSON.parse(rawData);
             if (res.statusCode !== 200) {
-              console.error(`Stripe POST Request to ${path} Failed with status code: ${res.statusCode}`);
               console.error(parsedData);
               reject({
                 message: `Stripe POST Request Failed with status code: ${res.statusCode}`,
@@ -224,52 +193,8 @@ function stripePostRequest(path, data) {
       req.end();
     });
   }
-
-  function stripeDeleteRequest(path) {
-    return new Promise((resolve, reject) => {
-      const options = {
-        hostname: 'api.stripe.com',
-        path: path,
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${STRIPE_API_KEY}`
-        }
-      };
-  
-      const req = https.request(options, (res) => {
-        res.setEncoding('utf8');
-        let rawData = '';
-        res.on('data', (chunk) => rawData += chunk);
-        res.on('end', () => {
-          try {
-            const parsedData = JSON.parse(rawData);
-            if (res.statusCode !== 200) {
-              reject({
-                message: `Stripe DELETE Request Failed with status code: ${res.statusCode}`,
-                body: parsedData
-              });
-            } else {
-              resolve(parsedData);
-            }
-          } catch (e) {
-            reject(e);
-          }
-        });
-      });
-  
-      req.on('error', (e) => {
-        reject(e);
-      });
-  
-      req.end();
-    });
-  }
-  
-
   
     module.exports = {
         addTicket,
         getAllProducts,
-        modifyProduct,
-        deleteProduct,
       };
