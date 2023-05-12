@@ -64,41 +64,55 @@ const updateUserPass = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const userId = req.userId;
 
+  console.log(`Received User ID: ${userId}`);
+
   // Verify that the old password is correct
   try {
     const client = await poolDB.connect();
+
+    console.log(`Connected to database`);
+
     const { rows } = await client.query(
       'SELECT password_hash, role FROM "User" WHERE id_user=$1',
       [userId]
     );
     const User = rows[0];
 
+    console.log(`Fetched User Record: ${JSON.stringify(User)}`);
+
     if (!User) {
+      console.log(`User not found with User ID: ${userId}`);
       return res
         .status(401)
-        .send({ message: "Unauthorized: Wrong old password" });
+        .send({ message: "Unauthorized: User not found with User ID" });
     }
 
     const isPasswordValid = await bcrypt.compare(
       oldPassword,
       User.password_hash
     );
+
+    console.log(`Password Comparison Result: ${isPasswordValid}`);
+
     if (!isPasswordValid) {
       return res.status(401).send({ message: "Invalid old password" });
     }
 
     // Update the User's password
     const hashedNewPassword = await bcrypt.hash(newPassword, 8);
+
     await client.query('UPDATE "User" SET password_hash=$1 WHERE id_user=$2', [
       hashedNewPassword,
       userId,
     ]);
 
+    console.log(`Password updated successfully for User ID: ${userId}`);
+
     res.status(200).send({ message: "Password updated successfully" });
 
     client.release();
   } catch (error) {
-    console.error(error);
+    console.error(`Error: ${error}`);
     res.status(500).send({ message: error.message });
   }
 };
