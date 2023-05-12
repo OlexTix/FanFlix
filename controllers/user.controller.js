@@ -64,13 +64,9 @@ const updateUserPass = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const userId = req.params.id;
 
-  console.log(`Received User ID: ${userId}`);
-
   // Verify that the old password is correct
   try {
     const client = await poolDB.connect();
-
-    console.log(`Connected to database`);
 
     const { rows } = await client.query(
       'SELECT password_hash, role FROM "User" WHERE id_user=$1',
@@ -78,10 +74,7 @@ const updateUserPass = async (req, res) => {
     );
     const User = rows[0];
 
-    console.log(`Fetched User Record: ${JSON.stringify(User)}`);
-
     if (!User) {
-      console.log(`User not found with User ID: ${userId}`);
       return res
         .status(401)
         .send({ message: "Unauthorized: User not found with User ID" });
@@ -91,8 +84,6 @@ const updateUserPass = async (req, res) => {
       oldPassword,
       User.password_hash
     );
-
-    console.log(`Password Comparison Result: ${isPasswordValid}`);
 
     if (!isPasswordValid) {
       return res.status(401).send({ message: "Invalid old password" });
@@ -105,8 +96,6 @@ const updateUserPass = async (req, res) => {
       hashedNewPassword,
       userId,
     ]);
-
-    console.log(`Password updated successfully for User ID: ${userId}`);
 
     res.status(200).send({ message: "Password updated successfully" });
 
