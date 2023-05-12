@@ -62,7 +62,7 @@ const getUserById = async (req, res) => {
 
 const updateUserPass = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  const userId = req.userId;
+  const userId = req.params.id;
 
   console.log(`Received User ID: ${userId}`);
 
