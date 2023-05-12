@@ -11,5 +11,6 @@ module.exports = function (app) {
   );
 
   app.post("/api/checkout", checkout.processCheckout);
+  app.post("/api/checkout/webhook", checkout.handleStripeWebhook);
 
 };

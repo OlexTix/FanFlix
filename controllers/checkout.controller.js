@@ -21,57 +21,112 @@ const poolDB = new Pool({
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const processCheckout = async (req, res) => {
-    const ticketData = req.query.ticketData;
-  
-    if (!ticketData) {
-      return res.status(400).json({ error: "ticketData parameter must be provided" });
+  const ticketData = req.query.ticketData;
+
+  if (!ticketData) {
+    return res.status(400).json({ error: "ticketData parameter must be provided" });
+  }
+
+  let ticketArray;
+  try {
+    ticketArray = JSON.parse(ticketData);
+  } catch (err) {
+    return res.status(400).json({ error: "Invalid ticketData parameter" });
+  }
+
+  var tickets = null;
+
+  try {
+    const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
+    tickets = rows;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+
+  const lineItems = ticketArray.flatMap((ticket) => {
+    const ticketId = parseInt(ticket.id);
+    const quantity = parseInt(ticket.quantity);
+
+    if (isNaN(quantity) || isNaN(ticketId)) {
+      return [];
     }
-  
-    let ticketArray;
+
+    const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
+
+    return filteredTickets.map((item) => {
+      return {
+        price: item.stripePriceId,
+        quantity: quantity,
+      };
+    });
+  });
+
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    line_items: lineItems,
+    success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `https://fanflix.fantasticstudio.online/`,
+    metadata: {
+      ticketData: JSON.stringify(ticketArray),
+      seats: JSON.stringify(req.query.seats),
+      screeningID: req.query.screeningID,
+    },
+  });
+
+  return res.send({ url: session.url });
+};
+
+const handleStripeWebhook = async (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    const ticketArray = JSON.parse(session.metadata.ticketData);
+    const seats = JSON.parse(session.metadata.seats);
+    const screeningID = session.metadata.screeningID;
+
     try {
-      ticketArray = JSON.parse(ticketData);
-    } catch (err) {
-      return res.status(400).json({ error: "Invalid ticketData parameter" });
-    }
-  
-    var tickets = null;
-  
-    try {
-      const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
-      tickets = rows;
+      await insertTickets(ticketArray, seats, screeningID);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ error: "Internal server error" });
     }
-  
-    const lineItems = ticketArray.flatMap((ticket) => {
-      const ticketId = parseInt(ticket.id_ticket);
-      const quantity = parseInt(ticket.quantity);
-  
-      if (isNaN(quantity) || isNaN(ticketId)) {
-        return [];
+  }
+
+  res.status(200).send("Webhook received");
+};
+
+const insertTickets = async (ticketArray, seats, screeningID) => {
+  for (let i = 0; i < ticketArray.length; i++) {
+    const ticket = ticketArray[i];
+    const ticketId = parseInt(ticket.id);
+    const quantity = parseInt(ticket.quantity);
+
+    if (isNaN(quantity) || isNaN(ticketId)) {
+      continue;
+    }
+
+    for (let j = 0; j < seats.length && j < quantity; j++) {
+      const seat = seats[j];
+      const row = seat.substring(0, 1);
+      const seat_number = parseInt(seat.substring(1));
+      const id_seat = await decodeSeatToId(row, seat_number);
+
+      const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity) VALUES (${screeningID}, ${id_seat}, ${ticketId}, 1)`;
+      try {
+        await poolDB.query(insertQuery);
+        
+      } catch (err) {
+        console.error(err);
+        throw new Error('Failed to insert ticket');
       }
-  
-      const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
-  
-      return filteredTickets.map((item) => {
-        return {
-          price: item.stripePriceId,
-          quantity: quantity,
-        };
-      });
-    });
-  
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: lineItems,
-      success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://fanflix.fantasticstudio.online/`,
-    });
-  
-    return res.send({ url: session.url });
+    }
+  }
 };
 
 module.exports = {
   processCheckout,
+  handleStripeWebhook,
 };
