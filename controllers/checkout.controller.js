@@ -48,7 +48,7 @@ const processCheckout = async (req, res) => {
     const ticketId = parseInt(ticket.id);
     const quantity = parseInt(ticket.quantity);
 
-    if (isNaN(quantity) || isNaN(ticketId)) {
+    if (isNaN(quantity) || isNaN(ticketId) || quantity <= 0) {
       return [];
     }
 
