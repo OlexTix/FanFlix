@@ -60,7 +60,7 @@
 				<span>Zwiń menu</span>
 			</button>
 
-			<nav class="sidebar__nav">
+			<nav class="sidebar-nav">
 				<ul>
 					<li class="menu-heading"><span>Zarządzaj</span></li>
 					<li>
@@ -131,6 +131,48 @@
 		</div> 
 	</section> 
 </template>
+
+<script>
+
+export default {
+  name: 'AdminPanelTemplate',
+  data() {
+    return {
+      userCount: 0,
+      totalVisits: 0,
+      employeeCount: 0,
+	  loggedIn: localStorage.getItem('accessToken'),
+      isAdmin: true
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userData');
+      this.$toast.add({ severity: 'info', summary: 'Wylogowano pomyślnie', detail: "", life: 3000 });
+      this.$router.push('/');
+      this.loggedIn = null;
+      this.isAdmin = null;
+    },
+	// sidebarToggle() {
+    //   document.body.classList.toggle('sidebar-open')
+    // },
+    // sidebarCollapse() {
+    //   document.body.classList.toggle('sidebar-collapsed')
+    // },
+  },
+  mounted() {
+    // const sidebarTrigger = document.getElementsByClassName('main-header-sidebar-toggle')
+    // const sidebarCollapseTrigger = document.getElementsByClassName('sidebar-collapse')
+
+    // sidebarTrigger.addEventListener('click', this.sidebarToggle)
+    // sidebarCollapseTrigger.addEventListener('click', this.sidebarCollapse)
+  },
+  components: {
+    
+  },
+};
+</script>
 
 <style>
 .main-header {
@@ -216,13 +258,13 @@ body.sidebar-open #toggle-icon-close {
 	display: none;
 }
 
-.sidebar__nav ul {
+.sidebar-nav ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-.sidebar__nav ul a {
+.sidebar-nav ul a {
 	display: flex;
 	padding: .75rem 0;
 	gap: .75rem;
@@ -233,19 +275,19 @@ body.sidebar-open #toggle-icon-close {
 	transition: color .3s ease-in-out;
 }
 
-.sidebar__nav ul a.active {
+.sidebar-nav ul a.active {
 	color: var(--sidebar-link-active-color);
 }
 
-.sidebar__nav ul a.active img {
+.sidebar-nav ul a.active img {
 	fill: var(--sidebar-icon-active-fill);
 }
 
-.sidebar__nav ul a:hover {
+.sidebar-nav ul a:hover {
 	color: var(--sidebar-link-active-color);
 }
 
-.sidebar__nav ul a:hover img {
+.sidebar-nav ul a:hover img {
 	fill: var(--sidebar-icon-active-fill);
 }
 
@@ -344,8 +386,8 @@ body.sidebar-open #sidebar {
 
 	.main-header a span {
 		display: inline-block;
-		font-size: 81.25%;
-		color: var(--main-header-link-color);
+		font-size: 0.85rem;
+		color: var(--color-heading);
 		transition: color .4s ease-in-out;
 	}
 
@@ -413,35 +455,3 @@ body.sidebar-open #sidebar {
 	}
 }
 </style>
-
-<script>
-
-export default {
-  components: {
-    
-  },
-  data() {
-    return {
-      userCount: 0,
-      totalVisits: 0,
-      employeeCount: 0,
-	  loggedIn: localStorage.getItem('accessToken'),
-      isAdmin: true
-    };
-  },
-  
-  mounted() {
-    
-  },
-  methods: {
-    logout() {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('userData');
-      this.$toast.add({ severity: 'info', summary: 'Wylogowano pomyślnie :)', detail: "", life: 3000 });
-      this.$router.push('/');
-      this.loggedIn = null;
-      this.isAdmin = null;
-    },
-  },
-};
-</script>
