@@ -30,6 +30,7 @@ require("./routes/panel/panel.cinema.routes")(app);
 require("./routes/panel/panel.halls.routes")(app);
 require("./routes/panel/panel.movies.routes")(app);
 require("./routes/panel/panel.screening.routes")(app);
+require("./routes/panel/panel.director.routes")(app);
 
 
 const PORT = process.env.PORT || 3000;

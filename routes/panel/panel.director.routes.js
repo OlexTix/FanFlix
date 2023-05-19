@@ -1,4 +1,4 @@
-const { oleCheckJWT } = require("../middleware");
+const { oleCheckJWT } = require("../../middleware");
 const director = require("../../controllers/panel/panel.director.controller");
 const cors = require("cors");
 
@@ -10,6 +10,8 @@ module.exports = function (app) {
     })
   );
 
-  app.get("/api/panel/director", director.getDirectors);
+  app.get("/api/panel/director",
+  oleCheckJWT.verifyToken,
+  oleCheckJWT.isAdmin, director.getDirectors);
 
 };
