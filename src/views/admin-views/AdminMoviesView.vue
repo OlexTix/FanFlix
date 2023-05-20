@@ -58,7 +58,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axiosInstance.get('/api/movies');
+            const response = await axiosInstance.get('/api/panel/movies');
             this.movies = response.data;
         } catch (error) {
             console.error(error);
@@ -70,11 +70,23 @@ export default {
         },
         async deleteMovie(movieId) {
             try {
-                await axiosInstance.delete(`/api/movies/${movieId}`);
-                const response = await axiosInstance.get('/api/movies');
+                await axiosInstance.delete(`/api/panel/movies/${movieId}`);
+                const response = await axiosInstance.get('/api/panel/movies');
                 this.movies = response.data;
+                this.$toast.add({
+                    severity: 'info',
+                    summary: 'Pomyślnie usunięto film',
+                    detail: '',
+                    life: 3000
+                });
             } catch (error) {
                 console.error(error);
+                this.$toast.add({
+                    severity: 'error',
+                    summary: 'Błąd przy usuwaniu filmu',
+                    detail: '',
+                    life: 3000
+                });
             }
         },
     },
