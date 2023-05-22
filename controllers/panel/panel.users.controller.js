@@ -77,7 +77,7 @@ const getUsers = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const userId = req.params.id;
-  const { oldPassword, newPassword } = req.body;
+  const { oldPassword, newPassword, email } = req.body;
 
   // Check if the user is either the user whose password is being reset or an admin
   if (Number(req.params.id) !== req.userId && req.role !== 'admin') {
@@ -88,7 +88,7 @@ const resetPassword = async (req, res) => {
 
   try {
     const { rows } = await client.query(
-      'SELECT password_hash FROM "User" WHERE id_user = $1',
+      'SELECT password_hash, email FROM "User" WHERE id_user = $1',
       [userId]
     );
 
@@ -98,6 +98,11 @@ const resetPassword = async (req, res) => {
     }
 
     const user = rows[0];
+
+    // Check if the email in the request matches the email in the database
+    if (email !== user.email) {
+      return res.status(403).send({ message: "Unauthorized: Email does not match the account" });
+    }
 
     const isPasswordValid = await bcrypt.compare(oldPassword, user.password_hash);
 
