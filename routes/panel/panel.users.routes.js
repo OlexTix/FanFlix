@@ -20,7 +20,6 @@ module.exports = function (app) {
   app.put(
     "/api/users/:id/reset",
     oleCheckJWT.verifyToken,
-    oleCheckJWT.isAdmin,
     user.resetPassword
   );
   app.put(

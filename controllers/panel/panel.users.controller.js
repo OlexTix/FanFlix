@@ -79,6 +79,11 @@ const resetPassword = async (req, res) => {
   const userId = req.params.id;
   const { oldPassword, newPassword } = req.body;
 
+  // Check if the user is either the user whose password is being reset or an admin
+  if (Number(req.params.id) !== req.userId && req.role !== 'admin') {
+    return res.status(403).send({ message: "Unauthorized: You can't reset someone else's password" });
+  }
+
   const client = await poolDB.connect();
 
   try {
