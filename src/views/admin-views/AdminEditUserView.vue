@@ -88,8 +88,8 @@ import Dropdown from 'primevue/dropdown';
         errorMessageis_active: '',
         isActivated:'',
         activeOptions: [
-        { label: 'Tak', value: true },
-        { label: 'Nie', value: false }
+        { label: 'Tak', value: "true" },
+        { label: 'Nie', value: "false" }
       ],
      
         
@@ -100,6 +100,7 @@ import Dropdown from 'primevue/dropdown';
   axiosInstance.get(`/api/panel/users?id_user=${id_user}`).then((response) => {
     next((vm) => {
       vm.user = response.data;
+      vm.user[0].is_active = response.data[0].is_active ? "true" : "false";
       console.log(vm.user);
     });
   });
