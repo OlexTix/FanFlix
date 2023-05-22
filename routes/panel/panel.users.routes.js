@@ -18,6 +18,12 @@ module.exports = function (app) {
     user.getUsers
   );
   app.put(
+    "/api/users/:id/reset",
+    oleCheckJWT.verifyToken,
+    oleCheckJWT.isAdmin,
+    user.resetPassword
+  );
+  app.put(
     "/api/panel/users/:id",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
@@ -29,4 +35,5 @@ module.exports = function (app) {
     oleCheckJWT.isAdmin,
     user.deleteUser
   );
+
 };

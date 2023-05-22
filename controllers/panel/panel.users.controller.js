@@ -75,9 +75,50 @@ const getUsers = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  const userId = req.params.id;
+  const { oldPassword, newPassword } = req.body;
+
+  const client = await poolDB.connect();
+
+  try {
+    const { rows } = await client.query(
+      'SELECT password_hash FROM "User" WHERE id_user = $1',
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
+
+    const user = rows[0];
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password_hash);
+
+    if (!isPasswordValid) {
+      return res.status(401).send({ message: "Invalid old password" });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 8);
+
+    await client.query(
+      'UPDATE "User" SET password_hash = $1 WHERE id_user = $2',
+      [hashedNewPassword, userId]
+    );
+
+    res.status(200).send({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ message: "Failed to update password" });
+  } finally {
+    client.release();
+  }
+};
+
 const updateUser = async (req, res) => {
   const userId = req.params.id;
-  const { first_name, last_name, email, phone, birth_date, role, is_active, password } = req.body;
+  const { first_name, last_name, email, phone, birth_date, role, is_active } = req.body;
 
   const client = await poolDB.connect();
 
@@ -98,15 +139,14 @@ const updateUser = async (req, res) => {
       first_name: first_name || user.first_name,
       last_name: last_name || user.last_name,
       email: email || user.email,
-      phone:phone || user.phone,
+      phone: phone || user.phone,
       birth_date: birth_date || user.birth_date,
       role: role || user.role,
       is_active: is_active || user.is_active,
-      password_hash: password ? await bcrypt.hash(password, 8) : user.password_hash,
     };
 
     await client.query(
-      'UPDATE "User" SET first_name=$1, last_name=$2, email=$3, phone=$4, birth_date=$5, role=$6, is_active=$7, password_hash=$8 WHERE id_user=$9',
+      'UPDATE "User" SET first_name=$1, last_name=$2, email=$3, phone=$4, birth_date=$5, role=$6, is_active=$7 WHERE id_user=$8',
       [
         updatedUserData.first_name,
         updatedUserData.last_name,
@@ -115,7 +155,6 @@ const updateUser = async (req, res) => {
         updatedUserData.birth_date,
         updatedUserData.role,
         updatedUserData.is_active,
-        updatedUserData.password_hash,
         userId,
       ]
     );
@@ -166,6 +205,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getUsers,
+  resetPassword,
   updateUser,
   deleteUser,
 };
