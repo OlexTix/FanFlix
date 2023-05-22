@@ -8,30 +8,43 @@
             <div class="field-row">
               <div class="field" style="margin-right: 1vh;">
                 <label for="email" class="input-label">E-MAIL</label>
-                <InputText v-model="user.email" :class="{ 'p-invalid': errorMessage }" />
+                <InputText v-model="user[0].email" :class="{ 'p-invalid': errorMessage }" />
                 <small class="p-error">{{ errorMessageemail }}</small>
               </div>
             </div>
             <div class="field-row">
               <div class="field" style="margin-right: 1vh;">
                 <label for="first_name" class="input-label">IMIĘ</label>
-                <InputText v-model="user.first_name" :class="{ 'p-invalid': errorMessage }" />
+                <InputText v-model="user[0].first_name" :class="{ 'p-invalid': errorMessage }" />
                 <small class="p-error">{{ errorMessagefirst_name }}</small>
               </div>
               <div class="field">
                 <label for="last_name" class="input-label">NAZWISKO</label>
-                <InputText v-model="user.last_name" :class="{ 'p-invalid': errorMessage }" />
+                <InputText v-model="user[0].last_name" :class="{ 'p-invalid': errorMessage }" />
                 <small class="p-error">{{ errorMessagelast_name }}</small>
               </div>
             </div>
+     
+              <div class="field">
+              <label for="role" class="input-label">ROLA</label>
+              <InputText v-model="user[0].role" :class="{ 'p-invalid': errorMessage }" />
+              <small class="p-error">{{ errorMessagerole }}</small>
+            </div>
+            <div class="field">
+                <label for="is_active" class="input-label">KONTO AKTYWOWANE?</label>
+              <Dropdown v-model="user[0].is_active" :options="activeOptions" optionLabel="label" optionValue="value"/>
+                <small class="p-error">{{ errorMessageis_active }}</small>
+              </div>
+          
+           
             <div class="field">
               <label for="phone" class="input-label">NUMER TELEFONU</label>
-              <InputText v-model="user.phone" :class="{ 'p-invalid': errorMessage }" />
+              <InputText v-model="user[0].phone" :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagephone }}</small>
             </div>
             <div class="field">
               <label for="birth_date" class="input-label">DATA URODZENIA</label>
-              <Calendar name="birth_date" v-model="user.birth_date" dateFormat="yy-mm-dd"
+              <Calendar name="birth_date" v-model="user[0].birth_date" dateFormat="yy-mm-dd"
                 :class="{ 'p-invalid': errorMessage }" />
               <small class="p-error">{{ errorMessagebirth_date }}</small>
             </div>
@@ -52,35 +65,64 @@ import axiosInstance from '../../service/apiService'
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import Calendar from 'primevue/calendar';
+import Dropdown from 'primevue/dropdown';
   export default {
     name: 'AdminEditUserView',
   components: {
     Button,
     Calendar,
-    Checkbox
+    Checkbox,
+    Dropdown
   },
     
     data() {
       return {
-        user: {},
+        user: [{}],
+        errorMessage: '',
+        errorMessageemail: '',
+        errorMessagefirst_name: '',
+        errorMessagelast_name: '',
+        errorMessagerole: '',
+        errorMessagephone: '',
+        errorMessagebirth_date: '',
+        errorMessageis_active: '',
+        isActivated:'',
+        activeOptions: [
+        { label: 'Tak', value: true },
+        { label: 'Nie', value: false }
+      ],
+     
+        
       }
     },
     beforeRouteEnter(to, from, next) {
-    const id_user = to.params.id_user;
-    axiosInstance.get(`/api/users/${id_user}`).then((response) => {
-      next((vm) => {
-        vm.user = response.data;
-      });
+  const id_user = to.params.id_user;
+  axiosInstance.get(`/api/panel/users?id_user=${id_user}`).then((response) => {
+    next((vm) => {
+      vm.user = response.data;
+      console.log(vm.user);
     });
-  },
+  });
+},
    
     methods: {
         async updateUser() {
       try {
-        await axiosInstance.put(`/api/users/${this.user.id_user}`, this.user);
-        this.$router.push({ name: 'admin-panel/users' });
+        await axiosInstance.put(`/api/panel/users/${this.user[0].id_user}`, this.user[0]);
+        this.$toast.add({
+                    severity: 'success',
+                    summary: 'Pomyślnie zmieniono dane użytkownika',
+                    detail: '',
+                    life: 3000
+                });
       } catch (error) {
         console.error(error);
+        this.$toast.add({
+                    severity: 'error',
+                    summary: 'Błąd przy aktualizacji danych użytkownika',
+                    detail: '',
+                    life: 3000
+                });
       }
     },
       goBackToList() {

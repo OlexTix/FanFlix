@@ -8,12 +8,12 @@
             <div class="field">
               <label for="password" class="input-label">STARE HASŁO</label>
               <InputText type="password" v-model="oldPassword" required :class="{ 'p-invalid': errorMessage }" />
-              <small class="p-error">{{ errorMessagephone }}</small>
+              <small class="p-error">{{ errorMessage}}</small>
             </div>
             <div class="field">
               <label for="password" class="input-label">NOWE HASŁO</label>
               <InputText type="password" v-model="newPassword" required :class="{ 'p-invalid': errorMessage }" />
-              <small class="p-error">{{ errorMessagephone }}</small>
+              <small class="p-error">{{ errorMessage }}</small>
             </div>
             <div class="card flex justify-content-center">
               <Button label="ZMIEŃ HASŁO" type="submit" severity="primary" rounded id="submitbutton"
@@ -49,7 +49,7 @@
     methods: {
       async updateUserPass() {
         try {
-          const response = await axiosInstance.put(`/api/users/${this.id_user}`, {
+          const response = await axiosInstance.put(`/api/panel/users/${this.id_user}`, {
             oldPassword: this.oldPassword,
             newPassword: this.newPassword,
           });
@@ -78,7 +78,7 @@
     beforeRouteEnter(to, from, next) {
       next((vm) => {
         vm.id_user = to.params.id_user;
-        axiosInstance.get(`/api/users/${vm.id_user}`).then((response) => {
+        axiosInstance.get(`/api/panel/users/?id_user=${vm.id_user}`).then((response) => {
           vm.user = response.data;
         });
       });

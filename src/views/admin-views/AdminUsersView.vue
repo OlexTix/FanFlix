@@ -56,7 +56,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axiosInstance.get('/api/users');
+            const response = await axiosInstance.get('/api/panel/users');
             this.users = response.data;
         } catch (error) {
             console.error(error);
@@ -71,8 +71,8 @@ export default {
         },
         async deleteUser(userId) {
             try {
-                await axiosInstance.delete(`/api/users/${userId}`);
-                const response = await axiosInstance.get('/api/users');
+                await axiosInstance.delete(`/api/panel/users/${userId}`);
+                const response = await axiosInstance.get('/api/panel/users');
                 this.users = response.data;
                 this.$toast.add({
                     severity: 'info',

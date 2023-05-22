@@ -58,7 +58,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axiosInstance.get('/api/users');
+            const response = await axiosInstance.get('/api/panel/users');
             this.users = response.data;
             this.filteredusers = this.users.filter(user => user.role === this.roleEmployee);
         } catch (error) {
@@ -74,8 +74,8 @@ export default {
         },
         async deleteUser(userId) {
             try {
-                await axiosInstance.delete(`/api/users/${userId}`);
-                const response = await axiosInstance.get('/api/users');
+                await axiosInstance.delete(`/api/panel/users/${userId}`);
+                const response = await axiosInstance.get('/api/panel/users');
                 this.users = response.data;
                 this.filteredUsers = this.users.filter(user => user.role === this.roleEmployee);
                 this.$toast.add({
