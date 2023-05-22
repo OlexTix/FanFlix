@@ -1,5 +1,5 @@
-const { oleCheckJWT } = require("../middleware");
-const user = require("../controllers/user.controller");
+const { oleCheckJWT } = require("../../middleware");
+const user = require("../../controllers/panel/panel.users.controller");
 
 const cors = require("cors");
 
@@ -12,25 +12,19 @@ module.exports = function (app) {
   );
 
   app.get(
-    "/api/users",
+    "/api/panel/users",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
     user.getUsers
   );
-  app.get(
-    "/api/users/:id",
-    oleCheckJWT.verifyToken,
-    oleCheckJWT.isAdmin,
-    user.getUserById
-  );
   app.put(
-    "/api/users/:id",
+    "/api/panel/users/:id",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
-    user.updateUserPass
+    user.updateUser
   );
   app.delete(
-    "/api/users/:id",
+    "/api/panel/users/:id",
     oleCheckJWT.verifyToken,
     oleCheckJWT.isAdmin,
     user.deleteUser

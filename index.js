@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 require("./routes/auth.routes")(app);
-require("./routes/user.routes")(app);
+require("./routes/panel/panel.users.routes")(app);
 require("./routes/cinema.routes")(app);
 require("./routes/cinemaHall.routes")(app);
 require("./routes/seat.routes")(app);
