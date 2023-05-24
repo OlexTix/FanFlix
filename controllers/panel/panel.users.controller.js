@@ -77,7 +77,16 @@ const getUsers = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const userId = req.params.id;
-  const { oldPassword, newPassword, email } = req.body;
+  const updates = req.body;
+
+  const validUpdates = ["oldPassword", "newPassword", "email"];
+  const isValidUpdate = Object.keys(updates).every((update) => validUpdates.includes(update));
+
+  if (!isValidUpdate) {
+    return res.status(400).send({ error: 'Invalid update body!' });
+  }
+
+  const { oldPassword, newPassword, email } = updates;
 
   // Check if the user is either the user whose password is being reset or an admin
   if (Number(req.params.id) !== req.userId && req.role !== 'admin') {
@@ -128,7 +137,14 @@ const resetPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const userId = req.params.id;
-  const { first_name, last_name, email, phone, birth_date, role, is_active } = req.body;
+  const updates = req.body;
+
+  const validUpdates = ["first_name", "last_name", "email", "phone", "birth_date", "role", "is_active"];
+  const isValidUpdate = Object.keys(updates).every((update) => validUpdates.includes(update));
+
+  if (!isValidUpdate) {
+    return res.status(400).send({ error: 'Invalid update body!' });
+  }
 
   const client = await poolDB.connect();
 
@@ -146,13 +162,13 @@ const updateUser = async (req, res) => {
     const user = rows[0];
 
     const updatedUserData = {
-      first_name: first_name || user.first_name,
-      last_name: last_name || user.last_name,
-      email: email || user.email,
-      phone: phone || user.phone,
-      birth_date: birth_date || user.birth_date,
-      role: role || user.role,
-      is_active: is_active || user.is_active,
+      first_name: updates.first_name || user.first_name,
+      last_name: updates.last_name || user.last_name,
+      email: updates.email || user.email,
+      phone: updates.phone || user.phone,
+      birth_date: updates.birth_date || user.birth_date,
+      role: updates.role || user.role,
+      is_active: updates.is_active || user.is_active,
     };
 
     await client.query(
