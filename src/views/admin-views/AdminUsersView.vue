@@ -1,98 +1,170 @@
 <template>
     <AdminPanelTemplate>
-        <p v-if="errorMessage">{{ errorMessage }}</p>
-        <div class="users-table">
-            <div class="table-tab">
-                <h1 class="table-title">USERS</h1>
-            </div>
-            <DataTable :value="users" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
-                removableSort class="custom-datatable">
-                <Column field="id_user" class="custom-header" sortable header="ID"></Column>
-                <Column field="first_name" class="custom-header" sortable header="Imię"></Column>
-                <Column field="last_name" class="custom-header" sortable header="Nazwisko"></Column>
-                <Column field="email" class="custom-header" sortable header="Email"></Column>
-                <Column field="role" class="custom-header" sortable header="Rola"></Column>
-                <Column field="phone" class="custom-header" sortable header="Numer telefonu"></Column>
-                <Column field="birth_date" class="custom-header" sortable header="Data urodzenia"></Column>
-                <Column field="last_login" class="custom-header" sortable header="Ostatnie logowanie"></Column>
-                <Column field="registration_date" class="custom-header" sortable header="Data rejestracji"></Column>
-                <Column field="is_active" class="custom-header" sortable header="Konto aktywowane?"></Column>
-                <Column class="custom-header">
-                    <template #body="rowData">
-                        <div class="action-buttons">
-                            <Button icon="pi pi-pencil" @click="editUser(rowData.data.id_user)" />
-                            <Button icon="pi pi-trash" @click="deleteUser(rowData.data.id_user)" />
-                            <Button icon="pi pi-lock" @click="changeUserPassword(rowData.data.id_user)" />
-                        </div>
-                    </template>
-                </Column>
-            </DataTable>
+      <p v-if="errorMessage">{{ errorMessage }}</p>
+      <div class="users-table">
+        <div class="table-tab">
+          <h1 class="table-title">USERS</h1>
         </div>
+        <DataTable
+          :value="users"
+          paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]"
+          editMode="cell"
+          sortMode="multiple"
+          @cell-edit-complete="onCellEditComplete"
+          tableClass="editable-cells-table"
+          tableStyle="min-width: 50rem"
+          :sortField="sortField"
+          :sortOrder="sortOrder"
+          @sort-change="onSortChange"
+        >
+          <Column
+            v-for="col of columns"
+            :key="col.field"
+            :field="col.field"
+            :header="col.header"
+            :editable="col.editable"
+            :sortable="col.sortable"
+          >
+            <template #body="{ data, field }">
+              {{ data[field] }}
+            </template>
+            <template #editor="{ data, field }">
+              <InputText v-model="data[field]" autofocus />
+            </template>
+          </Column>
+          <Column>
+            <template #header="slotProps">
+              Akcje
+            </template>
+            <template #body="slotProps">
+              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success" @click="editUser(slotProps.data.id_user)" />
+              <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteUser(slotProps.data.id_user)" />
+              <Button icon="pi pi-key" class="p-button-rounded p-button-info" @click="changeUserPassword(slotProps.data.id_user)" />
+            </template>
+          </Column>
+        </DataTable>
+      </div>
     </AdminPanelTemplate>
-</template>
+  </template>
   
-<script>
-import axiosInstance from '../../service/apiService.js';
-import AdminPanelTemplate from '../../components/templates/AdminPanelTemplate.vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Button from 'primevue/button';
-import 'primevue/resources/themes/saga-blue/theme.css';
-import 'primevue/resources/primevue.min.css';
-import 'primeicons/primeicons.css';
-
-export default {
+  <script>
+  import axiosInstance from "../../service/apiService.js";
+  import AdminPanelTemplate from "../../components/templates/AdminPanelTemplate.vue";
+  import DataTable from "primevue/datatable";
+  import Column from "primevue/column";
+  import InputText from "primevue/inputtext";
+  import Button from "primevue/button";
+  import "primevue/resources/themes/saga-blue/theme.css";
+  import "primevue/resources/primevue.min.css";
+  
+  export default {
     components: {
-        AdminPanelTemplate,
-        DataTable,
-        Column,
-        Button
+      AdminPanelTemplate,
+      DataTable,
+      Column,
+      InputText,
+      Button,
     },
     data() {
-        return {
-            users: [],
-            errorMessage: ''
-        };
+      return {
+        users: [],
+        errorMessage: "",
+        columns: [
+          { field: "id_user", header: "ID", editable: false, sortable: true },
+          { field: "first_name", header: "Imię", editable: true, sortable: true },
+          { field: "last_name", header: "Nazwisko", editable: true, sortable: true },
+          { field: "email", header: "Email", editable: true, sortable: true },
+          { field: "role", header: "Rola", editable: true, sortable: true },
+          { field: "phone", header: "Numer telefonu", editable: true, sortable: true },
+          { field: "birth_date", header: "Data urodzenia", editable: true, sortable: true },
+          { field: "last_login", header: "Ostatnie logowanie", editable: false, sortable: true },
+          { field: "registration_date", header: "Data rejestracji", editable: false, sortable: true },
+          { field: "is_active", header: "Konto aktywowane?", editable: true, sortable: true },
+        ],
+        sortField: null,
+        sortOrder: null,
+      };
     },
     async created() {
-        try {
-            const response = await axiosInstance.get('/api/users');
-            this.users = response.data;
-        } catch (error) {
-            console.error(error);
-        }
+      await this.fetchUsers();
     },
     methods: {
-        editUser(id_user) {
-            this.$router.push({ name: 'edit-user', params: { id_user: id_user } });
-        },
-        changeUserPassword(id_user) {
-            this.$router.push({ name: 'reset-password', params: { id_user: id_user } });
-        },
-        async deleteUser(userId) {
-            try {
-                await axiosInstance.delete(`/api/users/${userId}`);
-                const response = await axiosInstance.get('/api/users');
-                this.users = response.data;
-                this.$toast.add({
-                    severity: 'info',
-                    summary: 'Pomyślnie usunięto użytkownika',
-                    detail: '',
-                    life: 3000
-                });
-            } catch (error) {
-                console.error(error);
-                this.$toast.add({
-                    severity: 'error',
-                    summary: 'Błąd przy usuwaniu użytkownika',
-                    detail: '',
-                    life: 3000
-                });
-            }
+      async fetchUsers() {
+        try {
+          const response = await axiosInstance.get("/api/panel/users");
+          this.users = response.data;
+        } catch (error) {
+          console.error(error);
         }
-    }
-};
-</script>
+      },
+      async onCellEditComplete(event) {
+        const { data, newValue, field } = event;
+  
+        try {
+          await axiosInstance.put(`/api/panel/users/${data.id_user}`, {
+            [field]: newValue,
+          });
+          this.$toast.add({
+            severity: "info",
+            summary: "Pomyślnie zaktualizowano użytkownika",
+            detail: "",
+            life: 3000,
+          });
+          await this.fetchUsers(); // Aktualizacja danych po zapisaniu zmian
+        } catch (error) {
+          console.error(error);
+          this.$toast.add({
+            severity: "error",
+            summary: "Błąd przy aktualizacji użytkownika",
+            detail: "",
+            life: 3000,
+          });
+        }
+      },
+      async onSortChange(event) {
+        const { sortField, sortOrder } = event;
+        this.sortField = sortField;
+        this.sortOrder = sortOrder;
+  
+        try {
+          const response = await axiosInstance.get("/api/panel/users", {
+            params: { sortField, sortOrder },
+          });
+          this.users = response.data;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      editUser(id_user) {
+        this.$router.push({ name: "edit-user", params: { id_user: id_user } });
+      },
+      changeUserPassword(id_user) {
+        this.$router.push({ name: "reset-password", params: { id_user: id_user } });
+      },
+      async deleteUser(userId) {
+        try {
+          await axiosInstance.delete(`/api/panel/users/${userId}`);
+          await this.fetchUsers();
+          this.$toast.add({
+            severity: "info",
+            summary: "Pomyślnie usunięto użytkownika",
+            detail: "",
+            life: 3000,
+          });
+        } catch (error) {
+          console.error(error);
+          this.$toast.add({
+            severity: "error",
+            summary: "Błąd przy usuwaniu użytkownika",
+            detail: "",
+            life: 3000,
+          });
+        }
+      },
+    },
+  };
+  </script>
+  
 <style>
 .custom-datatable {
     background-color: #2C2B2B;
@@ -103,14 +175,6 @@ export default {
     background-color: #2C2B2B;
 }
 
-.custom-datatable .p-paginator {
-    background-color: #333333;
-}
-
-
-.custom-header {
-    color: #2C2B2B;
-}
 
 .table-tab {
     height: 40px;
@@ -128,90 +192,37 @@ export default {
     box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
 }
 
+.cell
+{
+    background-color: #333;
+    color: #fff;
+}
+
+.p-editable-column
+{
+    background-color: #333;
+    color: #fff;
+}
 .p-datatable .p-datatable-thead>tr>th {
     background-color: #333;
     color: #fff;
 }
 
-.p-button {
-    background-color: transparent;
-    border: none;
+.p-paginator.p-component
+{
+    background-color: #333;
+    color: #fff;
 }
-
-.p-datatable .p-datatable-thead>tr>th>span {
-    font-weight: 800;
+td  {
+    background-color: #333;
+    color: #fff;
 }
 
 .table-title {
-    font-weight: 700;
+    font-weight: 400;
     text-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.custom-header {
-    background-color: #2C2B2B;
-    color: white;
-    font-weight: 300;
-}
-
-.action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-}
-
-.delete-button {
-    border-radius: 6px;
-    background-image: linear-gradient(to bottom, #a80000, #5b0101);
-    border-color: #650a0a;
-    font-weight: 600;
-    font-size: 15px;
-    margin-right: 1.2vh;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.delete-button:hover {
-    background-image: linear-gradient(to bottom, #420505, #550404);
-    border-color: #4a0707;
-}
-
-.edit-button {
-    border-radius: 6px;
-    background-image: linear-gradient(to bottom, #00a877, #007d59);
-    border-color: #007d59;
-    font-weight: 600;
-    font-size: 15px;
-    color: #ffffff;
-    margin-right: 1.2vh;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.edit-button:hover {
-    background-image: linear-gradient(to bottom, #008660, #005a41);
-    border-color: #005f44;
-}
-
-.password-button {
-    border-radius: 6px;
-    background-image: linear-gradient(to bottom, #a89200, #5b4801);
-    border-color: #65560a;
-    font-weight: 600;
-    font-size: 15px;
-    color: #ffffff;
-    margin-right: 1.2vh;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.password-button:hover {
-    background-image: linear-gradient(to bottom, #423905, #554304);
-    border-color: #4a3b07;
-}
 </style>
