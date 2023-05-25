@@ -24,7 +24,7 @@ export default {
       selectedDate: null,
       cinemas: [],
       days: [],
-      selectedDayIndex: 0,
+      selectedDayIndex: null,
     };
   },
   computed: {
@@ -35,7 +35,7 @@ export default {
   async created() {
     this.days = this.buildDaysArray(this.currentDayIndex);
     await this.fetchCinemas();
-    this.onDayClick(0);
+    this.updateSelectedDateData();
     this.emitSelectedData();
   },
   methods: {
@@ -92,6 +92,7 @@ export default {
       this.selectedDate = this.formatDate(selectedDate);
       this.emitSelectedData();
       this.updateRouteWithDate(this.selectedDate);
+      localStorage.setItem('selectedDateIndex', dayIndex);
     },
     emitSelectedData() {
       if (this.selectedCinema && this.selectedDate) {
@@ -99,6 +100,17 @@ export default {
           cinema: this.selectedCinema.name,
           date: this.selectedDate,
         });
+      }
+    },
+    updateSelectedDateData() {
+      const newSelectedDateData = localStorage.getItem('selectedDateIndex') || null;
+
+      console.log(newSelectedDateData);
+      if(newSelectedDateData !== null) {
+        this.onDayClick(Number(newSelectedDateData));
+      }else{
+        this.onDayClick(0);
+        return;
       }
     },
     selectCinemaFromRoute() {
