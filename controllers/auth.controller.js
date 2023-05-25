@@ -77,7 +77,7 @@ const registerUser = async (req, res) => {
 
     // Insert new user with hashed password and default role
     const { rows: insertedUser } = await client.query(
-      'INSERT INTO "User" (first_name, last_name, email, password_hash, phone, birth_date, role, registration_date, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), true) RETURNING id_user',
+      'INSERT INTO "User" (first_name, last_name, email, password_hash, phone, birth_date, role, registration_date, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, date_trunc(\'second\', CURRENT_TIMESTAMP), true) RETURNING id_user',
       [
         first_name,
         last_name,
@@ -134,8 +134,8 @@ const loginUser = async (req, res) => {
 
     // Insert current timestamp to last_login in User table
     await client.query(
-      'UPDATE "User" SET last_login = NOW() WHERE id_user = $1',
-      [User.id]
+      `UPDATE "User" SET last_login = date_trunc('second', CURRENT_TIMESTAMP) WHERE id_user = $1`,
+      [User.id_user]
     );
 
     res.send({

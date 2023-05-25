@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { check, validationResult } = require('express-validator');
 const Pool = require("pg").Pool;
 
 // Read variables from .env file
