@@ -24,7 +24,7 @@ const getUsers = async (req, res) => {
 
   try {
     let queryParams = [];
-    let query = 'SELECT id_user, first_name, last_name, email, phone, birth_date, role, registration_date, is_active FROM "User"';
+    let query = 'SELECT id_user, first_name, last_name, email, phone,last_login, birth_date, role, registration_date, is_active FROM "User"';
 
     const conditions = [];
     for (const key in req.query) {
