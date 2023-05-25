@@ -1,22 +1,24 @@
 <template>
-    <AdminPanelTemplate>
-      <p v-if="errorMessage">{{ errorMessage }}</p>
-      <div class="users-table">
-        <div class="table-tab">
-          <h1 class="table-title">USERS</h1>
-        </div>
-        <DataTable
-          :value="users"
-          paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]"
-          editMode="cell"
-          sortMode="multiple"
-          @cell-edit-complete="onCellEditComplete"
-          tableClass="editable-cells-table"
-          tableStyle="min-width: 50rem"
-          :sortField="sortField"
-          :sortOrder="sortOrder"
-          @sort-change="onSortChange"
-        >
+  <AdminPanelTemplate>
+    <p v-if="errorMessage">{{ errorMessage }}</p>
+    <div class="users-table">
+      <div class="table-tab">
+        <h1 class="table-title">USERS</h1>
+      </div>
+      <DataTable
+        :value="fetchedUsers"
+        paginator
+        :rows="5"
+        :rowsPerPageOptions="[5, 10, 20, 50]"
+        editMode="cell"
+        sortMode="multiple"
+        @cell-edit-complete="onCellEditComplete"
+        tableClass="editable-cells-table"
+        tableStyle="min-width: 50rem"
+        :sortField="sortField"
+        :sortOrder="sortOrder"
+        @sort-change="onSortChange"
+      >
           <Column
             v-for="col of columns"
             :key="col.field"
@@ -85,9 +87,14 @@
         sortOrder: null,
       };
     },
-    async created() {
-      await this.fetchUsers();
+    computed: {
+    fetchedUsers() {
+      return this.users;
     },
+  },
+  beforeMount() {
+    this.fetchUsers();
+  },
     methods: {
       async fetchUsers() {
         try {
@@ -98,29 +105,36 @@
         }
       },
       async onCellEditComplete(event) {
-        const { data, newValue, field } = event;
-  
-        try {
-          await axiosInstance.put(`/api/panel/users/${data.id_user}`, {
-            [field]: newValue,
-          });
-          this.$toast.add({
-            severity: "info",
-            summary: "Pomyślnie zaktualizowano użytkownika",
-            detail: "",
-            life: 3000,
-          });
-          await this.fetchUsers(); // Aktualizacja danych po zapisaniu zmian
-        } catch (error) {
-          console.error(error);
-          this.$toast.add({
-            severity: "error",
-            summary: "Błąd przy aktualizacji użytkownika",
-            detail: "",
-            life: 3000,
-          });
-        }
-      },
+  const { data, newValue, field } = event;
+  const originalValue = data[field];
+
+  if (newValue === originalValue) {
+    // Wartość pola nie zmieniła się, nie wykonuj żądania PUT
+    return;
+  }
+
+  try {
+    await axiosInstance.put(`/api/panel/users/${data.id_user}`, {
+      [field]: newValue,
+    });
+    this.$toast.add({
+      severity: "info",
+      summary: "Pomyślnie zaktualizowano użytkownika",
+      detail: "",
+      life: 3000,
+    });
+    await this.fetchUsers(); // Aktualizacja danych po zapisaniu zmian
+  } catch (error) {
+    console.error(error);
+    this.$toast.add({
+      severity: "error",
+      summary: "Błąd przy aktualizacji użytkownika",
+      detail: "",
+      life: 3000,
+    });
+  }
+},
+
       async onSortChange(event) {
         const { sortField, sortOrder } = event;
         this.sortField = sortField;
@@ -223,6 +237,12 @@ td  {
     text-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 768px) {
+  .users-table {
+    overflow-x: auto;
+  }
 }
 
 </style>
