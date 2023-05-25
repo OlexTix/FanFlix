@@ -102,6 +102,7 @@
     font-size: 24px;
     font-weight: bold;
     word-wrap: break-word;
+    margin-top: 0;
   }
   
   .date {

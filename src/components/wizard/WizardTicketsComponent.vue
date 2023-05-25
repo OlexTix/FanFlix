@@ -79,7 +79,6 @@
           ticket = this.selectedScreeningData.tickets.find((ticket) => ticket.id === id);
         }
         this.updateSelectedScreeningData({
-          step: 2,
           tickets: this.selectedScreeningData.tickets,
           seats: undefined
         });
@@ -93,7 +92,6 @@
             this.selectedScreeningData.tickets.splice(index, 1);
           }
           this.updateSelectedScreeningData({
-            step: 2,
             tickets: this.selectedScreeningData.tickets,
             seats: undefined
           });
@@ -127,6 +125,9 @@
           });
         } else {
           console.log('Wybrane bilety:', this.selectedScreeningData.tickets);
+          this.updateSelectedScreeningData({
+            step: 2
+          })
           this.$router.push('/wizard/seats');
         }
       },

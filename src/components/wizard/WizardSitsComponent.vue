@@ -75,8 +75,7 @@
   
       this.selectedSeats = this.getSelectedSeats();
       this.updateSelectedScreeningData({
-        seats: this.selectedSeats,
-        step: 3
+        seats: this.selectedSeats
       })
     },
     seatImage(rowIndex, seatIndex) {
@@ -115,6 +114,9 @@
           });
         } else {
             console.log('Wybrane miejsca:', this.selectedSeats);
+            this.updateSelectedScreeningData({
+              step: 3
+            })
             this.$router.push('/wizard/payments');
         }
     },
@@ -256,6 +258,10 @@
   width: 5%;
   padding-top: 5%;
   margin: 1%;
+}
+
+.seat-container.selected {
+  cursor: pointer;
 }
 
 .seat-container.available {
