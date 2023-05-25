@@ -1,14 +1,13 @@
 require("dotenv").config();
 const Pool = require("pg").Pool;
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// Read variables from .env file
 const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
 const DATABASE_HOST_NAME = process.env.DATABASE_HOST_NAME;
 const DATABASE_NAME = process.env.DATABASE_NAME;
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 const DATABASE_PORT = process.env.DATABASE_PORT;
 
-// Create DATABASE_LINK using variables from .env file
 const DATABASE_LINK = `postgres://${DATABASE_USER_NAME}:${DATABASE_PASSWORD}@${DATABASE_HOST_NAME}:${DATABASE_PORT}/${DATABASE_NAME}?options=-c search_path=public`;
 
 const connectionString = DATABASE_LINK;
@@ -17,112 +16,119 @@ const poolDB = new Pool({
   connectionString,
 });
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
 const processCheckout = async (req, res) => {
-  console.log('1. Request received');
-
-  const ticketData = req.query.ticketData;
-  console.log('2. ticketData:', ticketData);
-
-  if (!ticketData) {
-    return res.status(400).json({ error: "ticketData parameter is missing from the request." });
-  }
-
-  let ticketArray;
   try {
-    ticketArray = JSON.parse(ticketData);
-  } catch (err) {
-    return res.status(400).json({ error: "Unable to parse ticketData parameter. Invalid format." });
-  }
-  console.log('3. ticketArray:', ticketArray);
+    console.log('1. Request received');
 
-  var tickets = null;
-  try {
-    const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
-    tickets = rows;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Error occurred while fetching ticket types from the database." });
-  }
-  console.log('4. tickets:', tickets);
+    const ticketData = req.query.ticketData;
+    console.log('2. ticketData:', ticketData);
 
-  const lineItems = ticketArray.tickets.flatMap((ticket) => {
-    const ticketId = parseInt(ticket.id);
-    const quantity = parseInt(ticket.quantity);
-    console.log('5. ticketId:', ticketId, 'quantity:', quantity);
-
-    if (isNaN(quantity) || isNaN(ticketId) || quantity <= 0) {
-      return [];
+    if (!ticketData) {
+      return res.status(400).json({ error: "ticketData parameter is missing from the request." });
     }
 
-    const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
-    console.log('6. filteredTickets:', filteredTickets);
+    let ticketArray;
+    try {
+      ticketArray = JSON.parse(ticketData);
+    } catch (err) {
+      return res.status(400).json({ error: "Unable to parse ticketData parameter. Invalid format." });
+    }
+    console.log('3. ticketArray:', ticketArray);
 
-    return filteredTickets.map((item) => {
-      return {
-        price: item.stripePriceId,
-        quantity: quantity,
-      };
-    });
-  });
-  console.log('7. lineItems:', lineItems);
+    var tickets = null;
+    try {
+      const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
+      tickets = rows;
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error occurred while fetching ticket types from the database." });
+    }
+    console.log('4. tickets:', tickets);
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: lineItems,
-      success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://fanflix.fantasticstudio.online/`,
-      metadata: {
-        ticketData: JSON.stringify(ticketArray.tickets),
-        seats: JSON.stringify(req.query.seats),
-        screeningID: req.query.screeningID,
-      },
+    const lineItems = ticketArray.tickets.flatMap((ticket) => {
+      const ticketId = parseInt(ticket.id);
+      const quantity = parseInt(ticket.quantity);
+      console.log('5. ticketId:', ticketId, 'quantity:', quantity);
+
+      if (isNaN(quantity) || isNaN(ticketId) || quantity <= 0) {
+        return [];
+      }
+
+      const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
+      console.log('6. filteredTickets:', filteredTickets);
+
+      return filteredTickets.map((item) => {
+        return {
+          price: item.stripePriceId,
+          quantity: quantity,
+        };
+      });
     });
-    console.log('8. session created:', session);
-    return res.send({ url: session.url });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Error occurred while creating the checkout session." });
+    console.log('7. lineItems:', lineItems);
+
+    try {
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        line_items: lineItems,
+        success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `https://fanflix.fantasticstudio.online/`,
+        metadata: {
+          ticketData: JSON.stringify(ticketArray.tickets),
+          seats: JSON.stringify(req.query.seats),
+          screeningID: req.query.screeningID,
+        },
+      });
+      console.log('8. session created:', session);
+      return res.send({ url: session.url });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error occurred while creating the checkout session." });
+    }
+  } catch (error) {
+    console.error('Error in processCheckout:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
 const handleStripeWebhook = async (req, res) => {
-  const sig = req.headers["stripe-signature"];
-  
-  // Log the stripe-signature
-  console.log("Stripe-signature:", sig);
-  
-  let event;
-  
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    console.error(`Error constructing event from Stripe webhook: ${err.message}`);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const ticketArray = JSON.parse(session.metadata.ticketData);
-    const seats = JSON.parse(session.metadata.seats);
-    const screeningID = session.metadata.screeningID;
-
-    const stripeTransactionId = session.payment_intent; 
-    console.log(stripeTransactionId);
-    const stripeSessionId = session.id;
-    console.log(stripeSessionId); 
-
+    const sig = req.headers["stripe-signature"];
+  
+    console.log("Stripe-signature:", sig);
+  
+    let event;
+  
     try {
-      await insertTickets(ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId);
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal server error" });
+      console.error(`Error constructing event from Stripe webhook: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-  }
 
-  res.status(200).send("Webhook received");
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const ticketArray = JSON.parse(session.metadata.ticketData);
+      const seats = JSON.parse(session.metadata.seats);
+      const screeningID = session.metadata.screeningID;
+
+      const stripeTransactionId = session.payment_intent; 
+      console.log(stripeTransactionId);
+      const stripeSessionId = session.id;
+      console.log(stripeSessionId); 
+
+      try {
+        await insertTickets(ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId);
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+    }
+
+    res.status(200).send("Webhook received");
+  } catch (error) {
+    console.error('Error in handleStripeWebhook:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 const decodeSeatToId = async (row, seat_number) => {
@@ -136,43 +142,48 @@ const decodeSeatToId = async (row, seat_number) => {
 
     return rows[0].id_seat;
   } catch (err) {
-    console.error(err);
+    console.error('Error in decodeSeatToId:', err);
     throw new Error(`Failed to decode seat row ${row} and number ${seat_number} to id.`);
   }
 };
 
 const insertTickets = async (ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId) => {
-  for (let i = 0; i < ticketArray.length; i++) {
-    const ticket = ticketArray[i];
-    const ticketId = parseInt(ticket.id);
-    const quantity = parseInt(ticket.quantity);
+  try {
+    for (let i = 0; i < ticketArray.length; i++) {
+      const ticket = ticketArray[i];
+      const ticketId = parseInt(ticket.id);
+      const quantity = parseInt(ticket.quantity);
 
-    if (isNaN(quantity) || isNaN(ticketId)) {
-      console.log(`Skipping ticket due to invalid ID (${ticket.id}) or quantity (${ticket.quantity})`);
-      continue;
-    }
-
-    for (let j = 0; j < seats.length && j < quantity; j++) {
-      const seat = seats[j];
-      const row = seat.substring(0, 1);
-      const seat_number = parseInt(seat.substring(1));
-      let id_seat;
-
-      try {
-        id_seat = await decodeSeatToId(row, seat_number);
-      } catch (error) {
-        console.error(`Failed to decode seat ID for row ${row} and seat number ${seat_number}:`, error);
+      if (isNaN(quantity) || isNaN(ticketId)) {
+        console.log(`Skipping ticket due to invalid ID (${ticket.id}) or quantity (${ticket.quantity})`);
         continue;
       }
 
-      const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity, stripe_transaction_id, stripe_checkout_session_id) VALUES ($1, $2, $3, $4, $5, $6)`;
-      try {
-        await poolDB.query(insertQuery, [screeningID, id_seat, ticketId, 1, stripeTransactionId, stripeSessionId]);
-      } catch (err) {
-        console.error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}:`, err);
-        throw new Error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}.`);
+      for (let j = 0; j < seats.length && j < quantity; j++) {
+        const seat = seats[j];
+        const row = seat.substring(0, 1);
+        const seat_number = parseInt(seat.substring(1));
+        let id_seat;
+
+        try {
+          id_seat = await decodeSeatToId(row, seat_number);
+        } catch (error) {
+          console.error(`Failed to decode seat ID for row ${row} and seat number ${seat_number}:`, error);
+          continue;
+        }
+
+        const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity, stripe_transaction_id, stripe_checkout_session_id) VALUES ($1, $2, $3, $4, $5, $6)`;
+        try {
+          await poolDB.query(insertQuery, [screeningID, id_seat, ticketId, 1, stripeTransactionId, stripeSessionId]);
+        } catch (err) {
+          console.error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}:`, err);
+          throw new Error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}.`);
+        }
       }
     }
+  } catch (error) {
+    console.error('Error in insertTickets:', error);
+    throw new Error('Failed to insert tickets.');
   }
 };
 
