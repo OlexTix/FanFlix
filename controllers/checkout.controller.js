@@ -31,7 +31,8 @@ const processCheckout = async (req, res) => {
     try {
       ticketArray = JSON.parse(ticketData);
     } catch (err) {
-      return res.status(400).json({ error: "Unable to parse ticketData parameter. Invalid format." });
+      console.error('Error parsing ticketData:', err);
+      return res.status(401).json({ error: "Unable to parse ticketData parameter. Invalid format." });
     }
     console.log('3. ticketArray:', ticketArray);
 
@@ -40,7 +41,7 @@ const processCheckout = async (req, res) => {
       const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
       tickets = rows;
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching ticket types:', err);
       return res.status(500).json({ error: "Error occurred while fetching ticket types from the database." });
     }
     console.log('4. tickets:', tickets);
@@ -56,6 +57,10 @@ const processCheckout = async (req, res) => {
 
       const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
       console.log('6. filteredTickets:', filteredTickets);
+
+      if (!filteredTickets.length) {
+        console.error('Error: No matching tickets found for ticketId:', ticketId);
+      }
 
       return filteredTickets.map((item) => {
         return {
@@ -81,12 +86,12 @@ const processCheckout = async (req, res) => {
       console.log('8. session created:', session);
       return res.send({ url: session.url });
     } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Error occurred while creating the checkout session." });
+      console.error('Error creating checkout session:', err);
+      return res.status(501).json({ error: "Error occurred while creating the checkout session." });
     }
   } catch (error) {
     console.error('Error in processCheckout:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(502).json({ error: 'Internal server error' });
   }
 };
 
@@ -102,7 +107,7 @@ const handleStripeWebhook = async (req, res) => {
       event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
       console.error(`Error constructing event from Stripe webhook: ${err.message}`);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      return res.status(402).send(`Webhook Error: ${err.message}`);
     }
 
     if (event.type === "checkout.session.completed") {
@@ -120,14 +125,14 @@ const handleStripeWebhook = async (req, res) => {
         await insertTickets(ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId);
       } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(503).json({ error: "Internal server error" });
       }
     }
 
     res.status(200).send("Webhook received");
   } catch (error) {
     console.error('Error in handleStripeWebhook:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(504).json({ error: 'Internal server error' });
   }
 };
 
