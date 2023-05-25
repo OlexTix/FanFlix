@@ -215,7 +215,7 @@ export default {
       }
     },
     goBackToList() {
-      this.$router.push('/admin-panel/users')
+      this.$router.go(-1);
     }
   }
 }
