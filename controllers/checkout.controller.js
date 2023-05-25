@@ -109,8 +109,13 @@ const handleStripeWebhook = async (req, res) => {
     const seats = JSON.parse(session.metadata.seats);
     const screeningID = session.metadata.screeningID;
 
+    const stripeTransactionId = session.payment_intent; 
+    console.log(stripeTransactionId);
+    const stripeSessionId = session.id;
+    console.log(stripeSessionId); 
+
     try {
-      await insertTickets(ticketArray, seats, screeningID);
+      await insertTickets(ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: "Internal server error" });
@@ -136,13 +141,14 @@ const decodeSeatToId = async (row, seat_number) => {
   }
 };
 
-const insertTickets = async (ticketArray, seats, screeningID) => {
+const insertTickets = async (ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId) => {
   for (let i = 0; i < ticketArray.length; i++) {
     const ticket = ticketArray[i];
     const ticketId = parseInt(ticket.id);
     const quantity = parseInt(ticket.quantity);
 
     if (isNaN(quantity) || isNaN(ticketId)) {
+      console.log(`Skipping ticket due to invalid ID (${ticket.id}) or quantity (${ticket.quantity})`);
       continue;
     }
 
@@ -150,13 +156,20 @@ const insertTickets = async (ticketArray, seats, screeningID) => {
       const seat = seats[j];
       const row = seat.substring(0, 1);
       const seat_number = parseInt(seat.substring(1));
-      const id_seat = await decodeSeatToId(row, seat_number);
+      let id_seat;
 
-      const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity) VALUES (${screeningID}, ${id_seat}, ${ticketId}, 1)`;
       try {
-        await poolDB.query(insertQuery);
+        id_seat = await decodeSeatToId(row, seat_number);
+      } catch (error) {
+        console.error(`Failed to decode seat ID for row ${row} and seat number ${seat_number}:`, error);
+        continue;
+      }
+
+      const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity, stripe_transaction_id, stripe_checkout_session_id) VALUES ($1, $2, $3, $4, $5, $6)`;
+      try {
+        await poolDB.query(insertQuery, [screeningID, id_seat, ticketId, 1, stripeTransactionId, stripeSessionId]);
       } catch (err) {
-        console.error(err);
+        console.error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}:`, err);
         throw new Error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}.`);
       }
     }
