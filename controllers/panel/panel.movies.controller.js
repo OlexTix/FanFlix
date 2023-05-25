@@ -183,60 +183,43 @@ const addMovie = async (req, res) => {
       release_date,
     } = req.body;
   
-    let query = 'UPDATE "Movie" SET';
-    const queryParams = [];
-    let queryUpdates = "";
-  
-    if (title) {
-      queryParams.push(title);
-      queryUpdates += `, title = $${queryParams.length}`;
-    }
-  
-    if (duration) {
-      queryParams.push(duration);
-      queryUpdates += `, duration = $${queryParams.length}`;
-    }
-  
-    if (description) {
-      queryParams.push(description);
-      queryUpdates += `, description = $${queryParams.length}`;
-    }
-  
-    if (poster_url) {
-      queryParams.push(poster_url);
-      queryUpdates += `, poster_url = $${queryParams.length}`;
-    }
-  
-    if (youtube_link) {
-      queryParams.push(youtube_link);
-      queryUpdates += `, youtube_link = $${queryParams.length}`;
-    }
-  
-    if (release_date) {
-      queryParams.push(release_date);
-      queryUpdates += `, release_date = $${queryParams.length}`;
-    }
-  
-    if (!queryUpdates) {
-      res.status(400).send({ message: "No data to update" });
-      return;
-    }
-  
-    query += `${queryUpdates.slice(2)} WHERE id_movie = $${
-      queryParams.length + 1
-    }`;
-    queryParams.push(movieId);
-  
     const client = await poolDB.connect();
   
     try {
-      const { rowCount } = await client.query(query, queryParams);
+      const { rows } = await client.query(
+        'SELECT * FROM "Movie" WHERE id_movie = $1',
+        [movieId]
+      );
   
-      if (rowCount === 0) {
+      if (rows.length === 0) {
         res.status(404).send({ message: "Movie not found" });
-      } else {
-        res.status(200).send({ message: "Movie updated successfully" });
+        return;
       }
+  
+      const movie = rows[0];
+      const updatedMovieData = {
+        title: title || movie.title,
+        duration: duration || movie.duration,
+        description: description || movie.description,
+        poster_url: poster_url || movie.poster_url,
+        youtube_link: youtube_link || movie.youtube_link,
+        release_date: release_date || movie.release_date,
+      };
+  
+      await client.query(
+        'UPDATE "Movie" SET title=$1, duration=$2, description=$3, poster_url=$4, youtube_link=$5, release_date=$6 WHERE id_movie=$7',
+        [
+          updatedMovieData.title,
+          updatedMovieData.duration,
+          updatedMovieData.description,
+          updatedMovieData.poster_url,
+          updatedMovieData.youtube_link,
+          updatedMovieData.release_date,
+          movieId,
+        ]
+      );
+  
+      res.status(200).send({ message: "Movie updated successfully" });
     } catch (err) {
       console.error(err.message);
       res.status(500).send({ message: "Failed to update movie data" });
