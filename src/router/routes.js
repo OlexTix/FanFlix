@@ -50,11 +50,6 @@ const router = createRouter({
       component: () => import('../views/admin-views/AdminScreeningsView.vue')
     },
     {
-      path: '/admin-panel/employees',
-      name: 'employees-admin',
-      component: () => import('../views/admin-views/AdminEmployeesView.vue')
-    },
-    {
       path: '/admin-panel/users',
       name: 'users-admin',
       component: () => import('../views/admin-views/AdminUsersView.vue')
@@ -63,16 +58,6 @@ const router = createRouter({
       path: '/admin-panel/settings',
       name: 'settings-admin',
       component: () => import('../views/admin-views/AdminSettingsView.vue')
-    },
-    {
-      path: '/admin-panel/posts',
-      name: 'posts-admin',
-      component: () => import('../views/admin-views/AdminPostsView.vue')
-    },
-    {
-      path: '/admin-panel/logs',
-      name: 'logs-admin',
-      component: () => import('../views/admin-views/AdminLogsView.vue')
     },
     {
       path: '/admin-panel/users/edit-user/:id_user',

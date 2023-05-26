@@ -69,7 +69,7 @@
 							<span>Panel Główny</span>
 						</RouterLink>
 					</li>
-          			<li>
+					  <li>
 						<RouterLink to="/admin-panel/cinemas">
 							<img src="../../assets/admin-assets/cinemas.svg" alt="Cinemas" class="logo">
 							<span>Kina</span>
@@ -81,13 +81,7 @@
 							<span>Filmy</span>
 						</RouterLink>
 					</li>
-          			<li>
-						<RouterLink to="/admin-panel/employees">
-							<img src="../../assets/admin-assets/employees.svg" alt="Employees" class="logo">
-							<span>Pracownicy</span>
-						</RouterLink>
-					</li>
-          			<li>
+					  <li>
 						<RouterLink to="/admin-panel/users">
 							<img src="../../assets/admin-assets/users.svg" alt="Userss" class="logo">
 							<span>Użytkownicy</span>
@@ -99,32 +93,22 @@
 							<span>Ustawienia</span>
 						</RouterLink>
 					</li>
-					<li class="menu-heading"><span>Inne</span></li>
+					<li class="menu-heading"><span>Motywy</span></li>
 					<li>
-						<RouterLink to="/admin-panel/posts">
-							<img src="../../assets/admin-assets/posts.svg" alt="Posts" class="logo">
-							<span>Posty</span>
-						</RouterLink>
-					</li>
-					<li>
-						<RouterLink to="/admin-panel/logs">
-							<img src="../../assets/admin-assets/logs.svg" alt="Logs" class="logo">
-							<span>Logi</span>
-						</RouterLink>
+						<div class="sidebar-theme-switcher">
+							<div id="sidebar__theme-switcher__sun">
+								<img src="../../assets/admin-assets/sun.svg" alt="Sun" class="logo">
+							</div>
+			
+							<div id="sidebar__theme-switcher__moon">
+								<img src="../../assets/admin-assets/moon.svg" alt="Moon" class="logo">
+							</div>
+						</div>
 					</li>
 				</ul>
 			</nav>
-
-			<div class="sidebar-theme-switcher">
-				<div id="sidebar__theme-switcher__sun">
-					<img src="../../assets/admin-assets/sun.svg" alt="Sun" class="logo">
-				</div>
-
-				<div id="sidebar__theme-switcher__moon">
-					<img src="../../assets/admin-assets/moon.svg" alt="Moon" class="logo">
-				</div>
-			</div> 
-		</div> 
+		</div>
+			
 
 		<div class="main-content">
 			<slot class="main-content-container"></slot>
