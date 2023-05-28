@@ -40,8 +40,10 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  --color-nav: var(--vt-c-text-dark-2);
 
   --section-gap: 160px;
+  color-scheme: light !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,7 +59,9 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    --color-nav: var(--vt-c-text-light-2);
     --color-logo: var(--logo);
+    color-scheme: dark !important;
   }
 }
 
