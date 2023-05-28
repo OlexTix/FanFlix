@@ -9,8 +9,14 @@ app.use(
     origin: "*",
   })
 );
-//parse request of content type json
-app.use(express.json());
+
+app.use((req, res, next) => {
+  if (req.originalUrl === "/api/checkout/webhook") { 
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 //parse request of content type x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 

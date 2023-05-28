@@ -116,14 +116,11 @@ const processCheckout = async (req, res) => {
 const handleStripeWebhook = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
-
-    console.log("Stripe-signature:", sig);
-
     let event;
 
     try {
       event = stripe.webhooks.constructEvent(
-        req.body,
+        req.body.toString(),
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
