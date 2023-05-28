@@ -91,6 +91,8 @@ export default {
         { label: 'Tak', value: "true" },
         { label: 'Nie', value: "false" }
       ],
+      isFormValid: true,
+      isFormModified: true,
 
 
     }
@@ -113,12 +115,14 @@ export default {
       this.errorMessagelast_name = '';
       this.errorMessagephone = '';
       this.errorMessagebirth_date = '';
+      this.errorMessagerole = '';
 
       this.validateEmail();
       this.validateFirstName();
       this.validateLastName();
       this.validatePhone();
       this.validateBirthDate();
+      this.validateRole();
     },
     validateEmail() {
       const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -161,8 +165,17 @@ export default {
     validateBirthDate() {
       if (this.user[0].birth_date.length === 0) {
         this.errorMessagebirth_date = 'Pole data urodzenia jest wymagane';
+        this.isFormValid = false;
       } else {
         this.errorMessagebirth_date = '';
+        this.isFormValid = true;
+      }
+    },
+    validateRole() {
+      if (this.user[0].role.length === 0) {
+        this.errorMessagerole = 'Pole Rola jest wymagane';
+      } else {
+        this.errorMessagerole = '';
       }
     },
     async updateUser() {
@@ -173,7 +186,8 @@ export default {
         this.errorMessagefirst_name ||
         this.errorMessagelast_name ||
         this.errorMessagephone ||
-        this.errorMessagebirth_date
+        this.errorMessagebirth_date ||
+        this.errorMessagerole
       ) {
         this.$toast.add({
           severity: 'error',
@@ -183,7 +197,7 @@ export default {
         });
         return;
       }
-      if (!this.isFormModified) {
+      if (!this.isFormModified || !this.isFormValid) {
         this.$toast.add({
           severity: 'info',
           summary: 'Brak zmian',
@@ -196,6 +210,7 @@ export default {
       try {
         const userWithoutIdandReg = { ...this.user[0] };
         delete userWithoutIdandReg.id_user;
+        delete userWithoutIdandReg.last_login;
         delete userWithoutIdandReg.registration_date;
         await axiosInstance.put(`/api/panel/users/${this.user[0].id_user}`, userWithoutIdandReg);
         this.$toast.add({
@@ -216,7 +231,35 @@ export default {
     },
     goBackToList() {
       this.$router.go(-1);
-    }
+    },
+    watch: {
+      email() {
+        this.isFormModified = true;
+        this.validateEmail();
+      },
+
+      firstName() {
+        this.isFormModified = true;
+        this.validateFirstName();
+      },
+
+      lastName() {
+        this.isFormModified = true;
+        this.validateLastName();
+      },
+      role() {
+        this.isFormModified = true;
+        this.validateRole();
+      },
+      phone() {
+        this.isFormModified = true;
+        this.validatePhone();
+      },
+      birth_date() {
+        this.isFormModified = true;
+        this.validateBirthDate();
+      },
+    },
   }
 }
 </script>
