@@ -181,21 +181,35 @@ const addMovie = async (req, res) => {
 
       const movieId = movieRows[0].id_movie;
 
+      if (!Array.isArray(genres) || genres.length === 0) {
+        res.status(400).send({ message: "'genres' must be a non-empty array" });
+        await client.query("ROLLBACK");
+        return;
+      }
+
       for (let genre of genres) {
-        const { rows: existingGenreRows } = await client.query(
+        let { rows: existingGenreRows } = await client.query(
           `SELECT id_genre FROM "Genre" WHERE name = $1`,
           [genre]
         );
-        if (existingGenreRows.length === 0) {
-          res.status(400).send({ message: `Genre "${genre}" does not exist` });
-          await client.query("ROLLBACK");
-          return;
+
+        let genreId;
+
+        if (existingGenreRows.length > 0) {
+          genreId = existingGenreRows[0].id_genre;
+        } else {
+          const { rows: newGenreRows } = await client.query(
+            `INSERT INTO "Genre" (name) VALUES ($1) RETURNING id_genre`,
+            [genre]
+          );
+
+          genreId = newGenreRows[0].id_genre;
         }
 
         await client.query(
           `INSERT INTO "Movie_Genre" (id_movie, id_genre)
                    VALUES ($1, $2)`,
-          [movieId, existingGenreRows[0].id_genre]
+          [movieId, genreId]
         );
       }
 
@@ -274,8 +288,12 @@ const deleteMovie = async (req, res) => {
   const client = await poolDB.connect();
 
   try {
-
     await client.query('BEGIN');
+
+    const { rows: genres } = await client.query(
+      'DELETE FROM "Movie_Genre" WHERE id_movie = $1 RETURNING *',
+      [movieId]
+    );
 
     const { rows: screenings } = await client.query(
       'DELETE FROM "Screening" WHERE id_movie = $1 RETURNING *',
@@ -292,12 +310,12 @@ const deleteMovie = async (req, res) => {
       res.status(404).send({ message: "Movie not found" });
     } else {
       await client.query('COMMIT');
-      res.status(200).send({ message: `Movie and ${screenings.length} associated screenings deleted successfully` });
+      res.status(200).send({ message: `Movie and ${screenings.length} associated screenings and ${genres.length} associated genres deleted successfully` });
     }
   } catch (err) {
     await client.query('ROLLBACK');
     console.error(err.message);
-    res.status(500).send({ message: "Failed to delete movie and its screenings" });
+    res.status(500).send({ message: "Failed to delete movie, its screenings, and associated genres" });
   } finally {
     client.release();
   }
