@@ -32,33 +32,42 @@
           slidesPerView: 6,
           spaceBetween: 34,
         },
+        '1930': {
+          slidesPerView: 7,
+          spaceBetween: 41,
+        },
+        '2290': {
+          slidesPerView: 8,
+          spaceBetween: 44,
+        },
       }"
       :modules="modules"
       class="mySwiper"
     >
-      <swiper-slide><img src="https://cdn.gracza.pl/galeria/mdb/f/3448000.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://www.bilety24.pl/media/cache/resolve/repertoire_big/https://www.bilety24.pl/public/users/1303/o/kot-plakat2.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://i.etsystatic.com/35153613/r/il/83569b/4375657449/il_fullxfull.4375657449_9p7k.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://plcw.tmsimg.com/assets/p22179066_v_v12_aa.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://res.cloudinary.com/westfielddg/image/upload/q6wjfacmlh40hevewkww" /></swiper-slide>
-      <swiper-slide><img src="https://image.tmdb.org/t/p/original/yCvB5fG5aEPqa1St7ihY6KEAsHD.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2019%2F10%2Flittle-women_3-2000.jpg&q=60" /></swiper-slide>
-      <swiper-slide><img src="https://cdn.discordapp.com/attachments/914170768693280768/1088817948573061141/ambulancemovie.jpg" /></swiper-slide>
-      <swiper-slide><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" /></swiper-slide>
+      <swiper-slide v-for="movie in movies" :key="movie.id">
+        <RouterLink :to="`/movies/${movie.title}`">
+          <img class="poster-view" :src="movie.poster_url" />
+        </RouterLink>
+      </swiper-slide>
     </swiper>
+
     </div>
     
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Navigation } from 'swiper';
+import axiosInstance from "../service/apiService.js";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'primeicons/primeicons.css';
 
+
   export default {
+    name: 'Homepage',
     components: {
       Swiper,
       SwiperSlide,
@@ -68,6 +77,48 @@ import 'primeicons/primeicons.css';
         modules: [Pagination, Navigation],
       };
     },
+    data() {
+    return {
+      movies: [],
+      errorMessage: "",
+      };
+    },
+    mounted(){
+      this.fetchMovies();
+    },
+    methods: {
+      async getMoviePosterUrl(movie_title) {
+      try {
+        const response = await axiosInstance.get(`/api/movies/${movie_title}`);
+        const movie = response.data;
+        return movie.poster_url;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    async fetchMovies() {
+      try {
+        const response = await axiosInstance.get("/api/panel/movies");
+        const movies = response.data.map(movie => {
+          const genres = movie.genres.join(", ");
+
+          const releaseDate = new Date(movie.release_date).toLocaleDateString("pl-PL", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+            .split(".")
+            .join(".");
+
+          return { ...movie, genres, release_date: releaseDate };
+        });
+        this.movies = movies;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    }
   };
 
 </script>
@@ -86,13 +137,13 @@ import 'primeicons/primeicons.css';
 }
 .swiper-slide {
   text-align: center;
-  font-size: 18px;
+  font-size: 2rem;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.swiper-slide img {
+.swiper-slide a img{
   display: block;
   width: 100%;
   height: 100%;
@@ -116,5 +167,31 @@ import 'primeicons/primeicons.css';
 .icons-awansome .svg-inline--fa {
   height: 2.1rem;
 }
-
+.swiper-button-next, .swiper-button-prev {
+  color: var(--color-nav);
+  background-color: var(--color-heading);
+  width: 3rem;
+  height: 3rem;
+  margin-top: calc(0px - (3rem / 2));
+  border-radius: 50%;
+}
+.swiper-button-next {
+  padding-left: 0.2rem;
+}
+.swiper-button-prev {
+  padding-right: 0.2rem;
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+  font-size: 1.6rem;
+}
+.poster-view {
+  cursor: pointer;
+  transition: all 0.8s ease-in-out; 
+}
+.poster-view:hover {
+  transform: scale(1.1);
+}
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+  pointer-events: fill;
+}
 </style>

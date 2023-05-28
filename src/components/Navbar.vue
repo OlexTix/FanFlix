@@ -18,7 +18,6 @@
       <div class="buttons">
         <div class="buttons-sec" style="display: flex; align-items: center;">
           <RouterLink :to="screeningsLink">Repertuar</RouterLink>
-          <RouterLink to="/login">Oferty</RouterLink>
           <NavbarLocationInfo />
         </div>
       </div>
