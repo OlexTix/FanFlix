@@ -93,6 +93,21 @@ const router = createRouter({
       path: '/checkout/success',
       name: 'checkout-success',
       component: () => import('../views/ThankYouView.vue')
+    },
+    {
+      path: '/regulations',
+      name: 'regulations',
+      component: () => import('../views/RegulationsView.vue')
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: () => import('../views/PrivacyView.vue')
+    },
+    {
+      path: '/questions',
+      name: 'questions',
+      component: () => import('../views/QuestionsView.vue')
     }
   ]
 })
