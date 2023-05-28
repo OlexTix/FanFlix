@@ -4,33 +4,16 @@
     <div class="users-table">
       <div class="table-tab">
         <h1 class="table-title">UŻYTKOWNICY</h1>
-        
+
       </div>
       <div class="search-input">
-      <InputText v-model="searchTerm" placeholder="Wyszukaj..." @input="searchUsers" />
-    </div>
-      <DataTable
-        :value="filteredUsers"
-        paginator
-        :rows="5"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        editMode="cell"
-        sortMode="multiple"
-        @cell-edit-complete="onCellEditComplete"
-        tableClass="editable-cells-table"
-        tableStyle="min-width: 50rem"
-        :sortField="sortField"
-        :sortOrder="sortOrder"
-        @sort-change="onSortChange"
-      >
-        <Column
-          v-for="col of columns"
-          :key="col.field"
-          :field="col.field"
-          :header="col.header"
-          :editable="col.editable"
-          :sortable="col.sortable"
-        >
+        <InputText v-model="searchTerm" placeholder="Wyszukaj..." @input="searchUsers" />
+      </div>
+      <DataTable :value="filteredUsers" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" editMode="cell"
+        sortMode="multiple" @cell-edit-complete="onCellEditComplete" tableClass="editable-cells-table"
+        tableStyle="min-width: 50rem" :sortField="sortField" :sortOrder="sortOrder" @sort-change="onSortChange">
+        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" :editable="col.editable"
+          :sortable="col.sortable">
           <template #body="{ data, field }">
             {{ data[field] }}
           </template>
@@ -41,21 +24,12 @@
         <Column>
           <template #header="slotProps"> Akcje </template>
           <template #body="slotProps">
-            <Button
-              icon="pi pi-pencil"
-              class="p-button-rounded p-button-success"
-              @click="editUser(slotProps.data.id_user)"
-            />
-            <Button
-              icon="pi pi-trash"
-              class="p-button-rounded p-button-danger"
-              @click="deleteUser(slotProps.data.id_user)"
-            />
-            <Button
-              icon="pi pi-key"
-              class="p-button-rounded p-button-info"
-              @click="changeUserPassword(slotProps.data.id_user)"
-            />
+            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success"
+              @click="editUser(slotProps.data.id_user)" />
+            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger"
+              @click="deleteUser(slotProps.data.id_user)" />
+            <Button icon="pi pi-key" class="p-button-rounded p-button-info"
+              @click="changeUserPassword(slotProps.data.id_user)" />
           </template>
         </Column>
       </DataTable>
@@ -145,57 +119,57 @@ export default {
   },
   methods: {
     async fetchUsers() {
-  try {
-    const response = await axiosInstance.get("/api/panel/users");
-    const users = response.data.map((user) => {
-      // Format registration_date as yyyy-mm-dd HH:MM:SS
-      const formattedRegistrationDate = new Date(user.registration_date)
-        .toLocaleString("pl-PL", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-        .replace(",", "");
+      try {
+        const response = await axiosInstance.get("/api/panel/users");
+        const users = response.data.map((user) => {
+          // Format registration_date as yyyy-mm-dd HH:MM:SS
+          const formattedRegistrationDate = new Date(user.registration_date)
+            .toLocaleString("pl-PL", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })
+            .replace(",", "");
 
-      // Format last_login as yyyy-mm-dd HH:MM:SS or display "no last login" if it's null
-      const formattedLastLogin = user.last_login
-        ? new Date(user.last_login).toLocaleString("pl-PL", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          })
-          .replace(",", " ")
-        : "no last login";
+          // Format last_login as yyyy-mm-dd HH:MM:SS or display "no last login" if it's null
+          const formattedLastLogin = user.last_login
+            ? new Date(user.last_login).toLocaleString("pl-PL", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })
+              .replace(",", " ")
+            : "no last login";
 
-      // Format birth_date as dd.mm.yyyy
-      const formattedBirthDate = new Date(user.birth_date)
-        .toLocaleDateString("pl-PL", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
-        .split(".")
-        .join(".");
+          // Format birth_date as dd.mm.yyyy
+          const formattedBirthDate = new Date(user.birth_date)
+            .toLocaleDateString("pl-PL", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
+            .split(".")
+            .join(".");
 
-      return {
-        ...user,
-        registration_date: formattedRegistrationDate,
-        last_login: formattedLastLogin,
-        birth_date: formattedBirthDate,
-      };
-    });
-    this.users = users;
-    this.filteredUsers=users;
-  } catch (error) {
-    console.error(error);
-  }
-},
+          return {
+            ...user,
+            registration_date: formattedRegistrationDate,
+            last_login: formattedLastLogin,
+            birth_date: formattedBirthDate,
+          };
+        });
+        this.users = users;
+        this.filteredUsers = users;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async onCellEditComplete(event) {
       const { data, newValue, field } = event;
       const originalValue = data[field];
@@ -236,11 +210,16 @@ export default {
           }
           return false;
         });
-      } else {
+      }
+      else if (!this.searchTerm || /^\s*$/.test(this.searchTerm)) {
+        this.filteredUsers = this.users;
+      }
+
+      else {
         this.filteredUsers = this.users;
       }
     },
-    
+
 
     async onSortChange(event) {
       const { sortField, sortOrder } = event;
@@ -324,7 +303,8 @@ export default {
   background-color: #333;
   color: #fff;
 }
-.p-datatable .p-datatable-thead > tr > th {
+
+.p-datatable .p-datatable-thead>tr>th {
   background-color: #333;
   color: #fff;
 }
@@ -333,6 +313,7 @@ export default {
   background-color: #333;
   color: #fff;
 }
+
 td {
   background-color: #333;
   color: #fff;

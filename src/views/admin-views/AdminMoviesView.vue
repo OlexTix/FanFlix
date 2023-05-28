@@ -5,28 +5,17 @@
       <div class="table-tab">
         <h1 class="table-title">FILMY</h1>
       </div>
-      <DataTable
-        :value="fetchedMovies"
-        paginator
-        :rows="5"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        editMode="cell"
-        sortMode="multiple"
-        @cell-edit-complete="onCellEditComplete"
-        tableClass="editable-cells-table"
-        tableStyle="min-width: 50rem"
-        :sortField="sortField"
-        :sortOrder="sortOrder"
-        @sort-change="onSortChange"
-      >
-        <Column
-          v-for="col of columns"
-          :key="col.field"
-          :field="col.field"
-          :header="col.header"
-          :editable="col.editable"
-          :sortable="col.sortable"
-        >
+      <div class="header-content">
+        <div class="search-input">
+          <InputText v-model="searchTerm" placeholder="Wyszukaj..." @input="searchMovies" />
+        </div>
+        <Button class="add-button" @click="addMovie">DODAJ FILM</Button>
+      </div>
+      <DataTable :value="filteredMovies" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" editMode="cell"
+        sortMode="multiple" @cell-edit-complete="onCellEditComplete" tableClass="editable-cells-table"
+        tableStyle="min-width: 50rem" :sortField="sortField" :sortOrder="sortOrder" @sort-change="onSortChange">
+        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" :editable="col.editable"
+          :sortable="col.sortable">
           <template #body="{ data, field }">
             <template v-if="field === 'poster_url'">
               <img :src="data[field]" alt="Poster" class="poster-image" />
@@ -41,24 +30,15 @@
         </Column>
         <Column>
           <template #header="slotProps">
-                     
-                        <div class="header-content">
-              <Button class="add-button" @click="addMovie">DODAJ FILM</Button>
-            </div>
-                    </template>
+
+
+          </template>
           <template #body="slotProps">
             <!--<Button icon="pi pi-pencil" class="p-button-rounded p-button-success"
                             @click="editMovie(slotProps.data.id_movie)" /> -->
-            <Button
-              icon="pi pi-trash"
-              class="p-button-rounded p-button-danger"
-              @click="deleteMovie(slotProps.data.id_movie)"
-            />
-            <Button
-              icon="pi pi-image"
-              class="p-button-rounded"
-              @click="openPoster(slotProps.data.title)"
-            />
+            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger"
+              @click="deleteMovie(slotProps.data.id_movie)" />
+            <Button icon="pi pi-image" class="p-button-rounded" @click="openPoster(slotProps.data.title)" />
           </template>
         </Column>
       </DataTable>
@@ -89,6 +69,7 @@ export default {
   data() {
     return {
       movies: [],
+      filteredMovies: [],
       errorMessage: "",
       columns: [
         { field: "id_movie", header: "ID", editable: false, sortable: true },
@@ -174,29 +155,30 @@ export default {
         });
       }
     },
-async fetchMovies() {
-  try {
-    const response = await axiosInstance.get("/api/panel/movies");
-    const movies = response.data.map(movie => {
-      // Format genres as a comma-separated string
-      const genres = movie.genres.join(", ");
+    async fetchMovies() {
+      try {
+        const response = await axiosInstance.get("/api/panel/movies");
+        const movies = response.data.map(movie => {
+          // Format genres as a comma-separated string
+          const genres = movie.genres.join(", ");
 
-      // Format release_date as yyyy-mm-dd
-      const releaseDate = new Date(movie.release_date).toLocaleDateString("pl-PL", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        })
-        .split(".")
-        .join(".");
+          // Format release_date as yyyy-mm-dd
+          const releaseDate = new Date(movie.release_date).toLocaleDateString("pl-PL", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+            .split(".")
+            .join(".");
 
-      return { ...movie, genres, release_date: releaseDate };
-    });
-    this.movies = movies;
-  } catch (error) {
-    console.error(error);
-  }
-},
+          return { ...movie, genres, release_date: releaseDate };
+        });
+        this.movies = movies;
+        this.filteredMovies = movies;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async onCellEditComplete(event) {
       const { data, newValue, field } = event;
       const originalValue = data[field];
@@ -225,6 +207,26 @@ async fetchMovies() {
           detail: "",
           life: 3000,
         });
+      }
+    },
+    searchMovies() {
+      if (this.searchTerm) {
+        const regex = new RegExp(this.searchTerm, "i");
+        this.filteredMovies = this.movies.filter((movie) => {
+          for (const field in movie) {
+            if (regex.test(String(movie[field]))) {
+              return true;
+            }
+          }
+          return false;
+        });
+      }
+      else if (!this.searchTerm || /^\s*$/.test(this.searchTerm)) {
+        this.filteredMovies = this.movies;
+      }
+
+      else {
+        this.filteredMovies = this.movie;
       }
     },
 
@@ -263,8 +265,7 @@ async fetchMovies() {
         });
       }
     },
-    addMovie()
-    {
+    addMovie() {
       this.$router.push('/admin-panel/movies/add-movie');
     }
   },
@@ -281,6 +282,17 @@ async fetchMovies() {
   background-color: #2c2b2b;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-input {
+  flex: 1;
+  margin-left: 1vh;
+}
+
 .add-button {
   border-radius: 6px;
   background-image: linear-gradient(to bottom, #00a877, #007d59);
@@ -290,11 +302,12 @@ async fetchMovies() {
   font-size: 15px;
   margin-left: 2vh;
   color: #ffffff;
-  margin-top: 20px;
+  margin-top: 1vh;
   display: flex;
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  align-self: flex-start;
 }
 
 .add-button:hover {
@@ -328,7 +341,7 @@ async fetchMovies() {
   color: #fff;
 }
 
-.p-datatable .p-datatable-thead > tr > th {
+.p-datatable .p-datatable-thead>tr>th {
   background-color: #333;
   color: #fff;
 }
