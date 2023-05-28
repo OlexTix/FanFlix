@@ -115,25 +115,65 @@
 			</nav>
 		</div>
 			
-
 		<div class="main-content">
+			<Breadcrumb class="main-breadcrumb" :home="home" :model="breadcrumbs" />
 			<slot class="main-content-container"></slot>
 		</div> 
 	</section> 
 </template>
 
 <script>
+import Breadcrumb from 'primevue/breadcrumb';
+import { computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'AdminPanelTemplate',
+  components: {
+		Breadcrumb
+	},
   data() {
     return {
-      userCount: 0,
-      totalVisits: 0,
-      employeeCount: 0,
-	  loggedIn: localStorage.getItem('accessToken'),
-      isAdmin: true
+      	userCount: 0,
+      	totalVisits: 0,
+      	employeeCount: 0,
+	  	loggedIn: localStorage.getItem('accessToken'),
+      	isAdmin: true,
+	  	home: {
+			icon: 'pi pi-home',
+			to: '/',
+		},
+        breadcrumbs: [],
     };
+  },
+  setup() {
+    const route = useRoute();
+
+	// Mapowanie ścieżek na odpowiednie nazwy
+    const pathNames = {
+      "admin-panel": "Panel Admina",
+      "screenings": "Repertuar",
+	  "cinemas": "Kina",
+    };
+
+    // Oblicza breadcrumbs na podstawie ścieżki
+    const breadcrumbs = computed(() => {
+      const pathArray = route.path.split("/");
+      pathArray.shift();
+
+      let breadcrumbs = pathArray.map((path, i) => {
+        return { label: pathNames[path] || path, to: '/' + pathArray.slice(0, i + 1).join('/') };
+      });
+
+      return breadcrumbs;
+    });
+
+    // Obserwuje zmiany w ścieżce i aktualizuje breadcrumbs
+    watch(() => route.path, () => {
+      this.breadcrumbs = breadcrumbs.value;
+    });
+
+    return { breadcrumbs };
   },
   methods: {
     logout() {
@@ -144,27 +184,11 @@ export default {
       this.loggedIn = null;
       this.isAdmin = null;
     },
-	// sidebarToggle() {
-    //   document.body.classList.toggle('sidebar-open')
-    // },
-    // sidebarCollapse() {
-    //   document.body.classList.toggle('sidebar-collapsed')
-    // },
-  },
-  mounted() {
-    // const sidebarTrigger = document.getElementsByClassName('main-header-sidebar-toggle')
-    // const sidebarCollapseTrigger = document.getElementsByClassName('sidebar-collapse')
-
-    // sidebarTrigger.addEventListener('click', this.sidebarToggle)
-    // sidebarCollapseTrigger.addEventListener('click', this.sidebarCollapse)
-  },
-  components: {
-    
   },
 };
 </script>
 
-<style>
+<style scoped>
 .main-header {
 	background-color: var(--main-header-bg);
 	padding: 1rem 1.5rem;
@@ -217,6 +241,9 @@ body.sidebar-open #toggle-icon-close {
 
 .main {
 	position: relative;
+	min-height: calc(100vh - 64px);
+	display: flex;
+	flex-direction: column;
 }
 
 .info-admin-account {
@@ -349,11 +376,16 @@ body.sidebar-open #sidebar {
 .main-content {
   background-color: var(--color-background-pres);
 	padding: 1.5rem;
+	flex-grow: 1;
 }
 
 .main-content-container {
 	border: var(--gray-tint-50) 1px dashed;
 	border-radius: 8px;
+}
+
+.main-breadcrumb {
+	margin-bottom: 1.5rem;
 }
 
 @media screen and (min-width: 768px) {

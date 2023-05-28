@@ -7,6 +7,19 @@ import PrimeVue from 'primevue/config'
 import Rating from 'primevue/rating'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import Breadcrumb from 'primevue/breadcrumb'
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
+import FileUpload from 'primevue/fileupload';
+import Toolbar from 'primevue/toolbar';
+import Tag from 'primevue/tag';
+import Textarea from 'primevue/textarea';
+import Dropdown from 'primevue/dropdown';
+import RadioButton from 'primevue/radiobutton';
+import InputNumber from 'primevue/inputnumber';
+
 
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot, faHand)
 
@@ -18,4 +31,16 @@ export function registerComponents(app) {
   app.component('Rating', Rating)
   app.component('InputText', InputText)
   app.component('Password', Password)
+  app.component('Breadcrumb', Breadcrumb)
+  app.component('DataTable', DataTable)
+  app.component('Column', Column)
+  app.component('Dialog', Dialog)
+  app.component('Button', Button);
+  app.component('FileUpload', FileUpload);
+  app.component('Toolbar', Toolbar);
+  app.component('Tag', Tag);
+  app.component('Textarea', Textarea);
+  app.component('Dropdown', Dropdown);
+  app.component('RadioButton', RadioButton);
+  app.component('InputNumber', InputNumber);
 }
