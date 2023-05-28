@@ -158,10 +158,10 @@ const testStripeWebhook = async () => {
 const handleStripeWebhook = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
-    const body = req.body.toString();
+    const body = req.rawBody;
 
-    console.log("Raw request body:", body); // print the raw body
-    console.log("Stripe-Signature:", sig); // print the signature
+    console.log("Raw request body:", body);
+    console.log("Stripe-Signature:", sig);
     console.log("STRIPE_WEBHOOK_SECRET:", process.env.STRIPE_WEBHOOK_SECRET);
 
     let event;
