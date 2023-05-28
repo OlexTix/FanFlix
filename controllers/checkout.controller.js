@@ -100,6 +100,9 @@ const processCheckout = async (req, res) => {
         },
       });
       console.log("8. session created:", session);
+      // Call the test webhook here
+      await testStripeWebhook();
+
       return res.send({ url: session.url });
     } catch (err) {
       console.error("Error creating checkout session:", err);
@@ -113,6 +116,45 @@ const processCheckout = async (req, res) => {
   }
 };
 
+// This function will be triggered during checkout for testing
+const testStripeWebhook = async () => {
+  try {
+    // Define the payload for the test event
+    const payload = {
+      id: 'evt_test_webhook',
+      object: 'event',
+    };
+  
+    // Stringify the payload
+    const payloadString = JSON.stringify(payload, null, 2);
+    // Your Stripe webhook secret for testing
+    const secret = process.env.STRIPE_WEBHOOK_SECRET;
+    console.log("Stripe webhook secret: " + secret);
+  
+    // Generate the header for the test event
+    const header = stripe.webhooks.generateTestHeaderString({
+      payload: payloadString,
+      secret,
+    });
+  
+    // Construct the event
+    const event = stripe.webhooks.constructEvent(payloadString, header, secret);
+  
+    // Log the event details
+    console.log('Test event created:', event);
+  
+    // Do something with the mocked signed event
+    // Here, you can add the code to handle the event as you wish, similar to what you did in handleStripeWebhook
+    if (event.id === payload.id) {
+      console.log('Test Event ID matches the payload ID');
+      // Process the event...
+    } else {
+      console.log('Test Event ID does not match the payload ID');
+    }
+  } catch (err) {
+    console.error('Test Error in testStripeWebhook:', err);
+  }
+};
 const handleStripeWebhook = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
