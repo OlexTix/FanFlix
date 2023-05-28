@@ -18,7 +18,7 @@ const poolDB = new Pool({
 
 const processCheckout = async (req, res) => {
   try {
-    console.log("1. Request received");
+    console.log("1. Request received at", new Date().toLocaleString());
 
     const ticketData = req.query.ticketData;
     console.log("2. ticketData:", ticketData);
@@ -116,11 +116,17 @@ const processCheckout = async (req, res) => {
 const handleStripeWebhook = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
+    const body = req.body.toString();
+
+    console.log("Raw request body:", body); // print the raw body
+    console.log("Stripe-Signature:", sig); // print the signature
+    console.log("STRIPE_WEBHOOK_SECRET:", process.env.STRIPE_WEBHOOK_SECRET);
+
     let event;
 
     try {
       event = stripe.webhooks.constructEvent(
-        req.body.toString(),
+        body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
@@ -128,7 +134,7 @@ const handleStripeWebhook = async (req, res) => {
       console.error(
         `Error constructing event from Stripe webhook: ${err.message}`
       );
-      return res.status(402).send(`Webhook Error: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     if (event.type === "checkout.session.completed") {

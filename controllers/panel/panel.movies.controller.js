@@ -274,24 +274,34 @@ const deleteMovie = async (req, res) => {
   const client = await poolDB.connect();
 
   try {
+
+    await client.query('BEGIN');
+
+    const { rows: screenings } = await client.query(
+      'DELETE FROM "Screening" WHERE id_movie = $1 RETURNING *',
+      [movieId]
+    );
+
     const { rowCount } = await client.query(
       'DELETE FROM "Movie" WHERE id_movie = $1',
       [movieId]
     );
 
     if (rowCount === 0) {
+      await client.query('ROLLBACK');
       res.status(404).send({ message: "Movie not found" });
     } else {
-      res.status(200).send({ message: "Movie deleted successfully" });
+      await client.query('COMMIT');
+      res.status(200).send({ message: `Movie and ${screenings.length} associated screenings deleted successfully` });
     }
   } catch (err) {
+    await client.query('ROLLBACK');
     console.error(err.message);
-    res.status(500).send({ message: "Failed to delete movie" });
+    res.status(500).send({ message: "Failed to delete movie and its screenings" });
   } finally {
     client.release();
   }
 };
-
 module.exports = {
   getMovies,
   getGenres,
