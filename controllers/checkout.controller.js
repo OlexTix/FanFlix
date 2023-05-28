@@ -18,48 +18,64 @@ const poolDB = new Pool({
 
 const processCheckout = async (req, res) => {
   try {
-    console.log('1. Request received');
+    console.log("1. Request received");
 
     const ticketData = req.query.ticketData;
-    console.log('2. ticketData:', ticketData);
+    console.log("2. ticketData:", ticketData);
 
     if (!ticketData) {
-      return res.status(400).json({ error: "ticketData parameter is missing from the request." });
+      return res
+        .status(400)
+        .json({ error: "ticketData parameter is missing from the request." });
     }
 
     let ticketArray;
     try {
       ticketArray = JSON.parse(ticketData);
     } catch (err) {
-      console.error('Error parsing ticketData:', err);
-      return res.status(401).json({ error: "Unable to parse ticketData parameter. Invalid format." });
+      console.error("Error parsing ticketData:", err);
+      return res
+        .status(401)
+        .json({
+          error: "Unable to parse ticketData parameter. Invalid format.",
+        });
     }
-    console.log('3. ticketArray:', ticketArray);
+    console.log("3. ticketArray:", ticketArray);
 
     var tickets = null;
     try {
       const { rows } = await poolDB.query(`SELECT * FROM "Ticket_Type"`);
       tickets = rows;
     } catch (err) {
-      console.error('Error fetching ticket types:', err);
-      return res.status(500).json({ error: "Error occurred while fetching ticket types from the database." });
+      console.error("Error fetching ticket types:", err);
+      return res
+        .status(500)
+        .json({
+          error:
+            "Error occurred while fetching ticket types from the database.",
+        });
     }
-    console.log('4. tickets:', tickets);
+    console.log("4. tickets:", tickets);
 
-    const lineItems = ticketArray.tickets.flatMap((ticket) => {
+    const lineItems = ticketArray.flatMap((ticket) => {
       const ticketId = parseInt(ticket.id);
       const quantity = parseInt(ticket.quantity);
-      console.log('5. ticketId:', ticketId, 'quantity:', quantity);
+      console.log("5. ticketId:", ticketId, "quantity:", quantity);
 
       if (isNaN(quantity) || isNaN(ticketId) || quantity <= 0) {
         return [];
       }
 
-      const filteredTickets = tickets.filter((item) => item.id_ticket_type === ticketId);
-      console.log('6. filteredTickets:', filteredTickets);
+      const filteredTickets = tickets.filter(
+        (item) => item.id_ticket_type === ticketId
+      );
+      console.log("6. filteredTickets:", filteredTickets);
 
       if (!filteredTickets.length) {
-        console.error('Error: No matching tickets found for ticketId:', ticketId);
+        console.error(
+          "Error: No matching tickets found for ticketId:",
+          ticketId
+        );
       }
 
       return filteredTickets.map((item) => {
@@ -69,7 +85,7 @@ const processCheckout = async (req, res) => {
         };
       });
     });
-    console.log('7. lineItems:', lineItems);
+    console.log("7. lineItems:", lineItems);
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -78,35 +94,43 @@ const processCheckout = async (req, res) => {
         success_url: `https://fanflix.fantasticstudio.online/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `https://fanflix.fantasticstudio.online/`,
         metadata: {
-          ticketData: JSON.stringify(ticketArray.tickets),
+          ticketData: JSON.stringify(ticketArray),
           seats: JSON.stringify(req.query.seats),
           screeningID: req.query.screeningID,
         },
       });
-      console.log('8. session created:', session);
+      console.log("8. session created:", session);
       return res.send({ url: session.url });
     } catch (err) {
-      console.error('Error creating checkout session:', err);
-      return res.status(501).json({ error: "Error occurred while creating the checkout session." });
+      console.error("Error creating checkout session:", err);
+      return res
+        .status(501)
+        .json({ error: "Error occurred while creating the checkout session." });
     }
   } catch (error) {
-    console.error('Error in processCheckout:', error);
-    res.status(502).json({ error: 'Internal server error' });
+    console.error("Error in processCheckout:", error);
+    res.status(502).json({ error: "Internal server error" });
   }
 };
 
 const handleStripeWebhook = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
-  
+
     console.log("Stripe-signature:", sig);
-  
+
     let event;
-  
+
     try {
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
     } catch (err) {
-      console.error(`Error constructing event from Stripe webhook: ${err.message}`);
+      console.error(
+        `Error constructing event from Stripe webhook: ${err.message}`
+      );
       return res.status(402).send(`Webhook Error: ${err.message}`);
     }
 
@@ -116,13 +140,19 @@ const handleStripeWebhook = async (req, res) => {
       const seats = JSON.parse(session.metadata.seats);
       const screeningID = session.metadata.screeningID;
 
-      const stripeTransactionId = session.payment_intent; 
+      const stripeTransactionId = session.payment_intent;
       console.log(stripeTransactionId);
       const stripeSessionId = session.id;
-      console.log(stripeSessionId); 
+      console.log(stripeSessionId);
 
       try {
-        await insertTickets(ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId);
+        await insertTickets(
+          ticketArray,
+          seats,
+          screeningID,
+          stripeTransactionId,
+          stripeSessionId
+        );
       } catch (err) {
         console.error(err);
         return res.status(503).json({ error: "Internal server error" });
@@ -131,8 +161,8 @@ const handleStripeWebhook = async (req, res) => {
 
     res.status(200).send("Webhook received");
   } catch (error) {
-    console.error('Error in handleStripeWebhook:', error);
-    res.status(504).json({ error: 'Internal server error' });
+    console.error("Error in handleStripeWebhook:", error);
+    res.status(504).json({ error: "Internal server error" });
   }
 };
 
@@ -142,17 +172,27 @@ const decodeSeatToId = async (row, seat_number) => {
     const { rows } = await poolDB.query(seatQuery, [row, seat_number]);
 
     if (rows.length === 0) {
-      throw new Error(`No available seat found for row ${row} and seat number ${seat_number}`);
+      throw new Error(
+        `No available seat found for row ${row} and seat number ${seat_number}`
+      );
     }
 
     return rows[0].id_seat;
   } catch (err) {
-    console.error('Error in decodeSeatToId:', err);
-    throw new Error(`Failed to decode seat row ${row} and number ${seat_number} to id.`);
+    console.error("Error in decodeSeatToId:", err);
+    throw new Error(
+      `Failed to decode seat row ${row} and number ${seat_number} to id.`
+    );
   }
 };
 
-const insertTickets = async (ticketArray, seats, screeningID, stripeTransactionId, stripeSessionId) => {
+const insertTickets = async (
+  ticketArray,
+  seats,
+  screeningID,
+  stripeTransactionId,
+  stripeSessionId
+) => {
   try {
     for (let i = 0; i < ticketArray.length; i++) {
       const ticket = ticketArray[i];
@@ -160,7 +200,9 @@ const insertTickets = async (ticketArray, seats, screeningID, stripeTransactionI
       const quantity = parseInt(ticket.quantity);
 
       if (isNaN(quantity) || isNaN(ticketId)) {
-        console.log(`Skipping ticket due to invalid ID (${ticket.id}) or quantity (${ticket.quantity})`);
+        console.log(
+          `Skipping ticket due to invalid ID (${ticket.id}) or quantity (${ticket.quantity})`
+        );
         continue;
       }
 
@@ -173,22 +215,37 @@ const insertTickets = async (ticketArray, seats, screeningID, stripeTransactionI
         try {
           id_seat = await decodeSeatToId(row, seat_number);
         } catch (error) {
-          console.error(`Failed to decode seat ID for row ${row} and seat number ${seat_number}:`, error);
+          console.error(
+            `Failed to decode seat ID for row ${row} and seat number ${seat_number}:`,
+            error
+          );
           continue;
         }
 
         const insertQuery = `INSERT INTO "Ticket" (id_screening, id_seat, id_ticket_type, quantity, stripe_transaction_id, stripe_checkout_session_id) VALUES ($1, $2, $3, $4, $5, $6)`;
         try {
-          await poolDB.query(insertQuery, [screeningID, id_seat, ticketId, 1, stripeTransactionId, stripeSessionId]);
+          await poolDB.query(insertQuery, [
+            screeningID,
+            id_seat,
+            ticketId,
+            1,
+            stripeTransactionId,
+            stripeSessionId,
+          ]);
         } catch (err) {
-          console.error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}:`, err);
-          throw new Error(`Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}.`);
+          console.error(
+            `Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}:`,
+            err
+          );
+          throw new Error(
+            `Failed to insert ticket for screening ID ${screeningID}, seat ID ${id_seat}, and ticket type ${ticketId}.`
+          );
         }
       }
     }
   } catch (error) {
-    console.error('Error in insertTickets:', error);
-    throw new Error('Failed to insert tickets.');
+    console.error("Error in insertTickets:", error);
+    throw new Error("Failed to insert tickets.");
   }
 };
 
@@ -196,5 +253,5 @@ module.exports = {
   processCheckout,
   handleStripeWebhook,
   decodeSeatToId,
-  insertTickets
+  insertTickets,
 };
