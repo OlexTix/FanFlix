@@ -38,17 +38,17 @@ const getScreenings = async (req, res) => {
   
     let query = `
       SELECT 
-        s.id_screening, 
-        s.id_movie, 
-        ch.id_cinema_hall, 
-        ch.hall_number, 
-        st.id_screening_type, 
-        st.language, 
-        st.subtitle,
-        c.name,
-        a.city,
-        s.date,
-        s.time
+      s.id_screening, 
+      s.id_movie, 
+      ch.id_cinema_hall, 
+      ch.hall_number, 
+      st.id_screening_type, 
+      st.language, 
+      st.subtitle,
+      c.name,
+      a.city,
+      TO_CHAR(s.date, 'YYYY-MM-DD') as date,
+      TO_CHAR(s.time, 'HH24:MI') as time
       FROM "Screening" AS s
       INNER JOIN "Cinema_Hall" AS ch ON s.id_cinema_hall = ch.id_cinema_hall
       INNER JOIN "Screening_Type" AS st ON s.id_screening_type = st.id_screening_type
