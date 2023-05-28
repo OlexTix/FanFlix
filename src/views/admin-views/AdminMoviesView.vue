@@ -40,12 +40,12 @@
           </template>
         </Column>
         <Column>
-          <!--   <template #header="slotProps">
+          <template #header="slotProps">
                      
                         <div class="header-content">
               <Button class="add-button" @click="addMovie">DODAJ FILM</Button>
             </div>
-                    </template>-->
+                    </template>
           <template #body="slotProps">
             <!--<Button icon="pi pi-pencil" class="p-button-rounded p-button-success"
                             @click="editMovie(slotProps.data.id_movie)" /> -->
@@ -263,6 +263,10 @@ async fetchMovies() {
         });
       }
     },
+    addMovie()
+    {
+      this.$router.push('/admin-panel/movies/add-movie');
+    }
   },
 };
 </script>
