@@ -4,9 +4,13 @@
     <div class="users-table">
       <div class="table-tab">
         <h1 class="table-title">UŻYTKOWNICY</h1>
+        
       </div>
+      <div class="search-input">
+      <InputText v-model="searchTerm" placeholder="Wyszukaj..." @input="searchUsers" />
+    </div>
       <DataTable
-        :value="fetchedUsers"
+        :value="filteredUsers"
         paginator
         :rows="5"
         :rowsPerPageOptions="[5, 10, 20, 50]"
@@ -80,7 +84,11 @@ export default {
   data() {
     return {
       users: [],
+      filteredUsers: [],
       errorMessage: "",
+      sortField: "id_user",
+      sortOrder: 1,
+      searchTerm: "",
       columns: [
         { field: "id_user", header: "ID", editable: false, sortable: true },
         { field: "first_name", header: "Imię", editable: true, sortable: true },
@@ -183,6 +191,7 @@ export default {
       };
     });
     this.users = users;
+    this.filteredUsers=users;
   } catch (error) {
     console.error(error);
   }
@@ -216,7 +225,22 @@ export default {
           life: 3000,
         });
       }
+    }, searchUsers() {
+      if (this.searchTerm) {
+        const regex = new RegExp(this.searchTerm, "i");
+        this.filteredUsers = this.users.filter((user) => {
+          for (const field in user) {
+            if (regex.test(String(user[field]))) {
+              return true;
+            }
+          }
+          return false;
+        });
+      } else {
+        this.filteredUsers = this.users;
+      }
     },
+    
 
     async onSortChange(event) {
       const { sortField, sortOrder } = event;
@@ -320,6 +344,10 @@ td {
   text-align: center;
   vertical-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.search-input {
+  margin: 1vh;
 }
 
 @media screen and (max-width: 768px) {
