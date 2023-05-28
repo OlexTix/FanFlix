@@ -39,7 +39,7 @@
 			</ul>
 			<div class="info-admin-account">
 				<a href="#">
-					<span>Witaj, 'admin-user'</span>
+					<span>Admin</span>
 					<img src="../../assets/admin-assets/user_account.svg" alt="User" class="logo">
 				</a>
 				<a href="#" @click="logout">
@@ -69,10 +69,16 @@
 							<span>Panel Główny</span>
 						</RouterLink>
 					</li>
-					  <li>
+					<li>
 						<RouterLink to="/admin-panel/cinemas">
 							<img src="../../assets/admin-assets/cinemas.svg" alt="Cinemas" class="logo">
 							<span>Kina</span>
+						</RouterLink>
+					</li>
+					<li>
+						<RouterLink to="/admin-panel/screenings">
+							<img src="../../assets/admin-assets/cinemas.svg" alt="Screenings" class="logo">
+							<span>Repertuar</span>
 						</RouterLink>
 					</li>
 					<li>

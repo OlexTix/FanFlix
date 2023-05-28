@@ -3,7 +3,7 @@
       <p v-if="errorMessage">{{ errorMessage }}</p>
       <div class="cinemas-table">
         <div class="table-tab">
-          <h1 class="table-title">CINEMAS</h1>
+          <h1 class="table-title">KINA</h1>
         </div>
         <DataTable
           :value="fetchedCinemas"
@@ -229,7 +229,8 @@
   }
   
   .table-title {
-      font-weight: 400;
+      font-weight: 600;
+      color: white;
       text-align: center;
       vertical-align: center;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
