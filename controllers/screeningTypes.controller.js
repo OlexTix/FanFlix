@@ -17,7 +17,7 @@ const poolDB = new Pool({
   connectionString,
 });
 
-const getGenres = async (req, res) => {
+const getScreeningTypes = async (req, res) => {
   try {
     const { rows } = await poolDB.query(`SELECT id_screening_type AS id, language FROM "Screening_Type""`);
     res.json(rows);
@@ -28,5 +28,5 @@ const getGenres = async (req, res) => {
 };
 
 module.exports = {
-  getGenres
+  getScreeningTypes
 };
