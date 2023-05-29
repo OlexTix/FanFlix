@@ -25,7 +25,8 @@
             </template>
           </template>
           <template #editor="{ data, field }">
-            <InputText v-model="data[field]" autofocus />
+            <InputText v-model="data[field]" v-if="col.field !== 'id_movie'" autofocus />
+            <span v-else>{{ data[field] }}</span>
           </template>
         </Column>
         <Column>
