@@ -146,6 +146,7 @@ export default {
           detail: '',
           life: 3000
         });
+        this.errorMessage='';
       } catch (error) {
         console.error(error);
         this.errorMessage = error;

@@ -9,9 +9,9 @@
             <span class="center-text-footer">
                 <h3>Informacje</h3>
                 <ul>
-                    <li><a href="#">Regulamin</a></li>
-                    <li><a href="#">Polityka prywatności</a></li>
-                    <li><a href="#">Pytania i Kontakt</a></li>
+                    <li><a href="/regulations">Regulamin</a></li>
+                    <li><a href="/privacy-policy">Polityka prywatności</a></li>
+                    <li><a href="/questions">Pytania FAQ</a></li>
                 </ul>
             </span>
         </div>
@@ -22,7 +22,7 @@
       <div class="footer-bottom">
         <div class="icons-footer">
             <a href="#"><fa-icon icon="fa-solid fa-film" /></a>  
-            <a href="#"><fa-icon icon="fa-solid fa-comments" /></a>
+            <a href="/questions"><fa-icon icon="fa-solid fa-comments" /></a>
             <a href="#"><fa-icon icon="fa-solid fa-hand-holding-heart" /></a>  
         </div>
         <span class="copyright-footer">&copy; {{currentYear}} Fanflix. Wszelkie prawa zastrzeżone.</span>

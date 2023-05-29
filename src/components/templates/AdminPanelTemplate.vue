@@ -39,7 +39,7 @@
 			</ul>
 			<div class="info-admin-account">
 				<a href="#">
-					<span>Witaj, 'admin-user'</span>
+					<span>Admin</span>
 					<img src="../../assets/admin-assets/user_account.svg" alt="User" class="logo">
 				</a>
 				<a href="#" @click="logout">
@@ -69,10 +69,16 @@
 							<span>Panel Główny</span>
 						</RouterLink>
 					</li>
-          			<li>
+					<li>
 						<RouterLink to="/admin-panel/cinemas">
 							<img src="../../assets/admin-assets/cinemas.svg" alt="Cinemas" class="logo">
 							<span>Kina</span>
+						</RouterLink>
+					</li>
+					<li>
+						<RouterLink to="/admin-panel/screenings">
+							<img src="../../assets/admin-assets/cinemas.svg" alt="Screenings" class="logo">
+							<span>Repertuar</span>
 						</RouterLink>
 					</li>
 					<li>
@@ -81,13 +87,7 @@
 							<span>Filmy</span>
 						</RouterLink>
 					</li>
-          			<li>
-						<RouterLink to="/admin-panel/employees">
-							<img src="../../assets/admin-assets/employees.svg" alt="Employees" class="logo">
-							<span>Pracownicy</span>
-						</RouterLink>
-					</li>
-          			<li>
+					  <li>
 						<RouterLink to="/admin-panel/users">
 							<img src="../../assets/admin-assets/users.svg" alt="Userss" class="logo">
 							<span>Użytkownicy</span>
@@ -99,51 +99,81 @@
 							<span>Ustawienia</span>
 						</RouterLink>
 					</li>
-					<li class="menu-heading"><span>Inne</span></li>
+					<li class="menu-heading"><span>Motywy</span></li>
 					<li>
-						<RouterLink to="/admin-panel/posts">
-							<img src="../../assets/admin-assets/posts.svg" alt="Posts" class="logo">
-							<span>Posty</span>
-						</RouterLink>
-					</li>
-					<li>
-						<RouterLink to="/admin-panel/logs">
-							<img src="../../assets/admin-assets/logs.svg" alt="Logs" class="logo">
-							<span>Logi</span>
-						</RouterLink>
+						<div class="sidebar-theme-switcher">
+							<div id="sidebar__theme-switcher__sun">
+								<img src="../../assets/admin-assets/sun.svg" alt="Sun" class="logo">
+							</div>
+			
+							<div id="sidebar__theme-switcher__moon">
+								<img src="../../assets/admin-assets/moon.svg" alt="Moon" class="logo">
+							</div>
+						</div>
 					</li>
 				</ul>
 			</nav>
-
-			<div class="sidebar-theme-switcher">
-				<div id="sidebar__theme-switcher__sun">
-					<img src="../../assets/admin-assets/sun.svg" alt="Sun" class="logo">
-				</div>
-
-				<div id="sidebar__theme-switcher__moon">
-					<img src="../../assets/admin-assets/moon.svg" alt="Moon" class="logo">
-				</div>
-			</div> 
-		</div> 
-
+		</div>
+			
 		<div class="main-content">
+			<Breadcrumb class="main-breadcrumb" :home="home" :model="breadcrumbs" />
 			<slot class="main-content-container"></slot>
 		</div> 
 	</section> 
 </template>
 
 <script>
+import Breadcrumb from 'primevue/breadcrumb';
+import { computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'AdminPanelTemplate',
+  components: {
+		Breadcrumb
+	},
   data() {
     return {
-      userCount: 0,
-      totalVisits: 0,
-      employeeCount: 0,
-	  loggedIn: localStorage.getItem('accessToken'),
-      isAdmin: true
+      	userCount: 0,
+      	totalVisits: 0,
+      	employeeCount: 0,
+	  	loggedIn: localStorage.getItem('accessToken'),
+      	isAdmin: true,
+	  	home: {
+			icon: 'pi pi-home',
+			to: '/',
+		},
+        breadcrumbs: [],
     };
+  },
+  setup() {
+    const route = useRoute();
+
+	// Mapowanie ścieżek na odpowiednie nazwy
+    const pathNames = {
+      "admin-panel": "Panel Admina",
+      "screenings": "Repertuar",
+	  "cinemas": "Kina",
+    };
+
+    // Oblicza breadcrumbs na podstawie ścieżki
+    const breadcrumbs = computed(() => {
+      const pathArray = route.path.split("/");
+      pathArray.shift();
+
+      let breadcrumbs = pathArray.map((path, i) => {
+        return { label: pathNames[path] || path, to: '/' + pathArray.slice(0, i + 1).join('/') };
+      });
+
+      return breadcrumbs;
+    });
+
+    // Obserwuje zmiany w ścieżce i aktualizuje breadcrumbs
+    watch(() => route.path, () => {
+      this.breadcrumbs = breadcrumbs.value;
+    });
+
+    return { breadcrumbs };
   },
   methods: {
     logout() {
@@ -154,27 +184,11 @@ export default {
       this.loggedIn = null;
       this.isAdmin = null;
     },
-	// sidebarToggle() {
-    //   document.body.classList.toggle('sidebar-open')
-    // },
-    // sidebarCollapse() {
-    //   document.body.classList.toggle('sidebar-collapsed')
-    // },
-  },
-  mounted() {
-    // const sidebarTrigger = document.getElementsByClassName('main-header-sidebar-toggle')
-    // const sidebarCollapseTrigger = document.getElementsByClassName('sidebar-collapse')
-
-    // sidebarTrigger.addEventListener('click', this.sidebarToggle)
-    // sidebarCollapseTrigger.addEventListener('click', this.sidebarCollapse)
-  },
-  components: {
-    
   },
 };
 </script>
 
-<style>
+<style scoped>
 .main-header {
 	background-color: var(--main-header-bg);
 	padding: 1rem 1.5rem;
@@ -227,6 +241,9 @@ body.sidebar-open #toggle-icon-close {
 
 .main {
 	position: relative;
+	min-height: calc(100vh - 64px);
+	display: flex;
+	flex-direction: column;
 }
 
 .info-admin-account {
@@ -359,11 +376,16 @@ body.sidebar-open #sidebar {
 .main-content {
   background-color: var(--color-background-pres);
 	padding: 1.5rem;
+	flex-grow: 1;
 }
 
 .main-content-container {
 	border: var(--gray-tint-50) 1px dashed;
 	border-radius: 8px;
+}
+
+.main-breadcrumb {
+	margin-bottom: 1.5rem;
 }
 
 @media screen and (min-width: 768px) {

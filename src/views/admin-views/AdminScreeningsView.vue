@@ -3,7 +3,7 @@
         <p v-if="errorMessage">{{ errorMessage }}</p>
         <div class="screenings-table">
             <div class="table-tab">
-                <h1 class="table-title">SCREENINGS</h1>
+                <h1 class="table-title">REPERTUAR</h1>
             </div>
             <DataTable :value="screenings" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" sortMode="multiple"
                 removableSort class="custom-datatable">
@@ -111,7 +111,8 @@ export default {
 }
 
 .table-title {
-    font-weight: 700;
+    font-weight: 600;
+    color: white;
     text-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);

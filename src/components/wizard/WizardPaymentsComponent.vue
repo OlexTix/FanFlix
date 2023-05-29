@@ -73,7 +73,7 @@
       async redirectToStripe(ticketArray) {
         var ticketData = ticketArray.map(ticket => {
           return {
-            id_ticket: ticket.id_ticket_type,
+            id: ticket.id,
             quantity: ticket.quantity
           };
         });
@@ -90,6 +90,7 @@
             life: 3000,
             });
         } else {
+          console.log('kutateladze',this.selectedScreeningData.tickets.filter(ticket => ticket.quantity > 0));
           await this.redirectToStripe(this.selectedScreeningData.tickets.filter(ticket => ticket.quantity > 0));
           console.log('Wybrane miejsca:', this.selectedSeats);
         }
