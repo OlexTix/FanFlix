@@ -32,6 +32,7 @@ require("./routes/ticketTypes.routes")(app);
 require("./routes/checkout.routes")(app);
 require("./routes/hallLayout.routes")(app);
 require("./routes/genre.routes")(app);
+require("./routes/panel/panel.genre.routes")(app);
 require("./routes/screeningTypes.routes")(app);
 require("./routes/panel/panel.tickets.routes")(app);
 require("./routes/panel/panel.cinema.routes")(app);
