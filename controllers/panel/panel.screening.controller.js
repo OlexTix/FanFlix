@@ -101,6 +101,9 @@ const getScreenings = async (req, res) => {
 const addScreening = async (req, res) => {
   const { movieTitle, hallNumber, language, date, time } = req.body;
 
+  // Set archived to false if not specified
+  const archived = req.body.archived !== undefined ? req.body.archived : false;
+
   const client = await poolDB.connect();
 
   try {
@@ -139,8 +142,8 @@ const addScreening = async (req, res) => {
     const { id_movie, id_screening_type } = idRows[0];
 
     const query = `
-          INSERT INTO "Screening" (id_movie, id_cinema_hall, id_screening_type, date, time)
-          VALUES ($1, $2, $3, $4, $5)
+          INSERT INTO "Screening" (id_movie, id_cinema_hall, id_screening_type, date, time, archived)
+          VALUES ($1, $2, $3, $4, $5, $6)
         `;
     const queryParams = [
       id_movie,
@@ -148,6 +151,7 @@ const addScreening = async (req, res) => {
       id_screening_type,
       date,
       time,
+      archived,
     ];
 
     await client.query(query, queryParams);
@@ -163,6 +167,9 @@ const addScreening = async (req, res) => {
 const updateScreeningsData = async (req, res) => {
   const { screeningId } = req.params;
   const { movieTitle, hallNumber, language, date, time, archived } = req.body;
+
+  // Set archived to false if not specified
+  const updatedArchived = archived !== undefined ? archived : false;
 
   const client = await poolDB.connect();
 
@@ -212,7 +219,7 @@ const updateScreeningsData = async (req, res) => {
       id_screening_type,
       date,
       time,
-      archived,
+      updatedArchived, // Use the updatedArchived variable here
       screeningId,
     ];
 

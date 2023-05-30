@@ -21,84 +21,83 @@ const poolDB = new Pool({
 const getMovies = async (req, res) => {
   const client = await poolDB.connect();
 
-  let query = `
+  try {
+    const { rows: genres } = await client.query('SELECT id_movie, array_agg(name) as genres FROM "Movie_Genre" JOIN "Genre" ON "Movie_Genre".id_genre = "Genre".id_genre GROUP BY id_movie');
+
+    let queryParams = [];
+    let query = `
       SELECT 
-        m.id_movie, 
-        m.title, 
-        array_agg(g.name) AS genres, 
-        d.first_name, 
-        d.last_name, 
-        d.nationality, 
-        m.duration, 
-        m.description, 
-        m.poster_url, 
-        m.youtube_link, 
-        m.release_date
-      FROM "Movie" AS m
-      INNER JOIN "Director" AS d ON m.id_director = d.id_director
-      LEFT JOIN "Movie_Genre" AS mg ON m.id_movie = mg.id_movie
-      LEFT JOIN "Genre" AS g ON mg.id_genre = g.id_genre
+        "Movie".id_movie, 
+        title, 
+        "Director".first_name as director_first_name, 
+        "Director".last_name as director_last_name, 
+        duration,
+        description,
+        poster_url,
+        youtube_link,
+        release_date
+      FROM "Movie" 
+      JOIN "Director" ON "Movie".id_director = "Director".id_director
     `;
 
-  const queryParams = [];
-  const conditions = [];
-  for (const key in req.query) {
-    if (
-      req.query.hasOwnProperty(key) &&
-      key !== "sortBy" &&
-      key !== "order" &&
-      key !== "limit" &&
-      key !== "offset"
-    ) {
-      if (typeof req.query[key] !== "string" || req.query[key].length > 255) {
-        return res.status(400).send({ message: "Invalid query parameters" });
+    const conditions = [];
+    for (const key in req.query) {
+      if (req.query.hasOwnProperty(key) && key !== "sortBy" && key !== "order" && key !== "limit" && key !== "offset") {
+        const conditionKey = `"Movie"."${key}"`;
+        if (typeof req.query[key] === 'string') {
+          conditions.push(`${conditionKey} ILIKE $${queryParams.length + 1}`);
+          queryParams.push('%' + req.query[key] + '%');
+        } else if (!isNaN(req.query[key])) {
+          conditions.push(`${conditionKey} = $${queryParams.length + 1}`);
+          queryParams.push(parseInt(req.query[key]));
+        } else {
+          return res.status(400).send({ message: "Invalid query parameters" });
+        }
       }
-      conditions.push(`"${key}" = $${queryParams.length + 1}`);
-      queryParams.push(req.query[key].replace(/[^a-zA-Z0-9_ -]/g, ""));
     }
-  }
 
-  if (conditions.length > 0) {
-    query += " WHERE " + conditions.join(" AND ");
-  }
-
-  if (req.query.sortBy && req.query.order) {
-    if (["asc", "desc"].includes(req.query.order.toLowerCase())) {
-      query += ` ORDER BY "${req.query.sortBy}" ${req.query.order}`;
-    } else {
-      return res.status(400).send({ message: "Invalid sort order" });
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
     }
-  }
 
-  if (req.query.limit) {
-    if (!Number.isInteger(parseInt(req.query.limit))) {
-      return res.status(400).send({ message: "Limit must be an integer" });
+    if (req.query.sortBy && req.query.order) {
+      if (["asc", "desc"].includes(req.query.order.toLowerCase())) {
+        query += ` ORDER BY "Movie"."${req.query.sortBy}" ${req.query.order}`;
+      } else {
+        return res.status(400).send({ message: "Invalid sort order" });
+      }
     }
-    query += ` LIMIT $${queryParams.length + 1}`;
-    queryParams.push(parseInt(req.query.limit));
-  }
 
-  if (req.query.offset) {
-    if (!Number.isInteger(parseInt(req.query.offset))) {
-      return res.status(400).send({ message: "Offset must be an integer" });
+    if (req.query.limit) {
+      if (!Number.isInteger(parseInt(req.query.limit))) {
+        return res.status(400).send({ message: "Limit must be an integer" });
+      }
+      query += ` LIMIT $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.limit));
     }
-    query += ` OFFSET $${queryParams.length + 1}`;
-    queryParams.push(parseInt(req.query.offset));
-  }
 
-  query += ` GROUP BY m.id_movie, d.id_director`;
-
-  try {
-    const { rows: movieRows } = await client.query(query, queryParams);
-
-    if (movieRows.length === 0) {
-      res.status(404).send({ message: "Movies not found" });
-    } else {
-      res.status(200).json(movieRows);
+    if (req.query.offset) {
+      if (!Number.isInteger(parseInt(req.query.offset))) {
+        return res.status(400).send({ message: "Offset must be an integer" });
+      }
+      query += ` OFFSET $${queryParams.length + 1}`;
+      queryParams.push(parseInt(req.query.offset));
     }
+
+    let { rows } = await client.query(query, queryParams);
+
+    rows = rows.map(row => {
+      const genreRow = genres.find(genre => genre.id_movie === row.id_movie);
+      if (genreRow) {
+        row.genres = genreRow.genres;
+      }
+      return row;
+    });
+
+    res.status(200).json(rows);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to get movies list" });
+    console.error(err);
+    res.status(500).json({ message: err.message });
   } finally {
     client.release();
   }
