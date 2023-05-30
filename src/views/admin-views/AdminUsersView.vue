@@ -18,7 +18,8 @@
             {{ data[field] }}
           </template>
           <template #editor="{ data, field }">
-            <InputText v-model="data[field]" autofocus />
+            <InputText v-model="data[field]" v-if="col.field !== 'id_user'" autofocus />
+            <span v-else>{{ data[field] }}</span>
           </template>
         </Column>
         <Column>
@@ -268,7 +269,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .custom-datatable {
   background-color: #2c2b2b;
   border: 3px solid #007d59;

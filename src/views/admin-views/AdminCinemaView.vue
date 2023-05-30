@@ -31,8 +31,9 @@
                 {{ data[field] }}
               </template>
               <template #editor="{ data, field }">
-                <InputText v-model="data[field]" autofocus />
-              </template>
+            <InputText v-model="data[field]" v-if="col.field !== 'id_cinema'" autofocus />
+            <span v-else>{{ data[field] }}</span>
+          </template>
             </Column>
             <Column>
               <template #header="slotProps">
@@ -175,7 +176,7 @@
     };
     </script>
     
-  <style>
+  <style scoped>
   .custom-datatable {
       background-color: #2C2B2B;
       border: 3px solid #007d59;

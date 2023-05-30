@@ -5,17 +5,17 @@
       <div class="bar-status">
         <span class="tile-text-top">Sprzedane bilety</span><br>
         <img src="../../assets/ticket.svg" alt="Ikona 1" class="tile-icon">
-        <span class="tile-number">{{ soldTickets }}</span>
+        <span class="tile-number" ref="soldTickets">{{ soldTickets }}</span>
       </div>
       <div class="bar-status">
         <span class="tile-text-top">Liczba seansów</span>
         <img src="../../assets/screening.svg" alt="Ikona 2" class="tile-icon">
-        <span class="tile-number">{{ numberOfScreenings }}</span>
+        <span class="tile-number" ref="numberOfScreenings">{{ numberOfScreenings }}</span>
       </div>
       <div class="bar-status">
-        <span class="tile-text-top">Liczba filmow</span>
+        <span class="tile-text-top">Liczba filmów</span>
         <img src="../../assets/admin-assets/movies.svg" alt="Ikona 3" class="tile-icon">
-        <span class="tile-number">{{ numberOfMovies }}</span>
+        <span class="tile-number" ref="numberOfMovies">{{ numberOfMovies }}</span>
       </div>
     </div>
   </AdminPanelTemplate>
@@ -24,6 +24,7 @@
 <script>
 import AdminPanelTemplate from '../../components/templates/AdminPanelTemplate.vue';
 import axiosInstance from '../../service/apiService';
+
 export default {
   components: {
     AdminPanelTemplate
@@ -44,14 +45,41 @@ export default {
       const moviesResponse = await axiosInstance.get('/api/panel/movies');
       this.movies = moviesResponse.data;
       this.numberOfMovies = this.movies.length;
+
+      this.animateNumber('soldTickets', this.soldTickets);
+      this.animateNumber('numberOfScreenings', this.numberOfScreenings);
+      this.animateNumber('numberOfMovies', this.numberOfMovies);
     } catch (error) {
       console.error(error);
     }
   },
+  methods: {
+    animateNumber(refName, value) {
+      const el = this.$refs[refName];
+      const startValue = 0;
+      const endValue = value;
+      const duration = 1000; // Adjust the duration as needed
+      const range = endValue - startValue;
+      const increment = range / (duration / 16); // Update the number every 16ms (similar to 60fps)
 
+      let current = startValue;
 
+      const updateNumber = () => {
+        if (current < endValue) {
+          current += increment;
+          el.textContent = Math.round(current);
+          requestAnimationFrame(updateNumber);
+        } else {
+          el.textContent = endValue;
+        }
+      };
+
+      updateNumber();
+    }
+  }
 }
 </script>
+
 
 <style>
 .title-dashboard {
@@ -110,4 +138,10 @@ export default {
     border-radius: 10px;
   }
 }
+
+.tile-number {
+  /* ... */
+  transition: 0.5s; /* Add a smooth transition effect */
+}
+
 </style>

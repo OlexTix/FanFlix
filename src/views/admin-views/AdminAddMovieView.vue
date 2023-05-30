@@ -296,7 +296,7 @@ export default {
 };
 </script>
   
-<style>
+<style scoped>
 #add-movie {
   position: absolute;
   top: 50%;
