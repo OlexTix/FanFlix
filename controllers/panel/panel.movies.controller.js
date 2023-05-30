@@ -31,6 +31,7 @@ const getMovies = async (req, res) => {
         title, 
         "Director".first_name as director_first_name, 
         "Director".last_name as director_last_name, 
+        "Director".nationality as director_nationality, 
         duration,
         description,
         poster_url,
