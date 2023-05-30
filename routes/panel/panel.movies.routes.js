@@ -11,7 +11,6 @@ module.exports = function (app) {
     })
   );
   app.get("/api/panel/movies", movie.getMovies);
-  app.get("/api/panel/movies/genres", movie.getGenres);
   app.post("/api/panel/movies", oleCheckJWT.verifyToken, movie.addMovie);
   app.put(
     "/api/panel/movies/:id",

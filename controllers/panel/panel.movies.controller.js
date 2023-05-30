@@ -103,20 +103,7 @@ const getMovies = async (req, res) => {
     client.release();
   }
 };
-const getGenres = async (req, res) => {
-  const client = await poolDB.connect();
 
-  try {
-    const { rows: genreRows } = await client.query(`SELECT * FROM "Genre"`);
-
-    res.status(200).json({ genres: genreRows });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ message: "Failed to retrieve genres" });
-  } finally {
-    client.release();
-  }
-};
 const addMovie = async (req, res) => {
   const client = await poolDB.connect();
   const {
@@ -322,7 +309,6 @@ const deleteMovie = async (req, res) => {
 };
 module.exports = {
   getMovies,
-  getGenres,
   addMovie,
   updateMoviesData,
   deleteMovie,
