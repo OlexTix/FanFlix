@@ -31,12 +31,10 @@
         </Column>
         <Column>
           <template #header="slotProps">
-
-
           </template>
           <template #body="slotProps">
-            <!--<Button icon="pi pi-pencil" class="p-button-rounded p-button-success"
-                            @click="editMovie(slotProps.data.id_movie)" /> -->
+          <Button icon="pi pi-pencil" class="p-button-rounded p-button-success"
+                            @click="editMovie(slotProps.data.id_movie)" />
             <Button icon="pi pi-trash" class="p-button-rounded p-button-danger"
               @click="deleteMovie(slotProps.data.id_movie)" />
             <Button icon="pi pi-image" class="p-button-rounded" @click="openPoster(slotProps.data.title)" />
@@ -268,12 +266,15 @@ export default {
     },
     addMovie() {
       this.$router.push('/admin-panel/movies/add-movie');
-    }
+    },
+    editMovie(id_movie) {
+      this.$router.push({ name: "edit-movie", params: { id_movie: id_movie } });
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .custom-datatable {
   background-color: #2c2b2b;
   border: 3px solid #007d59;
