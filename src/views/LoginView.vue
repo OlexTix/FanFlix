@@ -29,9 +29,11 @@ export default defineComponent({
 <style scoped>
 .main-container {
   display: flex;
-  align-items: center;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .login-container {
