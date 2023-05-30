@@ -19,91 +19,71 @@ const poolDB = new Pool({
 });
 
 const getMovies = async (req, res) => {
-  const client = await poolDB.connect();
-
   try {
-    const { rows: genres } = await client.query('SELECT id_movie, array_agg(name) as genres FROM "Movie_Genre" JOIN "Genre" ON "Movie_Genre".id_genre = "Genre".id_genre GROUP BY id_movie');
+    // Extract query parameters from the request
+    const queryParams = req.query;
 
-    let queryParams = [];
+    // Check if 'titles' query parameter is used
+    if ('titles' in queryParams) {
+      return res.status(400).json({ error: "Invalid query parameter 'titles'" });
+    }
+
+    // Define an array to store the conditions
+    const conditions = [];
+
+    // Iterate over the query parameters
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value) {
+        // Add the condition to the array
+        conditions.push(`"Movie".${key} = '${value}'`);
+      }
+    }
+
+    // Build the SQL query using the conditions
     let query = `
       SELECT 
-        "Movie".id_movie, 
-        title, 
-        "Director".first_name as director_first_name, 
-        "Director".last_name as director_last_name, 
-        "Director".nationality as director_nationality, 
-        duration,
-        description,
-        poster_url,
-        youtube_link,
-        release_date
-      FROM "Movie" 
-      JOIN "Director" ON "Movie".id_director = "Director".id_director
-    `;
-
-    const conditions = [];
-    for (const key in req.query) {
-      if (req.query.hasOwnProperty(key) && key !== "sortBy" && key !== "order" && key !== "limit" && key !== "offset") {
-        const conditionKey = `"Movie"."${key}"`;
-        if (typeof req.query[key] === 'string') {
-          conditions.push(`${conditionKey} ILIKE $${queryParams.length + 1}`);
-          queryParams.push('%' + req.query[key] + '%');
-        } else if (!isNaN(req.query[key])) {
-          conditions.push(`${conditionKey} = $${queryParams.length + 1}`);
-          queryParams.push(parseInt(req.query[key]));
-        } else {
-          return res.status(400).send({ message: "Invalid query parameters" });
-        }
-      }
-    }
+        "Movie".id_movie,
+        "Movie".title,
+        "Director".id_director,
+        "Director".first_name AS director_first_name,
+        "Director".last_name AS director_last_name,
+        "Director".nationality AS director_nationality,
+        "Movie".duration,
+        "Movie".description,
+        "Movie".poster_url,
+        "Movie".youtube_link,
+        "Movie".release_date,
+        ARRAY_AGG("Genre".name) AS genres
+      FROM 
+        "Movie"
+        JOIN "Director" ON "Movie".id_director = "Director".id_director
+        LEFT JOIN "Movie_Genre" ON "Movie".id_movie = "Movie_Genre".id_movie
+        LEFT JOIN "Genre" ON "Movie_Genre".id_genre = "Genre".id_genre`;
 
     if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
+      query += ` WHERE ${conditions.join(' AND ')}`;
     }
 
-    if (req.query.sortBy && req.query.order) {
-      if (["asc", "desc"].includes(req.query.order.toLowerCase())) {
-        query += ` ORDER BY "Movie"."${req.query.sortBy}" ${req.query.order}`;
-      } else {
-        return res.status(400).send({ message: "Invalid sort order" });
-      }
+    query += `
+      GROUP BY 
+        "Movie".id_movie,
+        "Director".id_director,
+        "Director".first_name,
+        "Director".last_name`;
+
+    const { rows } = await poolDB.query(query);
+
+    if (rows.length === 0) {
+      // No movies found
+      return res.status(404).json({ error: "No movies found" });
     }
 
-    if (req.query.limit) {
-      if (!Number.isInteger(parseInt(req.query.limit))) {
-        return res.status(400).send({ message: "Limit must be an integer" });
-      }
-      query += ` LIMIT $${queryParams.length + 1}`;
-      queryParams.push(parseInt(req.query.limit));
-    }
-
-    if (req.query.offset) {
-      if (!Number.isInteger(parseInt(req.query.offset))) {
-        return res.status(400).send({ message: "Offset must be an integer" });
-      }
-      query += ` OFFSET $${queryParams.length + 1}`;
-      queryParams.push(parseInt(req.query.offset));
-    }
-
-    let { rows } = await client.query(query, queryParams);
-
-    rows = rows.map(row => {
-      const genreRow = genres.find(genre => genre.id_movie === row.id_movie);
-      if (genreRow) {
-        row.genres = genreRow.genres;
-      }
-      return row;
-    });
-
-    res.status(200).json(rows);
+    res.json(rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
-  } finally {
-    client.release();
+    res.status(500).json({ error: "Internal server error" });
   }
 };
-
 const addMovie = async (req, res) => {
   const client = await poolDB.connect();
   const {
