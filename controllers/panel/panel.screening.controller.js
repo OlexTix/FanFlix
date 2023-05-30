@@ -99,9 +99,7 @@ const getScreenings = async (req, res) => {
 };
 
 const addScreening = async (req, res) => {
-  const { title, language, subtitle, date, time } = req.body;
-
-  const { id, hallNumber } = req.params;
+  const { movieTitle, hallNumber, language, subtitle, date, time } = req.body;
 
   const client = await poolDB.connect();
 
@@ -109,17 +107,16 @@ const addScreening = async (req, res) => {
     const checkCinemaHallQuery = `
           SELECT ch.id_cinema_hall
           FROM "Cinema_Hall" ch
-          JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
-          WHERE c.id_cinema = $1 AND ch.hall_number = $2
+          WHERE ch.hall_number = $1
         `;
-    const checkCinemaHallParams = [id, hallNumber];
+    const checkCinemaHallParams = [hallNumber];
     const { rows: cinemaHallRows } = await client.query(
       checkCinemaHallQuery,
       checkCinemaHallParams
     );
 
     if (cinemaHallRows.length === 0) {
-      res.status(404).send({ message: "Cinema or Cinema Hall not found" });
+      res.status(404).send({ message: "Cinema Hall not found" });
       return;
     }
 
@@ -131,7 +128,7 @@ const addScreening = async (req, res) => {
           JOIN "Screening_Type" st ON st.language = $1 AND st.subtitle = $2
           WHERE m.title = $3
         `;
-    const getIdsQueryParams = [language, subtitle, title];
+    const getIdsQueryParams = [language, subtitle, movieTitle];
     const { rows: idRows } = await client.query(getIdsQuery, getIdsQueryParams);
 
     if (idRows.length === 0) {
@@ -164,8 +161,8 @@ const addScreening = async (req, res) => {
 };
 
 const updateScreeningsData = async (req, res) => {
-  const { id, hallNumber, screeningId } = req.params;
-  const { title, language, subtitle, date, time } = req.body;
+  const { screeningId } = req.params;
+  const { movieTitle, hallNumber, language, subtitle, date, time, archived } = req.body;
 
   const client = await poolDB.connect();
 
@@ -173,28 +170,28 @@ const updateScreeningsData = async (req, res) => {
     const checkCinemaHallQuery = `
           SELECT ch.id_cinema_hall
           FROM "Cinema_Hall" ch
-          JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
-          WHERE c.id_cinema = $1 AND ch.hall_number = $2
+          WHERE ch.hall_number = $1
         `;
-    const checkCinemaHallParams = [id, hallNumber];
+    const checkCinemaHallParams = [hallNumber];
     const { rows: cinemaHallRows } = await client.query(
       checkCinemaHallQuery,
       checkCinemaHallParams
     );
 
     if (cinemaHallRows.length === 0) {
-      res.status(404).send({ message: "Cinema or Cinema Hall not found" });
+      res.status(404).send({ message: "Cinema Hall not found" });
       return;
     }
+
     const id_cinema_hall = cinemaHallRows[0].id_cinema_hall;
 
     const getIdsQuery = `
-    SELECT m.id_movie, st.id_screening_type
-    FROM "Movie" m
-    JOIN "Screening_Type" st ON st.language = $1 AND st.subtitle = $2
-    WHERE m.title = $3
-  `;
-    const getIdsQueryParams = [language, subtitle, title];
+          SELECT m.id_movie, st.id_screening_type
+          FROM "Movie" m
+          JOIN "Screening_Type" st ON st.language = $1 AND st.subtitle = $2
+          WHERE m.title = $3
+        `;
+    const getIdsQueryParams = [language, subtitle, movieTitle];
     const { rows: idRows } = await client.query(getIdsQuery, getIdsQueryParams);
 
     if (idRows.length === 0) {
@@ -204,23 +201,24 @@ const updateScreeningsData = async (req, res) => {
 
     const { id_movie, id_screening_type } = idRows[0];
 
-    const updateQuery = `
-    UPDATE "Screening"
-    SET id_movie = $1, id_cinema_hall = $2, id_screening_type = $3, date = $4, time = $5
-    WHERE id_screening = $6
-  `;
-    const updateQueryParams = [
+    const query = `
+          UPDATE "Screening"
+          SET id_movie = $1, id_cinema_hall = $2, id_screening_type = $3, date = $4, time = $5, archived = $6
+          WHERE id_screening = $7
+        `;
+    const queryParams = [
       id_movie,
       id_cinema_hall,
       id_screening_type,
       date,
       time,
+      archived,
       screeningId,
     ];
 
-    const result = await client.query(updateQuery, updateQueryParams);
+    const { rowCount } = await client.query(query, queryParams);
 
-    if (result.rowCount === 0) {
+    if (rowCount === 0) {
       res.status(404).send({ message: "Screening not found" });
       return;
     }
@@ -235,39 +233,20 @@ const updateScreeningsData = async (req, res) => {
 };
 
 const deleteScreening = async (req, res) => {
-  const { id, hallNumber, screeningId } = req.params;
+  const { screeningId } = req.params;
 
   const client = await poolDB.connect();
 
   try {
-    const checkCinemaHallQuery = `
-          SELECT ch.id_cinema_hall
-          FROM "Cinema_Hall" ch
-          JOIN "Cinema" c ON c.id_cinema = ch.id_cinema
-          WHERE c.id_cinema = $1 AND ch.hall_number = $2
-        `;
-    const checkCinemaHallParams = [id, hallNumber];
-    const { rows: cinemaHallRows } = await client.query(
-      checkCinemaHallQuery,
-      checkCinemaHallParams
-    );
-
-    if (cinemaHallRows.length === 0) {
-      res.status(404).send({ message: "Cinema or Cinema Hall not found" });
-      return;
-    }
-
-    const id_cinema_hall = cinemaHallRows[0].id_cinema_hall;
-
-    const deleteQuery = `
+    const query = `
           DELETE FROM "Screening"
-          WHERE id_screening = $1 AND id_cinema_hall = $2
+          WHERE id_screening = $1
         `;
-    const deleteQueryParams = [screeningId, id_cinema_hall];
+    const queryParams = [screeningId];
 
-    const result = await client.query(deleteQuery, deleteQueryParams);
+    const { rowCount } = await client.query(query, queryParams);
 
-    if (result.rowCount === 0) {
+    if (rowCount === 0) {
       res.status(404).send({ message: "Screening not found" });
       return;
     }
