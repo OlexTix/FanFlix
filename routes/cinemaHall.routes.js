@@ -13,5 +13,6 @@ module.exports = function (app) {
 
   app.get("/api/cinemas/:name/halls", hall.getHalls);
   app.get("/api/cinemas/:name/halls/:hallNumber", hall.getHallByHallNumber);
+  app.get("/api/hallNumbers", hall.getHallNumbers);
 
 };

@@ -106,9 +106,28 @@ const getHallByHallNumber = async (req, res) => {
   }
 };
 
+const getHallNumbers = async (req, res) => {
+  try {
+    const cinemaName = req.query.cinemaName;
+    if (!cinemaName) {
+      return res.status(400).json({ error: "Parametr 'cinemaName' jest wymagany." });
+    }
+    const { rows } = await poolDB.query(`
+      SELECT "Cinema_Hall"."hall_number"
+      FROM "Cinema_Hall"
+      JOIN "Cinema" ON "Cinema_Hall"."id_cinema" = "Cinema"."id_cinema"
+      WHERE "Cinema"."name" = $1;
+    `, [cinemaName]);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 
 module.exports = {
   getHalls,
   getHallByHallNumber,
+  getHallNumbers
 };
