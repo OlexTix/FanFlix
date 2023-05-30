@@ -99,7 +99,7 @@ const getScreenings = async (req, res) => {
 };
 
 const addScreening = async (req, res) => {
-  const { movieTitle, hallNumber, language, subtitle, date, time } = req.body;
+  const { movieTitle, hallNumber, language, date, time } = req.body;
 
   const client = await poolDB.connect();
 
@@ -125,10 +125,10 @@ const addScreening = async (req, res) => {
     const getIdsQuery = `
           SELECT m.id_movie, st.id_screening_type
           FROM "Movie" m
-          JOIN "Screening_Type" st ON st.language = $1 AND st.subtitle = $2
-          WHERE m.title = $3
+          JOIN "Screening_Type" st ON st.language = $1
+          WHERE m.title = $2
         `;
-    const getIdsQueryParams = [language, subtitle, movieTitle];
+    const getIdsQueryParams = [language, movieTitle];
     const { rows: idRows } = await client.query(getIdsQuery, getIdsQueryParams);
 
     if (idRows.length === 0) {
@@ -162,7 +162,7 @@ const addScreening = async (req, res) => {
 
 const updateScreeningsData = async (req, res) => {
   const { screeningId } = req.params;
-  const { movieTitle, hallNumber, language, subtitle, date, time, archived } = req.body;
+  const { movieTitle, hallNumber, language, date, time, archived } = req.body;
 
   const client = await poolDB.connect();
 
@@ -188,10 +188,10 @@ const updateScreeningsData = async (req, res) => {
     const getIdsQuery = `
           SELECT m.id_movie, st.id_screening_type
           FROM "Movie" m
-          JOIN "Screening_Type" st ON st.language = $1 AND st.subtitle = $2
-          WHERE m.title = $3
+          JOIN "Screening_Type" st ON st.language = $1
+          WHERE m.title = $2
         `;
-    const getIdsQueryParams = [language, subtitle, movieTitle];
+    const getIdsQueryParams = [language, movieTitle];
     const { rows: idRows } = await client.query(getIdsQuery, getIdsQueryParams);
 
     if (idRows.length === 0) {
