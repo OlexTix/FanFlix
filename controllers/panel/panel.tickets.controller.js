@@ -1,22 +1,9 @@
 require("dotenv").config();
-const Pool = require("pg").Pool;
 const https = require('https');
 const querystring = require('querystring');
+const poolDB = require('../../db/db.js');
 
-const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
-const DATABASE_HOST_NAME = process.env.DATABASE_HOST_NAME;
-const DATABASE_NAME = process.env.DATABASE_NAME;
-const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
-const DATABASE_PORT = process.env.DATABASE_PORT;
 const STRIPE_API_KEY = process.env.STRIPE_SECRET_KEY;
-
-const DATABASE_LINK = `postgres://${DATABASE_USER_NAME}:${DATABASE_PASSWORD}@${DATABASE_HOST_NAME}:${DATABASE_PORT}/${DATABASE_NAME}?options=-c search_path=public`;
-
-const connectionString = DATABASE_LINK;
-
-const poolDB = new Pool({
-  connectionString,
-});
 
 const getAllProducts = async (req, res) => {
   const client = await poolDB.connect();

@@ -1,20 +1,7 @@
 require("dotenv").config();
-const Pool = require("pg").Pool;
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const DATABASE_USER_NAME = process.env.DATABASE_USER_NAME;
-const DATABASE_HOST_NAME = process.env.DATABASE_HOST_NAME;
-const DATABASE_NAME = process.env.DATABASE_NAME;
-const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
-const DATABASE_PORT = process.env.DATABASE_PORT;
-
-const DATABASE_LINK = `postgres://${DATABASE_USER_NAME}:${DATABASE_PASSWORD}@${DATABASE_HOST_NAME}:${DATABASE_PORT}/${DATABASE_NAME}?options=-c search_path=public`;
-
-const connectionString = DATABASE_LINK;
-
-const poolDB = new Pool({
-  connectionString,
-});
+const poolDB = require('../db/db.js');
 
 const processCheckout = async (req, res) => {
   try {
