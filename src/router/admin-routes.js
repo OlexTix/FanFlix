@@ -23,12 +23,12 @@ export default [
       {
         path: '/admin-panel/screenings',
         name: 'screenings-admin',
-        component: () => import('../views/admin-views/AdminScreeningsViewPro.vue')
+        component: () => import('../views/admin-views/ScreeningsViews/AdminScreeningsView.vue')
       },
       {
-        path: '/admin-panel/screenings/',
-        name: 'screenings-admin',
-        component: () => import('../views/admin-views/AdminScreeningsViewPro.vue')
+        path: '/admin-panel/screenings/add',
+        name: 'screenings-add',
+        component: () => import('../views/admin-views/ScreeningsViews/AddScreeningsView.vue')
       },
       // Users
       {

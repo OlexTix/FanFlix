@@ -154,6 +154,7 @@ export default {
       "admin-panel": "Panel Admina",
       "screenings": "Repertuar",
 	  "cinemas": "Kina",
+	  "add": "Dodaj nowy"
     };
 
     // Oblicza breadcrumbs na podstawie ścieżki
