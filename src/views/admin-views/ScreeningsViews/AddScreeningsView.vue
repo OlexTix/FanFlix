@@ -47,6 +47,7 @@
                             icon="pi pi-plus" 
                             v-tooltip.right="'Dodaj film'" 
                             placeholder="Right"
+                            @click="()=>redirectToAddMovie()"
                             outlined 
                             rounded 
                             class="dropdown-icon mr-2"/>
@@ -220,6 +221,9 @@ export default {
             }
             //this.$emit('screeningSaved', this.screening);
             
+        },
+        redirectToAddMovie(){
+            this.$router.push('/admin-panel/movies/add-movie');
         },
         closeDialog() {
             this.$emit('update:visible', false);

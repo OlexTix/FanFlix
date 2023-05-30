@@ -225,10 +225,10 @@
                     life: 2000,
                 });
             }
+            this.$emit('update:visible', false);
         },
         closeDialog() {
             this.$emit('update:visible', false);
-            this.submitted = false;
         },
         async fetchMovies(){
             const response = await this.$http.get(`/api/movies`);
