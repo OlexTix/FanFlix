@@ -75,6 +75,12 @@ export default {
         { field: "title", header: "Tytuł", editable: true, sortable: true },
         { field: "genres", header: "Gatunki", editable: true, sortable: true },
         {
+          field: "id_director",
+          header: "ID reżysera",
+          editable: true,
+          sortable: true,
+        },
+        {
           field: "director_first_name",
           header: "Reżyser - imię",
           editable: true,
