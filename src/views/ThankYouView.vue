@@ -22,6 +22,9 @@
         ticketNumber: this.generateTicketNumber(),
       };
     },
+    mounted() {
+      localStorage.removeItem('selectedScreeningData');
+    },
     methods: {
       generateTicketNumber() {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
