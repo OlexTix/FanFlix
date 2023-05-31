@@ -2,7 +2,22 @@
     <AdminPanelTemplate>
         <ScreeningsMenu class="screenings-menu"/>
         <div class="center">
-            <div class="flex-container-icon">
+            <div class="left-side">
+                <div class="field">
+                    <div class="date-container">
+                        <label>Data</label>
+                        <Calendar 
+                            id="datee"
+                            v-model="selected.date" 
+                            :minDate="minDate" 
+                            :maxDate="maxDate"
+                            inline 
+                            showTime 
+                            hourFormat="24"/>
+                    </div>
+                </div>
+            </div>
+            <div class="right-side">
                 <div class="field">
                     <label for="name" class="mb-3">Kino</label>
                     <div class="flex-container-icon">
@@ -16,7 +31,7 @@
                             placeholder="Wybierz kino"
                             :maxSelectedLabels="3" 
                             @change="fetchHallNumbers"
-                            style="width:410px"/>
+                            style="min-width:410px;"/>
                         <Button 
                             icon="pi pi-plus" 
                             v-tooltip.right="'Dodaj kino'" 
@@ -26,10 +41,7 @@
                             class="dropdown-icon mr-2"/>
                     </div>
                 </div>
-                
-            </div>
 
-            <div class="flex-container-icon">
                 <div class="field">
                     <label for="id_movie" class="mb-3">Film</label>
                     <div class="flex-container-icon">
@@ -53,73 +65,59 @@
                             class="dropdown-icon mr-2"/>
                     </div>
                 </div>
-            </div>
 
-            <div class="field">
-                <label for="language">Rodzaj seansu</label>
-                <div class="flex-container-icon">
-                    <Dropdown
-                        id="language"
-                        required="true"
-                        autofocus
-                        v-model.trim="selected.screeningType" 
-                        :options="screeningTypes" 
-                        optionLabel="language"
-                        placeholder="Wybierz rodzaj seansu"
-                        :maxSelectedLabels="3"  
-                        style="width:410px"/>
-                    <Button 
-                        icon="pi pi-plus" 
-                        v-tooltip.right="'Dodaj seans'" 
-                        placeholder="Right"
-                        outlined 
-                        rounded 
-                        class="dropdown-icon mr-2"/>
+                <div class="field">
+                    <label for="language">Rodzaj seansu</label>
+                    <div class="flex-container-icon">
+                        <Dropdown
+                            id="language"
+                            required="true"
+                            autofocus
+                            v-model.trim="selected.screeningType" 
+                            :options="screeningTypes" 
+                            optionLabel="language"
+                            placeholder="Wybierz rodzaj seansu"
+                            :maxSelectedLabels="3"  
+                            style="width:410px"/>
+                        <Button 
+                            icon="pi pi-plus" 
+                            v-tooltip.right="'Dodaj rodzaj seansu'" 
+                            placeholder="Right"
+                            outlined 
+                            rounded 
+                            class="dropdown-icon mr-2"/>
+                    </div>
+                </div> 
+
+                <div class="field">
+                    <label for="hallNumber">Sala</label>
+                    <div class="flex-container-icon">
+                        <Dropdown
+                            id="hallNumber"
+                            required="true"
+                            autofocus
+                            v-model.trim="selected.hallNumber" 
+                            :options="hallNumbers" 
+                            optionLabel="hall_number"
+                            placeholder="Wybierz salę"
+                            :maxSelectedLabels="3" 
+                            style="width:410px"/>
+                        <Button 
+                            icon="pi pi-plus" 
+                            v-tooltip.right="'Dodaj salke'" 
+                            placeholder="Right"
+                            outlined 
+                            rounded 
+                            class="dropdown-icon"/>
+                    </div>
                 </div>
-            </div> 
 
-            <div class="field">
-                <label for="hallNumber">Sala</label>
-                <div class="flex-container-icon">
-                    <Dropdown
-                        id="hallNumber"
-                        required="true"
-                        autofocus
-                        v-model.trim="selected.hallNumber" 
-                        :options="hallNumbers" 
-                        optionLabel="hall_number"
-                        placeholder="Wybierz salę"
-                        :maxSelectedLabels="3" 
-                        style="width:410px"/>
-                    <Button 
-                        icon="pi pi-plus" 
-                        v-tooltip.right="'Dodaj salke'" 
-                        placeholder="Right"
-                        outlined 
-                        rounded 
-                        class="dropdown-icon"/>
+                <div class="field">
+                    <Button class="button-submit" type="button" rounded label="Dodaj seans" icon="pi pi-check" @click="submit" />
                 </div>
-            </div>
-
-            <div class="field">
-                <label>Data</label>
-            </div>
-
-            <div class="field">
-                <Calendar 
-                    id="datee"
-                    v-model="selected.date" 
-                    :minDate="minDate" 
-                    :maxDate="maxDate"
-                    inline 
-                    showTime 
-                    hourFormat="24"/>
-            </div>
-
-            <div class="field">
-                <Button type="button" rounded label="Dodaj" icon="pi pi-check" @click="submit" />
             </div>
         </div>
+            
     </AdminPanelTemplate>
 </template>
 
@@ -256,36 +254,100 @@ export default {
 </script>
 
 <style scoped>
-
 .screenings-menu {
     margin-bottom: 2rem;
 }
 
- .field{
-    padding-bottom: 15px;
- }
-
- .flex-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.flex-container-icon {
-    display: flex;
-}
-.flex-item {
-    flex: 1;
-}
-
-.dropdown-icon{
-    margin-left: 15px;
-}
-
 .center {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
+    align-items: flex-start;
+    padding: 2rem;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.left-side {
+    display: flex;
     flex-direction: column;
+    align-items: flex-end; 
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.left-side, .right-side {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    margin: 0 1rem;
+    align-self: center;
+}
+
+.field {
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container-icon {
+    display: flex;
     align-items: center;
 }
 
+.date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.date-container label, .flex-container-icon label {
+    margin-right: 1rem;
+}
+
+.dropdown-icon {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.field button {
+    max-width: 200px;
+}
+
+.button-submit{
+    margin-top: 2rem;
+    margin-left: 7rem;
+    min-width: 15rem;
+}
+
+@media (max-width: 768px) {
+    .left-side, .right-side {
+        flex-basis: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .button-submit{
+        margin-left: 0;
+    }
+    .date-container{
+        margin-right: 50px;
+    }
+}
+
+@media (max-width: 1320px) {
+    .left-side, .right-side {
+        flex-basis: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .button-submit{
+        margin-left: 0;
+    }
+    .date-container{
+        margin-right: 50px;
+    }
+}
 </style>
