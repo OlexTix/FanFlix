@@ -1,4 +1,4 @@
-/* color palette from <https://github.com/vuejs/theme> */
+
 :root {
   --vt-c-white: #f1f1f1;
   --vt-c-white-soft: #f3f3f3;
@@ -27,8 +27,26 @@
   --logo: brightness(0) invert(1);
 }
 
-/* semantic color variables for this project */
-:root {
+.dark-theme,
+[data-theme='light'] {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+    --color-background-pres: var(--vt-c-black-pres);
+    --color-background-foo: var(--vt-c-black-foo);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+    --color-nav: var(--vt-c-text-light-2);
+    --color-logo: var(--logo);
+    color-scheme: dark !important;
+  }
+
+.light-theme,
+[data-theme='dark'] {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -46,24 +64,9 @@
   color-scheme: light !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-    --color-background-pres: var(--vt-c-black-pres);
-    --color-background-foo: var(--vt-c-black-foo);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-    --color-nav: var(--vt-c-text-light-2);
-    --color-logo: var(--logo);
-    color-scheme: dark !important;
-  }
-}
+/* @media (prefers-color-scheme: dark) {
+  
+} */
 
 *,
 *::before,
