@@ -11,6 +11,56 @@ a,
   transition: 0.4s;
 }
 
+.p-inputtext.p-component:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.1rem #00a877;
+  border-color: #0ec62d;
+}
+
+.p-inputtext.p-component:enabled:hover {
+  border-color: #00a877;
+}
+
+
+.p-datepicker.p-component:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.1rem #00a877;
+}
+
+.p-datepicker.p-component table td > span:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.15rem #00a877;
+}
+
+.p-dropdown.p-component:not(.p-disabled):hover {
+  border-color: #00a877;
+}
+
+
+.p-datatable .p-sortable-column.p-highlight:focus {
+  box-shadow: inset 0 0 0 0.15rem #00a877;
+  outline: 0 none;
+}
+
+
+
+.p-button.p-component:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem #00a877;
+}
+
+
+
+.p-button.p-component:enabled:hover {
+    background: #0dec6e;
+    color: #ffffff;
+    border-color: #00a877;
+}
+
 @media (hover: hover) {
   .wrapper a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

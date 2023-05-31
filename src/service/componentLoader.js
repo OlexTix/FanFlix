@@ -19,7 +19,10 @@ import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import RadioButton from 'primevue/radiobutton';
 import InputNumber from 'primevue/inputnumber';
-
+import MultiSelect from 'primevue/multiselect';
+import Calendar from 'primevue/calendar';
+import Tooltip from 'primevue/tooltip';
+import Menubar from 'primevue/menubar';
 
 library.add(faFireFlameCurved, faFilm, faComments, faHandHoldingHeart, faLocationDot, faHand)
 
@@ -43,4 +46,8 @@ export function registerComponents(app) {
   app.component('Dropdown', Dropdown);
   app.component('RadioButton', RadioButton);
   app.component('InputNumber', InputNumber);
+  app.component('MultiSelect', MultiSelect);
+  app.component('Calendar', Calendar);
+  app.component('Menubar', Menubar);
+  app.directive('Tooltip', Tooltip);
 }

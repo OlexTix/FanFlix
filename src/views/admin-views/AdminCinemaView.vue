@@ -176,7 +176,7 @@
     };
     </script>
     
-  <style>
+  <style scoped>
   .custom-datatable {
       background-color: #2C2B2B;
       border: 3px solid #007d59;
