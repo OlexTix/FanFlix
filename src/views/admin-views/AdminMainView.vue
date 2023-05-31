@@ -8,12 +8,12 @@
         <span class="tile-number" ref="soldTickets">{{ soldTickets }}</span>
       </div>
       <div class="bar-status">
-        <span class="tile-text-top">Liczba seansów</span>
+        <span class="tile-text-top">Liczba seansów</span><br>
         <img src="../../assets/screening.svg" alt="Ikona 2" class="tile-icon">
         <span class="tile-number" ref="numberOfScreenings">{{ numberOfScreenings }}</span>
       </div>
       <div class="bar-status">
-        <span class="tile-text-top">Liczba filmów</span>
+        <span class="tile-text-top">Liczba filmów</span><br>
         <img src="../../assets/admin-assets/movies.svg" alt="Ikona 3" class="tile-icon">
         <span class="tile-number" ref="numberOfMovies">{{ numberOfMovies }}</span>
       </div>
@@ -101,7 +101,7 @@ export default {
   height: 7rem;
   background-color: var(--color-background);
   border-radius: .6rem;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   padding: .6rem;
   position: relative;
@@ -116,12 +116,14 @@ export default {
 .tile-icon {
   height: 2rem;
   margin-right: 0.5rem;
+  filter: var(--color-logo);
 }
 
 .tile-number {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
+  font-size: 1.3rem;
 }
 
 @media screen and (max-width: 892px) {

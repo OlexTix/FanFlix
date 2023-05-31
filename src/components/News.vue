@@ -1,10 +1,10 @@
 <template>
   <div class="news-com">
-    <div class="selectCinema">
+    <!-- <div class="selectCinema">
       <p>Sprawdź repertuar filmów</p>
       <Dropdown v-model="selectedCinema" :options="cinemas" optionLabel="name" placeholder="Wybierz kino" class="rep-dropdown-custom" />
       <Button label="Sprawdź" severity="success" />
-    </div>
+    </div> -->
     
     <TabView>
       <TabPanel header="Wiadomości">
@@ -13,7 +13,7 @@
             <img src="https://planetagracza.pl/wp-content/uploads/2022/08/projekt-bez-tytulu-1-14.jpg" alt="News">
             <div class="content">
               <h2>Zwiększamy ilość miejsc</h2>
-              <p>Ze względu na spore zainteresowanie naszymi najnowszymi tytułami, przekazujemy dobrą wiadomość. D0 każdej sali kinowej, zwiększamy o 10% miejsc. *Czytaj więcej</p>
+              <p>Ze względu na spore zainteresowanie naszymi najnowszymi tytułami, przekazujemy dobrą wiadomość. D0 każdej sali kinowej, zwiększamy o 10% miejsc. </p>
             </div>
           </div>
 
@@ -21,7 +21,7 @@
             <img src="https://www.simplyrecipes.com/thmb/Xzggu-Md45HKhhYSw4DK8tGlZ_I=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Perfect-Popcorn-LEAD-41-4a75a18443ae45aa96053f30a3ed0a6b.JPG" alt="News">
             <div class="content">
               <h2>Kup popcorn a drugi dostań gratis</h2>
-              <p>Ogłaszamy ofertę ograniczoną czasowo. Przez następne 2 tygodnie, w naszym sklepie możecie dostać drugie opakowanie popcornu za darmo *Czytaj więcej</p>
+              <p>Ogłaszamy ofertę ograniczoną czasowo. Przez następne 2 tygodnie, w naszym sklepie możecie dostać drugie opakowanie popcornu za darmo </p>
             </div>
           </div>
 
@@ -29,7 +29,7 @@
             <img src="https://media.nbcchicago.com/2022/09/GettyImages-535640865.jpg?quality=85&strip=all&resize=1200,675" alt="News">
             <div class="content">
               <h2>Wygraj 2 bilety</h2>
-              <p>Chcesz wygrać dwa bilety na film Avatar: Istota wody i przeżyć niesamowite emocje. Oto co trzeba spełnić.  *Czytaj więcej </p>
+              <p>Chcesz wygrać dwa bilety na film Avatar: Istota wody i przeżyć niesamowite emocje. Oto co trzeba spełnić.   </p>
             </div>
           </div>
         </p>
@@ -40,7 +40,7 @@
             <div class="tile">
               <a href="#">
                 <div class="tile-overlay">
-                  <h2 class="tile-title">Promocja 1</h2>
+                  <h2 class="tile-title">Zgarnij bilety</h2>
                 </div>
                 <img src="https://www.identityiq.com/wp-content/uploads/2022/07/TicketScam_pic.jpg" alt="Prom">
               </a>
@@ -49,27 +49,27 @@
             <div class="tile">
               <a href="#">
                 <div class="tile-overlay">
-                  <h2 class="tile-title">Promocja 2</h2>
+                  <h2 class="tile-title">Zaproś znajomych</h2>
                 </div>
-                <img src="https://www.identityiq.com/wp-content/uploads/2022/07/TicketScam_pic.jpg" alt="Prom">
+                <img src="https://images.unsplash.com/photo-1608170825938-a8ea0305d46c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Prom">
               </a>
             </div>
 
             <div class="tile">
               <a href="#">
                 <div class="tile-overlay">
-                  <h2 class="tile-title">Promocja 3</h2>
+                  <h2 class="tile-title">Złap zniżkę</h2>
                 </div>
-                <img src="https://www.identityiq.com/wp-content/uploads/2022/07/TicketScam_pic.jpg" alt="Prom">
+                <img src="https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80" alt="Prom">
               </a>
             </div>
 
             <div class="tile">
               <a href="#">
                 <div class="tile-overlay">
-                  <h2 class="tile-title">Promocja 4</h2>
+                  <h2 class="tile-title">Wykup sale</h2>
                 </div>
-                <img src="https://www.identityiq.com/wp-content/uploads/2022/07/TicketScam_pic.jpg" alt="Prom">
+                <img src="https://images.unsplash.com/photo-1640127249305-793865c2efe1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1103&q=80" alt="Prom">
               </a>
             </div>
           </div>
@@ -204,7 +204,8 @@ export default {
 .tile img {
   display: block;
   width: 100%;
-  height: auto;
+  object-fit: cover;
+  height: 15rem;
   transition: opacity 0.3s ease;
 }
 
