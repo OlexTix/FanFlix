@@ -3,6 +3,10 @@
     <div class="navbar-one-header">
       <div class="logo-image">
         <RouterLink to="/"><img src="/images/nfanflix3.svg" alt="Vue logo" class="logo"></RouterLink>
+        <label class="switch">
+          <input type="checkbox" v-model="isDarkMode" @change="toggleTheme" />
+          <span class="slider"></span>
+        </label>
       </div>
       <div class="wrapper">
         <nav>
@@ -37,7 +41,8 @@ export default {
   data() {
     return {
       loggedIn: localStorage.getItem('accessToken'),
-      isAdmin: null
+      isAdmin: null,
+      isDarkMode: false,
     };
   },
   computed: {
@@ -65,15 +70,30 @@ export default {
       const userDataJSON = localStorage.getItem('userData');
       const userData = userDataJSON ? JSON.parse(userDataJSON) : null;
       this.isAdmin = userData && userData.role === 'admin';
-    }
+    },
   },
   mounted() {
     this.emitter.on('updateUserData', this.updateUserData);
-    this.updateUserData(); 
+    this.updateUserData();
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isDarkMode = true;
+    }
   },
   beforeUnmount() {
     this.emitter.off('updateUserData', this.updateUserData);
-  }
+  },
+  watch: {
+  isDarkMode(newValue) {
+    if (newValue) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  },
+},
 };
 </script>
 
@@ -101,8 +121,10 @@ export default {
 }
 
 .logo-image {
+  display: flex;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .logo-image img {
@@ -172,5 +194,50 @@ nav a.router-link-exact-active:hover {
   padding-right: 0.8rem;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  margin-left: 0.8rem;
+  width: 3rem;
+  height: 1.5rem;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #424242;
+  transition: 0.4s;
+  border-radius: 0.75rem;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1rem;
+  width: 1rem;
+  left: 0.27rem;
+  bottom: 0.25rem;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #c9c9c9;
+}
+
+input:checked + .slider:before {
+  transform: translateX(1.3rem);
+  background-color: #141414;
 }
 </style>

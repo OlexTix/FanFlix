@@ -21,9 +21,9 @@
       </div>
       <div class="footer-bottom">
         <div class="icons-footer">
-            <a href="#"><fa-icon icon="fa-solid fa-film" /></a>  
+            <a :href="screeningsLink"><fa-icon icon="fa-solid fa-film" /></a>  
             <a href="/questions"><fa-icon icon="fa-solid fa-comments" /></a>
-            <a href="#"><fa-icon icon="fa-solid fa-hand-holding-heart" /></a>  
+            <a href="/privacy-policy"><fa-icon icon="fa-solid fa-hand-holding-heart" /></a>  
         </div>
         <span class="copyright-footer">&copy; {{currentYear}} Fanflix. Wszelkie prawa zastrzeżone.</span>
       </div>    
@@ -36,7 +36,18 @@
       return {
         currentYear: new Date().getFullYear(),
       }
-    }
+    },
+    computed: {
+    screeningsLink() {
+      const selectedCinemaObj = JSON.parse(localStorage.getItem("selectedCinema"));
+      if (selectedCinemaObj && selectedCinemaObj.name) {
+        const selectedCinema = selectedCinemaObj.name;
+        return `/cinemas/${selectedCinema}/screenings`;
+      } else {
+        return '/cinemas/select-cinema/screenings';
+      }
+      }
+    },
  }
 </script>
 

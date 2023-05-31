@@ -55,10 +55,10 @@
 		<div class="overlay"></div>
 
 		<div class="sidebar">
-			<button class="sidebar-collapse">
+			<!-- <button class="sidebar-collapse">
 				<img src="../../assets/admin-assets/icon_collapse.svg" alt="Collapse" class="logo">
 				<span>Zwiń menu</span>
-			</button>
+			</button> -->
 
 			<nav class="sidebar-nav">
 				<ul>
@@ -93,15 +93,15 @@
 							<span>Użytkownicy</span>
 						</RouterLink>
 					</li>					
-					<li>
+					<!-- <li>
 						<RouterLink to="/admin-panel/settings">
 							<img src="../../assets/admin-assets/settings.svg" alt="Settings" class="logo">
 							<span>Ustawienia</span>
 						</RouterLink>
-					</li>
-					<li class="menu-heading"><span>Motywy</span></li>
+					</li> -->
+					<li class="menu-heading"><span>Motyw</span></li>
 					<li>
-						<div class="sidebar-theme-switcher">
+						<!-- <div class="sidebar-theme-switcher">
 							<div id="sidebar__theme-switcher__sun">
 								<img src="../../assets/admin-assets/sun.svg" alt="Sun" class="logo">
 							</div>
@@ -109,7 +109,11 @@
 							<div id="sidebar__theme-switcher__moon">
 								<img src="../../assets/admin-assets/moon.svg" alt="Moon" class="logo">
 							</div>
-						</div>
+						</div> -->
+						<label class="switch">
+				          <input type="checkbox" v-model="isDarkMode" @change="toggleTheme" />
+				          <span class="slider"></span>
+				        </label>
 					</li>
 				</ul>
 			</nav>
@@ -134,6 +138,7 @@ export default {
 	},
   data() {
     return {
+		isDarkMode: false,
       	userCount: 0,
       	totalVisits: 0,
       	employeeCount: 0,
@@ -176,6 +181,23 @@ export default {
 
     return { breadcrumbs };
   },
+  mounted() {
+	const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isDarkMode = true;
+    }
+  },
+  watch: {
+  isDarkMode(newValue) {
+    if (newValue) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  },
+},
   methods: {
     logout() {
       localStorage.removeItem('accessToken');
@@ -185,6 +207,7 @@ export default {
       this.loggedIn = null;
       this.isAdmin = null;
     },
+	
   },
 };
 </script>
@@ -318,41 +341,49 @@ body.sidebar-open #toggle-icon-close {
 	padding: .75rem 0;
 }
 
-.sidebar-theme-switcher {
-	background-color: var(--theme-switcher-bg);
-	border-radius: 50px;
-	display: flex;
-	align-items: center;
-	padding: 0.875rem;
-	gap: 1.75rem;
-	position: relative;
-	cursor: pointer;
-	transition: background-color .4s ease-in-out;
+.switch {
+  position: relative;
+  display: inline-flex;
+  margin-left: 0.8rem;
+  width: 3rem;
+  height: 1.5rem;
 }
 
-.sidebar-theme-switcher::before {
-	content: '';
-	position: absolute;
-	width: 2.5rem;
-	height: 2.5rem;
-	background-color: var(--theme-switcher-indicator);
-	border-radius: 50px;
-	z-index: 0;
-	left: 0;
-	transform: translateX(var(--theme-switcher-indicator-pos));
-	transition: transform .4s ease-in-out;
+.switch input {
+  display: none;
 }
 
-.sidebar-theme-switcher img {
-	z-index: 1;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #424242;
+  transition: 0.4s;
+  border-radius: 0.75rem;
 }
 
-.sidebar #sidebar__theme-switcher__sun {
-	fill: var(--sun-icon-fill);
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1rem;
+  width: 1rem;
+  left: 0.27rem;
+  bottom: 0.25rem;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
-.sidebar #sidebar__theme-switcher__moon {
-	fill: var(--moon-icon-fill);
+input:checked + .slider {
+  background-color: #c9c9c9;
+}
+
+input:checked + .slider:before {
+  transform: translateX(1.3rem);
+  background-color: #141414;
 }
 
 .overlay {

@@ -269,7 +269,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .custom-datatable {
   background-color: #2c2b2b;
   border: 3px solid #007d59;
