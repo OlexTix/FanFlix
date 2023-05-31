@@ -42,7 +42,7 @@ export default {
     return {
       loggedIn: localStorage.getItem('accessToken'),
       isAdmin: null,
-      isDarkMode: false,
+      isDarkMode: localStorage.getItem('theme') === 'dark',
     };
   },
   computed: {
@@ -71,29 +71,17 @@ export default {
       const userData = userDataJSON ? JSON.parse(userDataJSON) : null;
       this.isAdmin = userData && userData.role === 'admin';
     },
+    toggleTheme() {
+      this.emitter.emit('toggleTheme', this.isDarkMode);
+    },
   },
   mounted() {
     this.emitter.on('updateUserData', this.updateUserData);
     this.updateUserData();
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      this.isDarkMode = true;
-    }
   },
   beforeUnmount() {
     this.emitter.off('updateUserData', this.updateUserData);
-  },
-  watch: {
-  isDarkMode(newValue) {
-    if (newValue) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    }
-  },
-},
+  }
 };
 </script>
 
