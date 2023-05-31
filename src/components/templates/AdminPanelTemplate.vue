@@ -138,7 +138,7 @@ export default {
 	},
   data() {
     return {
-		isDarkMode: false,
+		isDarkMode: localStorage.getItem('theme') === 'dark',
       	userCount: 0,
       	totalVisits: 0,
       	employeeCount: 0,
@@ -181,23 +181,6 @@ export default {
 
     return { breadcrumbs };
   },
-  mounted() {
-	const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      this.isDarkMode = true;
-    }
-  },
-  watch: {
-  isDarkMode(newValue) {
-    if (newValue) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    }
-  },
-},
   methods: {
     logout() {
       localStorage.removeItem('accessToken');
@@ -207,7 +190,9 @@ export default {
       this.loggedIn = null;
       this.isAdmin = null;
     },
-	
+	toggleTheme() {
+      this.emitter.emit('toggleTheme', this.isDarkMode);
+    },
   },
 };
 </script>
