@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://api.fanflix.fantasticstudio.online',
+  baseURL: 'https://api.fanflix.fantasticstudio.site',
 });
 
 axiosInstance.interceptors.request.use((config) => {
