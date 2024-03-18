@@ -54,7 +54,7 @@ services:
       - "traefik.http.services.fanflix-api.loadbalancer.server.port=3000"
 
   db:
-    image: postgres:latest
+    image: postgres:15
     container_name: fanflix-db
     restart: always
     environment:
